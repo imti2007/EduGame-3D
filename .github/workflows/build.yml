@@ -9,53 +9,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Synthesize Copyright-Clean 3D Graphics & Spatial Audio
+      - name: Synthesize Clean Assets
         run: |
           mkdir -p assets
           python3 -c "
           import wave, struct, math, zlib
 
-          # 1. Pure Python High-Resolution Vector-Style PNG Synthesizer
-          def generate_badge(filename, r_bg, g_bg, b_bg, emblem):
-              w, h = 320, 240
-              raw = bytearray()
-              for y in range(h):
-                  raw.append(0)  # PNG Filter type None
-                  for x in range(w):
-                      dx = x - 160
-                      dy = y - 120
-                      dist = math.sqrt(dx*dx + dy*dy)
-                      r, g, b = r_bg, g_bg, b_bg
-                      
-                      # Hologram outer glow rim
-                      if 75 < dist < 82:
-                          r, g, b = 0, 229, 255
-                      
-                      # Emblem generation
-                      if emblem == 'star' and (dist < 55 or (abs(dx) + abs(dy) < 70)):
-                          r, g, b = 255, 215, 0
-                      elif emblem == 'money' and (dist < 50 or (abs(x-160) < 18 and abs(y-120) < 30)):
-                          r, g, b = 255, 190, 20
-                      elif emblem == 'planet' and (dist < 48 or abs(dist - 65) < 5):
-                          r, g, b = 80, 190, 255
-                      elif emblem == 'plant' and 150 < x < 170 and 80 < y < 170:
-                          r, g, b = 60, 220, 90
-
-                      raw.extend([int(r), int(g), int(b)])
-
-              ihdr = struct.pack('>IIBBBBB', w, h, 8, 2, 0, 0, 0)
-              idat = zlib.compress(bytes(raw), 9)
-              def chunk(tag, data):
-                  return struct.pack('>I', len(data)) + tag + data + struct.pack('>I', zlib.crc32(tag + data) & 0xffffffff)
-
-              with open(filename, 'wb') as f:
-                  f.write(b'\x89PNG\r\n\x1a\n')
-                  f.write(chunk(b'IHDR', ihdr))
-                  f.write(chunk(b'IDAT', idat))
-                  f.write(chunk(b'IEND', b''))
-
-          # Generate Brand Icon (512x512)
-          def generate_icon():
+          # 1. Pure Python 512x512 High-Res Icon
+          def make_icon():
               w, h = 512, 512
               raw = bytearray()
               for y in range(h):
@@ -66,14 +27,11 @@ jobs:
                       r = int(10 + (y / 512) * 15)
                       g = int(20 + (y / 512) * 25)
                       b = int(45 + (y / 512) * 45)
-                      
-                      orbit_a = abs(math.sqrt((dx * 0.86 - dy * 0.5)**2 + (dy * 2.2)**2) - 130)
-                      orbit_b = abs(math.sqrt((dx * 0.86 + dy * 0.5)**2 + (dy * 2.2)**2) - 130)
-                      if orbit_a < 7 or orbit_b < 7:
+                      if abs(dist - 130) < 6:
                           r, g, b = 0, 229, 255
-                      if dist < 65 or (abs(dx) + abs(dy) < 95):
+                      if dist < 65 or (abs(dx) + abs(dy) < 90):
                           r, g, b = 255, 214, 0
-                      if dist < 22:
+                      if dist < 20:
                           r, g, b = 255, 255, 255
                       raw.extend([r, g, b])
 
@@ -88,17 +46,42 @@ jobs:
                   f.write(chunk(b'IDAT', idat))
                   f.write(chunk(b'IEND', b''))
 
-          generate_icon()
-          generate_badge('assets/money.png', 18, 45, 30, 'money')
-          generate_badge('assets/planets.png', 10, 20, 45, 'planet')
-          generate_badge('assets/sun.png', 30, 25, 45, 'star')
-          generate_badge('assets/manners.png', 20, 35, 55, 'star')
-          generate_badge('assets/fruit.png', 25, 45, 30, 'money')
-          generate_badge('assets/plant.png', 15, 40, 25, 'plant')
-          generate_badge('assets/matter.png', 20, 35, 50, 'planet')
-          generate_badge('assets/physics.png', 15, 25, 50, 'planet')
+          # 2. Pure Python Subject Badge Generator
+          def make_badge(filename, r_col, g_col, b_col):
+              w, h = 320, 240
+              raw = bytearray()
+              for y in range(h):
+                  raw.append(0)
+                  for x in range(w):
+                      dx, dy = x - 160, y - 120
+                      dist = math.sqrt(dx*dx + dy*dy)
+                      r, g, b = 15, 25, 45
+                      if dist < 60:
+                          r, g, b = r_col, g_col, b_col
+                      raw.extend([r, g, b])
 
-          # 2. Modern 432Hz Kalimba & Marimba Soundtrack (Stereo Spatial)
+              ihdr = struct.pack('>IIBBBBB', w, h, 8, 2, 0, 0, 0)
+              idat = zlib.compress(bytes(raw), 9)
+              def chunk(tag, data):
+                  return struct.pack('>I', len(data)) + tag + data + struct.pack('>I', zlib.crc32(tag + data) & 0xffffffff)
+
+              with open(filename, 'wb') as f:
+                  f.write(b'\x89PNG\r\n\x1a\n')
+                  f.write(chunk(b'IHDR', ihdr))
+                  f.write(chunk(b'IDAT', idat))
+                  f.write(chunk(b'IEND', b''))
+
+          make_icon()
+          make_badge('assets/money.png', 255, 190, 20)
+          make_badge('assets/planets.png', 80, 190, 255)
+          make_badge('assets/sun.png', 255, 215, 0)
+          make_badge('assets/manners.png', 255, 150, 50)
+          make_badge('assets/fruit.png', 240, 90, 40)
+          make_badge('assets/plant.png', 60, 220, 90)
+          make_badge('assets/matter.png', 100, 200, 255)
+          make_badge('assets/physics.png', 140, 100, 255)
+
+          # 3. Stereo Marimba Audio
           with wave.open('assets/soothing_lullaby.wav', 'w') as f:
               f.setnchannels(2); f.setsampwidth(2); f.setframerate(22050)
               melody = [392.00, 440.00, 523.25, 659.25, 783.99, 659.25, 523.25, 440.00]
@@ -113,7 +96,7 @@ jobs:
                       frames.append(struct.pack('<hh', int(sig * pan), int(sig * (1.0 - pan))))
               f.writeframes(b''.join(frames))
 
-          # 3. Sparkling Stereo Celebration Chimes
+          # 4. Celebration Chimes
           with wave.open('assets/celebrate.wav', 'w') as f:
               f.setnchannels(2); f.setsampwidth(2); f.setframerate(22050)
               fanfare = [523.25, 659.25, 783.99, 1046.50]
