@@ -11,30 +11,57 @@ jobs:
 
       - name: Generate Icon, Audio, and Video Assets
         run: |
-          pip3 install Pillow
           mkdir -p assets
           python3 -c "
-          import wave, struct, math
-          from PIL import Image, ImageDraw
+          import wave, struct, math, zlib
 
-          # 1. Generate High-Res Logo Icon
-          img = Image.new('RGBA', (512, 512), (0, 0, 0, 0))
-          draw = ImageDraw.Draw(img)
-          for y in range(512):
-              r = int(255 - (y / 512) * 190)
-              g = int(165 - (y / 512) * 50)
-              b = int(0 + (y / 512) * 70)
-              draw.line([(0, y), (512, y)], fill=(r, g, b, 255))
-          draw.ellipse([80, 80, 432, 432], fill=(255, 248, 225, 255))
-          draw.ellipse([110, 110, 402, 402], fill=(255, 179, 0, 255))
-          draw.ellipse([100, 100, 180, 180], fill=(230, 81, 0, 255))
-          draw.ellipse([332, 100, 412, 180], fill=(230, 81, 0, 255))
-          draw.ellipse([190, 230, 225, 265], fill=(33, 33, 33, 255))
-          draw.ellipse([287, 230, 322, 265], fill=(33, 33, 33, 255))
-          draw.arc([220, 270, 292, 330], start=0, end=180, fill=(33, 33, 33, 255), width=8)
-          img.save('assets/icon.png', 'PNG')
+          # 1. Pure Python 512x512 High-Res PNG Generator (Zero External Dependencies)
+          def create_app_icon():
+              width, height = 512, 512
+              raw_data = bytearray()
+              for y in range(height):
+                  raw_data.append(0)  # PNG filter type None
+                  for x in range(width):
+                      # Calculate radial gradient and cute circular emblem
+                      dx = x - 256
+                      dy = y - 256
+                      dist = math.sqrt(dx*dx + dy*dy)
+                      
+                      # Background Savanna Amber-to-Green
+                      r = int(255 - (y / 512) * 190)
+                      g = int(165 - (y / 512) * 50)
+                      b = int(0 + (y / 512) * 70)
+                      
+                      # Inner Golden Shield
+                      if dist < 170:
+                          r, g, b = 255, 179, 0
+                      # Lion Ears
+                      if (math.sqrt((x-140)**2 + (y-140)**2) < 45) or (math.sqrt((x-372)**2 + (y-140)**2) < 45):
+                          r, g, b = 230, 81, 0
+                      # Eyes
+                      if (math.sqrt((x-200)**2 + (y-230)**2) < 14) or (math.sqrt((x-312)**2 + (y-230)**2) < 14):
+                          r, g, b = 30, 30, 30
+                      # Cheerful Smile
+                      if 210 < x < 302 and 270 < y < 290 and (y - 270) > abs(x - 256) * 0.35:
+                          r, g, b = 40, 40, 40
 
-          # 2. Gentle Soothing Lullaby (Calm Pentatonic Chimes)
+                      raw_data.extend([r, g, b])
+
+              def chunk(tag, data):
+                  return struct.pack('>I', len(data)) + tag + data + struct.pack('>I', zlib.crc32(tag + data) & 0xffffffff)
+
+              ihdr = struct.pack('>IIBBBBB', width, height, 8, 2, 0, 0, 0)
+              idat = zlib.compress(bytes(raw_data), 9)
+              
+              with open('assets/icon.png', 'wb') as f:
+                  f.write(b'\x89PNG\r\n\x1a\n')
+                  f.write(chunk(b'IHDR', ihdr))
+                  f.write(chunk(b'IDAT', idat))
+                  f.write(chunk(b'IEND', b''))
+
+          create_app_icon()
+
+          # 2. Gentle Soothing Lullaby
           with wave.open('assets/soothing_lullaby.wav', 'w') as f:
               f.setnchannels(1); f.setsampwidth(2); f.setframerate(22050)
               notes = [261.63, 329.63, 392.00, 440.00, 523.25, 392.00]
@@ -48,7 +75,7 @@ jobs:
                       frames.append(struct.pack('<h', int(val)))
               f.writeframes(b''.join(frames))
 
-          # 3. Soft Celebration Harp Chimes
+          # 3. Gentle Celebration Chimes
           with wave.open('assets/celebrate.wav', 'w') as f:
               f.setnchannels(1); f.setsampwidth(2); f.setframerate(22050)
               chime_notes = [523.25, 659.25, 783.99, 1046.50]
@@ -72,3 +99,4 @@ jobs:
         with:
           name: app-package
           path: bin/*.apk
+          
