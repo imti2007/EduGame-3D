@@ -11,12 +11,13 @@ jobs:
 
       - name: Generate Icon, Audio, and Video Assets
         run: |
+          pip3 install Pillow
           mkdir -p assets
           python3 -c "
           import wave, struct, math
           from PIL import Image, ImageDraw
 
-          # 1. Generate 512x512 High-Res App Icon
+          # 1. Generate High-Res Logo Icon
           img = Image.new('RGBA', (512, 512), (0, 0, 0, 0))
           draw = ImageDraw.Draw(img)
           for y in range(512):
@@ -33,7 +34,7 @@ jobs:
           draw.arc([220, 270, 292, 330], start=0, end=180, fill=(33, 33, 33, 255), width=8)
           img.save('assets/icon.png', 'PNG')
 
-          # 2. Generate Gentle Pentatonic Lullaby (No harsh beep)
+          # 2. Gentle Soothing Lullaby (Calm Pentatonic Chimes)
           with wave.open('assets/soothing_lullaby.wav', 'w') as f:
               f.setnchannels(1); f.setsampwidth(2); f.setframerate(22050)
               notes = [261.63, 329.63, 392.00, 440.00, 523.25, 392.00]
@@ -47,7 +48,7 @@ jobs:
                       frames.append(struct.pack('<h', int(val)))
               f.writeframes(b''.join(frames))
 
-          # 3. Generate Gentle Celebration Chimes
+          # 3. Soft Celebration Harp Chimes
           with wave.open('assets/celebrate.wav', 'w') as f:
               f.setnchannels(1); f.setsampwidth(2); f.setframerate(22050)
               chime_notes = [523.25, 659.25, 783.99, 1046.50]
@@ -71,4 +72,3 @@ jobs:
         with:
           name: app-package
           path: bin/*.apk
-          
