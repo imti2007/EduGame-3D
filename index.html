@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EduBharat 3D AI - Cinematic NEP 2020, CBSE, ICSE & State Boards Hub</title>
+    <title>EduBharat 3D AI - Universal NEP 2020, CBSE, ICSE & State Boards Hub</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -24,22 +24,16 @@
                         },
                         saffron: '#FF9933',
                         emerald: '#138808',
-                        warmth: '#F59E0B',
-                        cinema: '#0F172A'
+                        warmth: '#F59E0B'
                     },
                     animation: {
                         'spin-slow': 'spin 14s linear infinite',
-                        'float': 'float 3.5s ease-in-out infinite',
-                        'pulse-glow': 'pulseGlow 2.5s infinite ease-in-out'
+                        'float': 'float 3.5s ease-in-out infinite'
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-10px)' }
-                        },
-                        pulseGlow: {
-                            '0%, 100%': { opacity: '0.4', filter: 'blur(20px)' },
-                            '50%': { opacity: '0.8', filter: 'blur(30px)' }
+                            '50%': { transform: 'translateY(-8px)' }
                         }
                     }
                 }
@@ -48,7 +42,7 @@
     </script>
     <style>
         .glass {
-            background: rgba(15, 23, 42, 0.88);
+            background: rgba(15, 23, 42, 0.92);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
         }
@@ -71,12 +65,12 @@
 <body class="h-full bg-slate-950 text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white transition-colors duration-200">
 
     <div id="app" class="min-h-full flex flex-col">
-        <!-- Cinematic Navigation Header -->
-        <header class="sticky top-0 z-40 glass border-b border-slate-800/80 shadow-lg">
+        <!-- Top Header Navigation -->
+        <header class="sticky top-0 z-40 glass border-b border-slate-800 shadow-lg">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
                 
                 <!-- Logo & Brand -->
-                <div class="flex items-center gap-3 cursor-pointer" onclick="navigateToHome()">
+                <div class="flex items-center gap-2.5 cursor-pointer" onclick="navigateToHome()">
                     <div class="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-saffron via-brand-500 to-emerald p-[2px] shadow-md shadow-brand-500/20">
                         <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
                             <i data-lucide="clapperboard" class="w-5 h-5 text-amber-400 animate-pulse"></i>
@@ -86,23 +80,18 @@
                         <h1 class="font-black text-base sm:text-lg tracking-tight bg-gradient-to-r from-saffron via-brand-500 to-emerald bg-clip-text text-transparent">
                             EduBharat <span class="text-xs px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/40 font-bold ml-0.5">Cinema 3D</span>
                         </h1>
-                        <p class="text-[9px] sm:text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Cinematic Lectures • Live Music • 16 Languages</p>
+                        <p class="text-[9px] sm:text-[10px] font-semibold text-slate-400 uppercase tracking-wider">NEP 2020 • CBSE • ICSE • State Boards</p>
                     </div>
                 </div>
 
                 <!-- Navigation Controls -->
-                <div class="flex items-center gap-2">
-                    <button onclick="openRegionalRhymesHub()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold transition flex items-center gap-1.5">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <button onclick="openRegionalRhymesHub()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold transition flex items-center gap-1">
                         <i data-lucide="music" class="w-3.5 h-3.5 text-rose-500"></i>
                         <span class="hidden md:inline">State Rhymes</span>
                     </button>
 
-                    <button onclick="openAiAcademy()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs font-bold transition flex items-center gap-1.5">
-                        <i data-lucide="cpu" class="w-3.5 h-3.5 text-cyan-500"></i>
-                        <span class="hidden md:inline">AI Academy</span>
-                    </button>
-
-                    <button onclick="openSpecialDoubtHub()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold transition flex items-center gap-1.5">
+                    <button onclick="openSpecialDoubtHub()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold transition flex items-center gap-1">
                         <i data-lucide="smile" class="w-3.5 h-3.5 text-amber-500"></i>
                         <span class="hidden md:inline">Mitra AI</span>
                     </button>
@@ -125,7 +114,6 @@
                             <option value="ml">മലയാളം (Malayalam)</option>
                             <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
                             <option value="ur">اردو (Urdu)</option>
-                            <option value="sa">संस्कृतम् (Sanskrit)</option>
                         </select>
                         <i data-lucide="globe" class="w-3.5 h-3.5 text-slate-400 absolute right-2 top-2.5 pointer-events-none"></i>
                     </div>
@@ -151,7 +139,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
                 <div class="flex items-center gap-2">
                     <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-                    <span><strong>100% Free & Child-Safe:</strong> NEP 2020 • CBSE • ICSE • State Boards • Zero Data Collection</span>
+                    <span><strong>100% Free & Child-Safe:</strong> NEP 2020 • CBSE • ICSE • State Boards • Zero Tracking</span>
                 </div>
                 <div class="flex gap-4 font-semibold">
                     <span class="hover:underline cursor-pointer" onclick="openRegionalRhymesHub()">State Rhymes</span>
@@ -198,7 +186,7 @@
     <script>
         const apiKey = "";
 
-        // Unlocked Web Audio & Background Soundscape Synthesizer
+        // Unlocked Web Audio
         let audioCtx = null;
         let ambientBgm = null;
         let isMusicPlaying = false;
@@ -210,7 +198,7 @@
         document.addEventListener('touchstart', unlockAudio, { once: true });
         document.addEventListener('click', unlockAudio, { once: true });
 
-        // Lo-Fi Cinematic Ambient Study Chords Generator (Web Audio)
+        // Lo-Fi Ambient Study Soundscape
         function toggleAmbientMusic() {
             unlockAudio();
             if (isMusicPlaying) {
@@ -220,20 +208,16 @@
             try {
                 isMusicPlaying = true;
                 const now = audioCtx.currentTime;
-                // Soft Pentatonic Chord Layer (432Hz calming resonance)
                 const freqs = [216, 270, 324, 432];
                 ambientBgm = [];
 
-                freqs.forEach((f, i) => {
+                freqs.forEach((f) => {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
                     osc.type = 'sine';
                     osc.frequency.setValueAtTime(f, now);
-
-                    // Soft breathing modulation
                     gain.gain.setValueAtTime(0.012, now);
                     gain.gain.linearRampToValueAtTime(0.025, now + 3);
-                    
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
                     osc.start(now);
@@ -247,8 +231,8 @@
             if (ambientBgm) {
                 ambientBgm.forEach(item => {
                     try {
-                        item.gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 1);
-                        setTimeout(() => item.osc.stop(), 1000);
+                        item.gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+                        setTimeout(() => item.osc.stop(), 500);
                     } catch (e) {}
                 });
                 ambientBgm = null;
@@ -261,8 +245,8 @@
             const btn = document.getElementById('bgmToggleBtn');
             if (btn) {
                 btn.innerHTML = playing 
-                    ? `<i data-lucide="music-2" class="w-4 h-4 text-emerald-400 animate-spin"></i> Ambient Sound: Playing`
-                    : `<i data-lucide="volume-x" class="w-4 h-4 text-slate-400"></i> Ambient Sound: Off`;
+                    ? '<i data-lucide="music-2" class="w-4 h-4 text-emerald-400 animate-spin"></i> Ambient Sound: Playing'
+                    : '<i data-lucide="volume-x" class="w-4 h-4 text-slate-400"></i> Ambient Sound: Off';
                 lucide.createIcons();
             }
         }
@@ -300,7 +284,7 @@
             } catch (e) {}
         }
 
-        // Melodic Natural Speech Narrator with Dynamic Voice Selection
+        // Natural Human Voice Speech Synthesizer
         function speakLecture(text, explicitLang) {
             if (!('speechSynthesis' in window)) return;
             window.speechSynthesis.cancel();
@@ -312,23 +296,22 @@
                 'en': 'en-IN', 'hi': 'hi-IN', 'bn': 'bn-IN', 'or': 'hi-IN',
                 'as': 'bn-IN', 'bho': 'hi-IN', 'ne': 'ne-NP', 'ta': 'ta-IN',
                 'te': 'te-IN', 'mr': 'mr-IN', 'gu': 'gu-IN', 'kn': 'kn-IN',
-                'ml': 'ml-IN', 'pa': 'pa-IN', 'ur': 'ur-PK', 'sa': 'hi-IN'
+                'ml': 'ml-IN', 'pa': 'pa-IN', 'ur': 'ur-PK'
             };
             const targetLang = langMap[explicitLang || state.currentLang] || 'en-IN';
             utterance.lang = targetLang;
 
-            // Prioritize natural expressive voice profiles
             const voices = window.speechSynthesis.getVoices();
             const preferredVoice = voices.find(v => (v.lang === targetLang || v.lang.startsWith(targetLang.split('-')[0])) && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Neural') || v.name.includes('India')));
             if (preferredVoice) utterance.voice = preferredVoice;
 
-            utterance.rate = 0.88; // Natural, calm lecture cadence
-            utterance.pitch = 1.02; // Warm, friendly pitch
+            utterance.rate = 0.88;
+            utterance.pitch = 1.02;
 
             window.speechSynthesis.speak(utterance);
         }
 
-        // Global State
+        // Global App State
         let state = {
             currentLang: 'en',
             selectedBoard: 'cbse',
@@ -338,12 +321,10 @@
             selectedTopic: null,
             selectedRhyme: null,
             selectedRhymeFilter: 'all',
-            liveAiNews: null,
-            isAiNewsLoading: false,
             ratings: JSON.parse(localStorage.getItem('edubharat_ratings') || '{}')
         };
 
-        // Complete 16-Language Master Rhymes Database
+        // Master Rhymes Catalog (Odia, Assamese, Bihari, Nepali, Hindi, Bengali, Tamil, etc.)
         const REGIONAL_RHYMES_DATA = [
             {
                 id: 'rhyme-or-1',
@@ -351,8 +332,7 @@
                 langName: 'Odia (ଓଡ଼ିଆ)',
                 title: 'ବାଆ ବାଆ ରେ ବାଆଳିଆ (Baa Baa Re Baalia)',
                 meaning: 'Traditional Odia Boatman & River Song',
-                lyrics: "ବାଆ ବାଆ ରେ ବାଆଳିଆ,\nନଈ କୂଳେ ଫୁଟିଛି ମଲ୍ଲୀ କଢ଼ିଆ!\nମାଉସୀ ଘରକୁ ଯିବା ଆମେ,\nଗରମ ଗରମ ପିଠା ଖାଇବା କାମେ! ⛵",
-                funLesson: 'Celebrates Odisha\'s river heritage and family affection.',
+                lyrics: 'ବାଆ ବାଆ ରେ ବାଆଳିଆ,\nନଈ କୂଳେ ଫୁଟିଛି ମଲ୍ଲୀ କଢ଼ିଆ!\nମାଉସୀ ଘରକୁ ଯିବା ଆମେ,\nଗରମ ଗରମ ପିଠା ଖାଇବା କାମେ! ⛵',
                 svgAnimation: 'fish'
             },
             {
@@ -361,8 +341,7 @@
                 langName: 'Assamese (অসমীয়া)',
                 title: 'জোনবাই এ এটি তৰা দিয়া (Jonbai E Eti Tora Diya)',
                 meaning: 'Dear Moon, Give Me a Twinkling Star',
-                lyrics: "জোনবাই এ এটি তৰা দিয়া,\nকাণত পিন্ধিম মই সোণৰ হীৰা!\nআইতা আহিলে পিঠা খাম,\nমই মামাৰ ঘৰলৈ যাম! 🌙",
-                funLesson: 'Beloved Assamese bedtime song teaching love for nature.',
+                lyrics: 'জোনবাই এ এটি তৰা দিয়া,\nকাণত পিন্ধিম মই সোণৰ হীৰা!\nআইতা আহিলে পিঠা খাম,\nমই মামাৰ ঘৰলৈ যাম! 🌙',
                 svgAnimation: 'moon'
             },
             {
@@ -371,8 +350,7 @@
                 langName: 'Bihari (भोजपुरी)',
                 title: 'चंदा मामा आरे आवा (Chanda Mama Aare Aawa)',
                 meaning: 'Come Moon Uncle with Sweet Kheer',
-                lyrics: "चंदा मामा आरे आवा, पारे आवा,\nनदिया किनारे आवा!\nबबुआ के दिहऽ मीठी खीर,\nसंगे खेलिहें राजा वीर! 🌙",
-                funLesson: 'Traditional Bhojpuri lullaby full of warmth.',
+                lyrics: 'चंदा मामा आरे आवा, पारे आवा,\nनदिया किनारे आवा!\nबबुआ के दिहऽ मीठी खीर,\nसंगे खेलिहें राजा वीर! 🌙',
                 svgAnimation: 'moon'
             },
             {
@@ -381,8 +359,40 @@
                 langName: 'Nepali (नेपाली)',
                 title: 'घाम पानी घाम पानी (Gham Pani Gham Pani)',
                 meaning: 'Sunshine and Rain in the Mountains',
-                lyrics: "घाम पानी घाम पानी, स्यालको बिहे,\nडाँडा माथि चरा नाचे, बादल आयो नीले!\nइन्द्रेणी पर्यो आकाशै भरी,\nहामी नाचौं छमछमी घरी! 🌈",
-                funLesson: 'Himalayan nature rhyme celebrating rainbow wonders.',
+                lyrics: 'घाम पानी घाम पानी, स्यालको बिहे,\nडाँडा माथि चरा नाचे, बादल आयो नीले!\nइन्द्रेणी पर्यो आकाशै भरी,\nहामी नाचौं छमछमी घरी! 🌈',
                 svgAnimation: 'moon'
             },
-      
+            {
+                id: 'rhyme-hi-1',
+                lang: 'hi',
+                langName: 'Hindi (हिंदी)',
+                title: 'मछली जल की रानी है (Machhli Jal Ki Rani)',
+                meaning: 'Fish is Queen of Waters',
+                lyrics: 'मछली जल की रानी है, जीवन उसका पानी है!\nहाथ लगाओ तो डर जाएगी, बाहर निकालो तो मर जाएगी!\nपानी में डालो तो तैर जाएगी! 🐟',
+                svgAnimation: 'fish'
+            },
+            {
+                id: 'rhyme-bn-1',
+                lang: 'bn',
+                langName: 'Bengali (বাংলা)',
+                title: 'চাঁদ উঠেছে ফুল ফুটেছে (Chand Utheche Phul Phuteche)',
+                meaning: 'Moon Risen and Flowers Bloomed',
+                lyrics: 'চাঁদ উঠেছে ফুল ফুটেছে কদম তলায় কে?\nহাতি নাচছে ঘোড়া নাচছে সোনামণির বে! 🌙',
+                svgAnimation: 'moon'
+            },
+            {
+                id: 'rhyme-ta-1',
+                lang: 'ta',
+                langName: 'Tamil (தமிழ்)',
+                title: 'தோசை அம்மா தோசை (Dosai Amma Dosai)',
+                meaning: 'Mother\'s Crispy Hot Dosas',
+                lyrics: 'தோசை அம்மா தோசை, சுடச் சுடத் தோசை!\nஅம்மா தந்த தோசை, அப்பாக்கு நான்கு,\nஅம்மாவுக்கு மூன்று, அண்ணனுக்கு இரண்டு,\nபாப்பாவுக்கு ஒன்று! 🥞',
+                svgAnimation: 'dosa'
+            },
+            {
+                id: 'rhyme-en-1',
+                lang: 'en',
+                langName: 'English',
+                title: 'Twinkle Twinkle Little Star',
+                meaning: 'Cosmic Wonder Song',
+                lyrics: 'Twinkle, twinkle, little star,\nHow I
