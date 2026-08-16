@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build WildPals AI APK
 on: [push]
 
 jobs:
@@ -9,13 +9,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create Melodic Game Audio & Video Assets
+      - name: Generate Icon, Audio, and Video Assets
         run: |
           mkdir -p assets
           python3 -c "
           import wave, struct, math
+          from PIL import Image, ImageDraw
 
-          # 1. Gentle Soothing Lullaby (Calm Pentatonic Chimes)
+          # 1. Generate 512x512 High-Res App Icon
+          img = Image.new('RGBA', (512, 512), (0, 0, 0, 0))
+          draw = ImageDraw.Draw(img)
+          for y in range(512):
+              r = int(255 - (y / 512) * 190)
+              g = int(165 - (y / 512) * 50)
+              b = int(0 + (y / 512) * 70)
+              draw.line([(0, y), (512, y)], fill=(r, g, b, 255))
+          draw.ellipse([80, 80, 432, 432], fill=(255, 248, 225, 255))
+          draw.ellipse([110, 110, 402, 402], fill=(255, 179, 0, 255))
+          draw.ellipse([100, 100, 180, 180], fill=(230, 81, 0, 255))
+          draw.ellipse([332, 100, 412, 180], fill=(230, 81, 0, 255))
+          draw.ellipse([190, 230, 225, 265], fill=(33, 33, 33, 255))
+          draw.ellipse([287, 230, 322, 265], fill=(33, 33, 33, 255))
+          draw.arc([220, 270, 292, 330], start=0, end=180, fill=(33, 33, 33, 255), width=8)
+          img.save('assets/icon.png', 'PNG')
+
+          # 2. Generate Gentle Pentatonic Lullaby (No harsh beep)
           with wave.open('assets/soothing_lullaby.wav', 'w') as f:
               f.setnchannels(1); f.setsampwidth(2); f.setframerate(22050)
               notes = [261.63, 329.63, 392.00, 440.00, 523.25, 392.00]
@@ -29,7 +47,7 @@ jobs:
                       frames.append(struct.pack('<h', int(val)))
               f.writeframes(b''.join(frames))
 
-          # 2. Gentle Celebration Harp Fanfare
+          # 3. Generate Gentle Celebration Chimes
           with wave.open('assets/celebrate.wav', 'w') as f:
               f.setnchannels(1); f.setsampwidth(2); f.setframerate(22050)
               chime_notes = [523.25, 659.25, 783.99, 1046.50]
