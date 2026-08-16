@@ -6,17 +6,12 @@ jobs:
     runs-on: ubuntu-22.04
     container:
       image: kivy/buildozer:latest
-      options: --user user
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fix directory permissions
-        run: |
-          sudo chown -R user:user /__w/EduGame-3D/EduGame-3D
-
       - name: Build Android App with Buildozer
         run: |
-          yes | buildozer android debug
+          buildozer -v android debug
 
       - name: Upload Output Package
         uses: actions/upload-artifact@v4
