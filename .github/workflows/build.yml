@@ -3,7 +3,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
@@ -12,14 +12,29 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Build AAB with Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1
+      - name: Set up Java
+        uses: actions/setup-java@v4
         with:
-          buildozer_version: master
-          command: buildozer android release
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install --upgrade buildozer Cython virtualenv
+
+      - name: Build AAB with Buildozer
+        run: |
+          buildozer android release
 
       - name: Save Release AAB
         uses: actions/upload-artifact@v4
         with:
           name: app-release-bundle
           path: bin/*.aab
+          
