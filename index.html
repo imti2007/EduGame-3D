@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EduBharat 3D AI - Universal NEP 2020, CBSE, ICSE & State Boards Hub</title>
+    <title>EduBharat 3D AI - Cinematic NEP 2020, CBSE, ICSE & State Boards Hub</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -25,17 +25,21 @@
                         saffron: '#FF9933',
                         emerald: '#138808',
                         warmth: '#F59E0B',
-                        ai: '#00E5FF'
+                        cinema: '#0F172A'
                     },
                     animation: {
-                        'spin-slow': 'spin 12s linear infinite',
-                        'bounce-soft': 'bounce 2s infinite ease-in-out',
-                        'float': 'float 3s infinite ease-in-out'
+                        'spin-slow': 'spin 14s linear infinite',
+                        'float': 'float 3.5s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2.5s infinite ease-in-out'
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-8px)' }
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4', filter: 'blur(20px)' },
+                            '50%': { opacity: '0.8', filter: 'blur(30px)' }
                         }
                     }
                 }
@@ -44,14 +48,12 @@
     </script>
     <style>
         .glass {
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
-        .dark .glass {
-            background: rgba(15, 23, 42, 0.94);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+        .cinema-card {
+            background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15), transparent 70%), #0b0f19;
         }
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
@@ -61,53 +63,53 @@
             background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(156, 163, 175, 0.4);
+            background: rgba(156, 163, 175, 0.3);
             border-radius: 4px;
         }
     </style>
 </head>
-<body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white transition-colors duration-200">
+<body class="h-full bg-slate-950 text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white transition-colors duration-200">
 
     <div id="app" class="min-h-full flex flex-col">
-        <!-- Top Header Navigation -->
-        <header class="sticky top-0 z-40 glass border-b border-slate-200 dark:border-slate-800 shadow-sm">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
+        <!-- Cinematic Navigation Header -->
+        <header class="sticky top-0 z-40 glass border-b border-slate-800/80 shadow-lg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
                 
                 <!-- Logo & Brand -->
-                <div class="flex items-center gap-2 sm:gap-3 cursor-pointer" onclick="navigateToHome()">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="navigateToHome()">
                     <div class="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-saffron via-brand-500 to-emerald p-[2px] shadow-md shadow-brand-500/20">
                         <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                            <i data-lucide="sparkles" class="w-5 h-5 text-amber-400 animate-pulse"></i>
+                            <i data-lucide="clapperboard" class="w-5 h-5 text-amber-400 animate-pulse"></i>
                         </div>
                     </div>
                     <div>
                         <h1 class="font-black text-base sm:text-lg tracking-tight bg-gradient-to-r from-saffron via-brand-500 to-emerald bg-clip-text text-transparent">
-                            EduBharat <span class="text-xs px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/30 font-bold ml-0.5">3D AI</span>
+                            EduBharat <span class="text-xs px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/40 font-bold ml-0.5">Cinema 3D</span>
                         </h1>
-                        <p class="text-[9px] sm:text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">NEP 2020 • CBSE • ICSE • State Boards</p>
+                        <p class="text-[9px] sm:text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Cinematic Lectures • Live Music • 16 Languages</p>
                     </div>
                 </div>
 
                 <!-- Navigation Controls -->
-                <div class="flex items-center gap-1.5 sm:gap-2">
-                    <button onclick="openRegionalRhymesHub()" class="px-2 sm:px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30 text-xs font-bold transition flex items-center gap-1">
+                <div class="flex items-center gap-2">
+                    <button onclick="openRegionalRhymesHub()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold transition flex items-center gap-1.5">
                         <i data-lucide="music" class="w-3.5 h-3.5 text-rose-500"></i>
-                        <span class="hidden sm:inline">State Rhymes</span>
+                        <span class="hidden md:inline">State Rhymes</span>
                     </button>
 
-                    <button onclick="openAiAcademy()" class="px-2 sm:px-3 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 text-xs font-bold transition flex items-center gap-1">
+                    <button onclick="openAiAcademy()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs font-bold transition flex items-center gap-1.5">
                         <i data-lucide="cpu" class="w-3.5 h-3.5 text-cyan-500"></i>
-                        <span class="hidden sm:inline">AI Academy</span>
+                        <span class="hidden md:inline">AI Academy</span>
                     </button>
 
-                    <button onclick="openSpecialDoubtHub()" class="px-2 sm:px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-xs font-bold transition flex items-center gap-1">
-                        <i data-lucide="help-circle" class="w-3.5 h-3.5 text-amber-500"></i>
-                        <span class="hidden sm:inline">Mitra Doubts</span>
+                    <button onclick="openSpecialDoubtHub()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold transition flex items-center gap-1.5">
+                        <i data-lucide="smile" class="w-3.5 h-3.5 text-amber-500"></i>
+                        <span class="hidden md:inline">Mitra AI</span>
                     </button>
 
                     <!-- Language Selector -->
                     <div class="relative">
-                        <select id="languageSelect" onchange="changeLanguage(this.value)" class="text-xs font-bold bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2 py-1.5 pr-6 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer appearance-none">
+                        <select id="languageSelect" onchange="changeLanguage(this.value)" class="text-xs font-bold bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1.5 pr-7 text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer appearance-none">
                             <option value="en">English</option>
                             <option value="hi">हिंदी (Hindi)</option>
                             <option value="bn">বাংলা (Bengali)</option>
@@ -125,14 +127,8 @@
                             <option value="ur">اردو (Urdu)</option>
                             <option value="sa">संस्कृतम् (Sanskrit)</option>
                         </select>
-                        <i data-lucide="globe" class="w-3 h-3 text-slate-400 absolute right-1.5 top-2.5 pointer-events-none"></i>
+                        <i data-lucide="globe" class="w-3.5 h-3.5 text-slate-400 absolute right-2 top-2.5 pointer-events-none"></i>
                     </div>
-
-                    <!-- Theme Toggle -->
-                    <button onclick="toggleTheme()" class="p-1.5 sm:p-2 rounded-lg text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
-                        <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
-                    </button>
                 </div>
             </div>
         </header>
@@ -140,102 +136,56 @@
         <!-- Main Workspace -->
         <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 space-y-5">
             <!-- Breadcrumbs -->
-            <nav id="breadcrumb" class="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400 overflow-x-auto py-1">
-                <span onclick="navigateToHome()" class="hover:text-brand-600 dark:hover:text-brand-400 cursor-pointer flex items-center gap-1">
+            <nav id="breadcrumb" class="flex items-center gap-2 text-xs font-semibold text-slate-400 overflow-x-auto py-1">
+                <span onclick="navigateToHome()" class="hover:text-brand-400 cursor-pointer flex items-center gap-1">
                     <i data-lucide="home" class="w-3.5 h-3.5"></i> Home
                 </span>
             </nav>
 
-            <!-- Dynamic Content -->
-            <div id="contentArea" class="space-y-5"></div>
+            <!-- Dynamic Content Area -->
+            <div id="contentArea" class="space-y-6"></div>
         </main>
 
         <!-- Footer -->
-        <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50 py-5">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+        <footer class="mt-auto border-t border-slate-800 bg-slate-950 py-5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
                 <div class="flex items-center gap-2">
-                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i>
-                    <span><strong>NEP 2020 & NCERT Aligned:</strong> CBSE, ICSE & All State Boards • 100% Free & Child-Safe</span>
+                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                    <span><strong>100% Free & Child-Safe:</strong> NEP 2020 • CBSE • ICSE • State Boards • Zero Data Collection</span>
                 </div>
                 <div class="flex gap-4 font-semibold">
-                    <span class="hover:underline cursor-pointer" onclick="openRegionalRhymesHub()">700+ State Rhymes</span>
-                    <span class="hover:underline cursor-pointer" onclick="openGrievanceCorner()">Samadhan Corner</span>
+                    <span class="hover:underline cursor-pointer" onclick="openRegionalRhymesHub()">State Rhymes</span>
                     <span class="hover:underline cursor-pointer" onclick="openSpecialDoubtHub()">Mitra Doubts</span>
                 </div>
             </div>
         </footer>
 
-        <!-- Samadhan Modal -->
-        <div id="grievanceModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-xl rounded-2xl shadow-2xl flex flex-col overflow-hidden">
-                <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50">
+        <!-- Mitra AI Doubt Clearing Lounge Modal -->
+        <div id="specialDoubtModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+            <div class="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
+                <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
                     <div class="flex items-center gap-2">
-                        <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                            <i data-lucide="message-square-heart" class="w-5 h-5"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-sm text-slate-900 dark:text-white">Samadhan Corner</h3>
-                            <p class="text-[11px] text-slate-500">Request any regional rhyme or academic syllabus addition!</p>
-                        </div>
-                    </div>
-                    <button onclick="closeGrievanceCorner()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800">
-                        <i data-lucide="x" class="w-5 h-5"></i>
-                    </button>
-                </div>
-
-                <div class="p-5 space-y-4 text-xs">
-                    <div>
-                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Category:</label>
-                        <select id="grievanceCategory" class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 font-semibold">
-                            <option value="board">Syllabus Request (CBSE / ICSE / State Board)</option>
-                            <option value="rhymes">Request a Regional State Nursery Rhyme</option>
-                            <option value="academic">Academic Concept Simplification</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Your Message:</label>
-                        <textarea id="grievanceText" rows="4" placeholder="Tell us how we can help you learn better in your language..." class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl p-3 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none font-medium"></textarea>
-                    </div>
-
-                    <div id="grievanceSuccess" class="hidden p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-2">
-                        <i data-lucide="check-circle" class="w-4 h-4"></i>
-                        <span>Ticket #EB-<span id="ticketNum"></span> generated. Thank you!</span>
-                    </div>
-
-                    <button onclick="submitGrievance()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-2">
-                        <i data-lucide="send" class="w-4 h-4"></i> Submit to Mitra Team
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Special Doubt Clearing Lounge Modal -->
-        <div id="specialDoubtModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
-                <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50">
-                    <div class="flex items-center gap-2">
-                        <div class="p-2 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                        <div class="p-2 rounded-lg bg-amber-500/10 text-amber-400">
                             <i data-lucide="smile" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <h3 class="font-bold text-sm text-slate-900 dark:text-white">Mitra Live Doubt Clearing Studio</h3>
-                            <p class="text-[11px] text-slate-500">Ask any CBSE, ICSE, or State Board doubt in your mother tongue!</p>
+                            <h3 class="font-bold text-sm text-white">Mitra Live Doubt Clearing Studio</h3>
+                            <p class="text-[11px] text-slate-400">Ask any CBSE, ICSE, or State Board doubt in your mother tongue!</p>
                         </div>
                     </div>
-                    <button onclick="closeSpecialDoubtHub()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800">
+                    <button onclick="closeSpecialDoubtHub()" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
                         <i data-lucide="x" class="w-5 h-5"></i>
                     </button>
                 </div>
 
                 <div id="doubtChatArea" class="flex-1 p-4 overflow-y-auto space-y-4 custom-scrollbar text-xs min-h-[280px]">
-                    <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-slate-800 dark:text-slate-200 max-w-[90%] leading-relaxed" id="mitraWelcomeMsg">
-                        🌟 <strong>Namaste!</strong> Ask me any doubt about Physics, Chemistry, Math, History, Money, or Nursery Rhymes!
+                    <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-slate-200 max-w-[90%] leading-relaxed" id="mitraWelcomeMsg">
+                        🌟 <strong>Namaste!</strong> Ask me any concept doubt about Physics, Chemistry, Math, History, or Financial Literacy!
                     </div>
                 </div>
 
-                <div class="p-3 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex gap-2">
-                    <input type="text" id="doubtInput" onkeypress="handleDoubtKeyPress(event)" placeholder="Ask your doubt in Odia, Assamese, Hindi, Bengali, Tamil, etc..." class="flex-1 text-xs bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 text-slate-800 dark:text-slate-100">
+                <div class="p-3 border-t border-slate-800 bg-slate-950 flex gap-2">
+                    <input type="text" id="doubtInput" onkeypress="handleDoubtKeyPress(event)" placeholder="Ask your doubt in Odia, Assamese, Hindi, Bengali, Tamil, etc..." class="flex-1 text-xs bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 text-slate-100">
                     <button onclick="askMitraDoubt()" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs flex items-center justify-center transition">
                         <i data-lucide="send" class="w-4 h-4"></i>
                     </button>
@@ -248,14 +198,74 @@
     <script>
         const apiKey = "";
 
-        // Unlocked Web Audio
+        // Unlocked Web Audio & Background Soundscape Synthesizer
         let audioCtx = null;
+        let ambientBgm = null;
+        let isMusicPlaying = false;
+
         function unlockAudio() {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
         }
         document.addEventListener('touchstart', unlockAudio, { once: true });
         document.addEventListener('click', unlockAudio, { once: true });
+
+        // Lo-Fi Cinematic Ambient Study Chords Generator (Web Audio)
+        function toggleAmbientMusic() {
+            unlockAudio();
+            if (isMusicPlaying) {
+                stopAmbientMusic();
+                return;
+            }
+            try {
+                isMusicPlaying = true;
+                const now = audioCtx.currentTime;
+                // Soft Pentatonic Chord Layer (432Hz calming resonance)
+                const freqs = [216, 270, 324, 432];
+                ambientBgm = [];
+
+                freqs.forEach((f, i) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(f, now);
+
+                    // Soft breathing modulation
+                    gain.gain.setValueAtTime(0.012, now);
+                    gain.gain.linearRampToValueAtTime(0.025, now + 3);
+                    
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    ambientBgm.push({ osc, gain });
+                });
+                updateBgmButtonUI(true);
+            } catch (e) {}
+        }
+
+        function stopAmbientMusic() {
+            if (ambientBgm) {
+                ambientBgm.forEach(item => {
+                    try {
+                        item.gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 1);
+                        setTimeout(() => item.osc.stop(), 1000);
+                    } catch (e) {}
+                });
+                ambientBgm = null;
+            }
+            isMusicPlaying = false;
+            updateBgmButtonUI(false);
+        }
+
+        function updateBgmButtonUI(playing) {
+            const btn = document.getElementById('bgmToggleBtn');
+            if (btn) {
+                btn.innerHTML = playing 
+                    ? `<i data-lucide="music-2" class="w-4 h-4 text-emerald-400 animate-spin"></i> Ambient Sound: Playing`
+                    : `<i data-lucide="volume-x" class="w-4 h-4 text-slate-400"></i> Ambient Sound: Off`;
+                lucide.createIcons();
+            }
+        }
 
         function playSound(type) {
             unlockAudio();
@@ -279,7 +289,7 @@
                         const gain = audioCtx.createGain();
                         osc.type = 'sine';
                         osc.frequency.setValueAtTime(freq, now + idx * 0.08);
-                        gain.gain.setValueAtTime(0.15, now + idx * 0.08);
+                        gain.gain.setValueAtTime(0.12, now + idx * 0.08);
                         gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.3);
                         osc.connect(gain);
                         gain.connect(audioCtx.destination);
@@ -290,30 +300,38 @@
             } catch (e) {}
         }
 
-        // Multi-Lingual Speech Synthesizer
-        function speakText(text, explicitLang) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const cleanText = text.replace(/[*_#$`]/g, '');
-                const utterance = new SpeechSynthesisUtterance(cleanText);
-                
-                const langMap = {
-                    'en': 'en-IN', 'hi': 'hi-IN', 'bn': 'bn-IN', 'or': 'hi-IN',
-                    'as': 'bn-IN', 'bho': 'hi-IN', 'ne': 'ne-NP', 'ta': 'ta-IN',
-                    'te': 'te-IN', 'mr': 'mr-IN', 'gu': 'gu-IN', 'kn': 'kn-IN',
-                    'ml': 'ml-IN', 'pa': 'pa-IN', 'ur': 'ur-PK', 'sa': 'hi-IN'
-                };
-                utterance.lang = langMap[explicitLang || state.currentLang] || 'en-IN';
-                utterance.rate = 0.90;
-                utterance.pitch = 1.05;
-                window.speechSynthesis.speak(utterance);
-            }
+        // Melodic Natural Speech Narrator with Dynamic Voice Selection
+        function speakLecture(text, explicitLang) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+
+            const cleanText = text.replace(/[*_#$`]/g, '');
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+
+            const langMap = {
+                'en': 'en-IN', 'hi': 'hi-IN', 'bn': 'bn-IN', 'or': 'hi-IN',
+                'as': 'bn-IN', 'bho': 'hi-IN', 'ne': 'ne-NP', 'ta': 'ta-IN',
+                'te': 'te-IN', 'mr': 'mr-IN', 'gu': 'gu-IN', 'kn': 'kn-IN',
+                'ml': 'ml-IN', 'pa': 'pa-IN', 'ur': 'ur-PK', 'sa': 'hi-IN'
+            };
+            const targetLang = langMap[explicitLang || state.currentLang] || 'en-IN';
+            utterance.lang = targetLang;
+
+            // Prioritize natural expressive voice profiles
+            const voices = window.speechSynthesis.getVoices();
+            const preferredVoice = voices.find(v => (v.lang === targetLang || v.lang.startsWith(targetLang.split('-')[0])) && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Neural') || v.name.includes('India')));
+            if (preferredVoice) utterance.voice = preferredVoice;
+
+            utterance.rate = 0.88; // Natural, calm lecture cadence
+            utterance.pitch = 1.02; // Warm, friendly pitch
+
+            window.speechSynthesis.speak(utterance);
         }
 
         // Global State
         let state = {
             currentLang: 'en',
-            selectedBoard: 'cbse', // 'cbse', 'icse', 'state'
+            selectedBoard: 'cbse',
             viewMode: 'home',
             selectedStage: null,
             selectedSubject: null,
@@ -336,16 +354,6 @@
                 lyrics: "ବାଆ ବାଆ ରେ ବାଆଳିଆ,\nନଈ କୂଳେ ଫୁଟିଛି ମଲ୍ଲୀ କଢ଼ିଆ!\nମାଉସୀ ଘରକୁ ଯିବା ଆମେ,\nଗରମ ଗରମ ପିଠା ଖାଇବା କାମେ! ⛵",
                 funLesson: 'Celebrates Odisha\'s river heritage and family affection.',
                 svgAnimation: 'fish'
-            },
-            {
-                id: 'rhyme-or-2',
-                lang: 'or',
-                langName: 'Odia (ଓଡ଼ିଆ)',
-                title: 'ଚକା ଚକା ଭଉଁରୀ (Chaka Chaka Bhaunri)',
-                meaning: 'Traditional Odia Children Whirlpool Dance',
-                lyrics: "ଚକା ଚକା ଭଉଁରୀ, ମାମୁଁ ଘର ଚଉଁରୀ!\nମାମୁଁ ଗଲେ କାମକୁ, ମାଇଁ ଦେଲେ ଖାଇବାକୁ! 💃",
-                funLesson: 'Fosters motor rhythm, folk dance, and joyful coordination.',
-                svgAnimation: 'dance'
             },
             {
                 id: 'rhyme-as-1',
@@ -377,1200 +385,4 @@
                 funLesson: 'Himalayan nature rhyme celebrating rainbow wonders.',
                 svgAnimation: 'moon'
             },
-            {
-                id: 'rhyme-hi-1',
-                lang: 'hi',
-                langName: 'Hindi (हिंदी)',
-                title: 'मछली जल की रानी है (Machhli Jal Ki Rani)',
-                meaning: 'Fish is Queen of Waters',
-                lyrics: "मछली जल की रानी है, जीवन उसका पानी है!\nहाथ लगाओ तो डर जाएगी, बाहर निकालो तो मर जाएगी!\nपानी में डालो तो तैर जाएगी! 🐟",
-                funLesson: 'Aquatic animal habitats and respecting living creatures.',
-                svgAnimation: 'fish'
-            },
-            {
-                id: 'rhyme-bn-1',
-                lang: 'bn',
-                langName: 'Bengali (বাংলা)',
-                title: 'চাঁদ উঠেছে ফুল ফুটেছে (Chand Utheche Phul Phuteche)',
-                meaning: 'Moon Risen and Flowers Bloomed',
-                lyrics: "চাঁদ উঠেছে ফুল ফুটেছে কদম তলায় কে?\nহাতি নাচছে ঘোড়া নাচছে সোনামণির বে! 🌙",
-                funLesson: 'Joyful celebration of childhood, festivals, and family.',
-                svgAnimation: 'moon'
-            },
-            {
-                id: 'rhyme-ta-1',
-                lang: 'ta',
-                langName: 'Tamil (தமிழ்)',
-                title: 'தோசை அம்மா தோசை (Dosai Amma Dosai)',
-                meaning: 'Mother\'s Crispy Hot Dosas',
-                lyrics: "தோசை அம்மா தோசை, சுடச் சுடத் தோசை!\nஅம்மா தந்த தோசை, அப்பாக்கு நான்கு,\nஅம்மாவுக்கு மூன்று, அண்ணனுக்கு இரண்டு,\nபாப்பாவுக்கு ஒன்று! 🥞",
-                funLesson: 'Teaches counting 4, 3, 2, 1 and sharing meals.',
-                svgAnimation: 'dosa'
-            },
-            {
-                id: 'rhyme-te-1',
-                lang: 'te',
-                langName: 'Telugu (తెలుగు)',
-                title: 'చిట్టి చిలకమ్మ (Chitti Chilakamma)',
-                meaning: 'The Sweet Green Parrot',
-                lyrics: "చిట్టి చిలకమ్మ, అమ్మ కొట్టిందా?\nతోటకెళ్లావా, పండు తెచ్చाవా?\nగూట్లో పెట్టाవా, గుటుక్కు మింగావా! 🦜",
-                funLesson: 'Playful bird sounds and fruits.',
-                svgAnimation: 'parrot'
-            },
-            {
-                id: 'rhyme-mr-1',
-                lang: 'mr',
-                langName: 'Marathi (मराठी)',
-                title: 'ससा तो ससा (Sasa To Sasa)',
-                meaning: 'The Swift White Bunny',
-                lyrics: "ससा तो ससा, कसा रे कसा? ताठ दोन कान, तोंडावर मिशा!\nडोळे त्याचे लाल लाल, गुलुगुलु पाही,\nगवताचे पाते कुरतडून खाई! 🐰",
-                funLesson: 'Animal physical traits and nature love.',
-                svgAnimation: 'rabbit'
-            },
-            {
-                id: 'rhyme-gu-1',
-                lang: 'gu',
-                langName: 'Gujarati (ગુજરાતી)',
-                title: 'એક બિલાડી જાડી (Ek Biladi Jaadi)',
-                meaning: 'The Fluffy Kitten',
-                lyrics: "એક બિલાડી જાડી, તેણે પહેરી સાડી!\nસાડી પહેરી ફરવા ગઈ, તળાવમાં તરવા ગઈ! 🐱",
-                funLesson: 'Humorous rhymes and playful animal expressions.',
-                svgAnimation: 'cat'
-            },
-            {
-                id: 'rhyme-pa-1',
-                lang: 'pa',
-                langName: 'Punjabi (ਪੰਜਾਬੀ)',
-                title: 'ਕਿਕਲੀ ਕਲੀਰ ਦੀ (Kikli Kaleer Di)',
-                meaning: 'Folk Dance Celebration',
-                lyrics: "ਕਿਕਲੀ ਕਲੀਰ ਦੀ, ਪੱਗ ਮੇਰੇ ਵੀਰ ਦੀ!\nਦੁਪੱਟਾ ਮੇਰੇ ਭਾਈ ਦਾ, ਫਿੱਟੇ ਮੂੰਹ ਜਵਾਈ ਦਾ! 💃",
-                funLesson: 'Folk dance joy and motor coordination.',
-                svgAnimation: 'dance'
-            },
-            {
-                id: 'rhyme-kn-1',
-                lang: 'kn',
-                langName: 'Kannada (ಕನ್ನಡ)',
-                title: 'ನಾಯಿ ಮರಿ ನಾಯಿ ಮರಿ (Naayi Mari)',
-                meaning: 'Playful Little Puppy',
-                lyrics: "ನಾಯಿ ಮರಿ ನಾಯಿ ಮರಿ, ತಿಂಡಿ ಬೇಕೆ?\nತಿಂಡಿ ಬೇಕು ತೀರ್ଥ ಬೇಕು ಎಲ್ಲಾ ಬೇಕು! 🐶",
-                funLesson: 'Animal companionship and love.',
-                svgAnimation: 'rabbit'
-            },
-            {
-                id: 'rhyme-ml-1',
-                lang: 'ml',
-                langName: 'Malayalam (മലയാളം)',
-                title: 'തത്തമ്മേ പൂച്ച പൂച്ച (Thathame Poocha)',
-                meaning: 'Green Parrot Melody',
-                lyrics: "തത്തമ്മേ പൂച്ച പൂച്ച, പാല് തരാം കുടിക്കാമോ?\nപച്ചക്കിളിയേ വാവാ, കൊഞ്ചും പാട്ട് പാടാമോ! 🦜",
-                funLesson: 'Rhythm celebrating Kerala\'s nature.',
-                svgAnimation: 'parrot'
-            },
-            {
-                id: 'rhyme-sa-1',
-                lang: 'sa',
-                langName: 'Sanskrit (संस्कृतम्)',
-                title: 'सूर्य वन्दना (Surya Vandana)',
-                meaning: 'Hymn to the Radiant Sun',
-                lyrics: "नमो सूर्याय शान्ताय सर्वरोग निवारिणे!\nआयुराglobalमेश्वर्यं देहि मे भास्कर प्रभो! ☀️",
-                funLesson: 'Ancient wellness sloka greeting morning energy.',
-                svgAnimation: 'sun'
-            },
-            {
-                id: 'rhyme-en-1',
-                lang: 'en',
-                langName: 'English',
-                title: 'Twinkle Twinkle Little Star',
-                meaning: 'Cosmic Wonder Song',
-                lyrics: "Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky! ✨",
-                funLesson: 'Astronomy curiosity and spatial imagination.',
-                svgAnimation: 'moon'
-            }
-        ];
-
-        // Dedicated AI Masterclass Academy Curriculum
-        const AI_ACADEMY_CURRICULUM = [
-            {
-                id: 'ai-mod-1',
-                level: 'Level 1: Fundamentals',
-                title: 'What is AI & Smart Thinking Machines?',
-                badge: 'Beginner / All Ages',
-                icon: 'bot',
-                summary: 'How machines learn patterns from data and assist humankind.',
-                content: "🤖 **Welcome to Artificial Intelligence (AI)**\n\nAI means teaching computers to learn from data, make smart decisions, and solve problems like humans do!\n\n**Difference between Regular Software vs. AI:**\n• *Regular Software:* Follows fixed static rules (e.g., a simple calculator).\n• *AI System:* Learns from experience and pattern recognition (e.g., voice assistants, face unlock)!",
-                trick: "💡 **Short Trick:** **L.D.P.** = Learn from data -> Detect patterns -> Predict answers!",
-                svgType: 'ai-net'
-            },
-            {
-                id: 'ai-mod-2',
-                level: 'Level 2: Computer Vision',
-                title: 'How AI Sees & Recognizes Objects',
-                badge: 'Vision & Speech',
-                icon: 'eye',
-                summary: 'Exploring pixel grids, image recognition, and autonomous navigation.',
-                content: "👁️ **Computer Vision & Pixel Intelligence**\n\n• **Computer Vision:** AI breaks images into pixels and detects edges, textures, and objects (e.g., autonomous vehicles recognizing traffic signals).\n• **Voice AI:** Converts sound frequencies into text tokens so AI can converse naturally!",
-                trick: "💡 **Vision Trick:** AI views pictures as matrices of RGB numbers!",
-                svgType: 'ai-vision'
-            },
-            {
-                id: 'ai-mod-3',
-                level: 'Level 3: Generative AI',
-                title: 'Generative AI & Master Prompting',
-                badge: 'LLMs & AI Creativity',
-                icon: 'sparkles',
-                summary: 'Master Large Language Models and prompt engineering formulas.',
-                content: "✨ **Generative AI & LLMs (Large Language Models)**\n\nGenerative AI creates new content (essays, code, stories, music) by predicting the next probable token!\n\n🎯 **Golden Prompt Engineering Formula:**\n1. **Role:** \"Act as an experienced teacher...\"\n2. **Task:** \"Explain gravity...\"\n3. **Format:** \"Use bullet points and a fun short trick!\"",
-                trick: "💡 **Prompt Formula:** **R.C.T.F.** = Role + Context + Task + Format!",
-                svgType: 'ai-gen'
-            },
-            {
-                id: 'ai-mod-4',
-                level: 'Level 4: Neural Networks',
-                title: 'Neural Networks & Deep Learning',
-                badge: 'Brain-Inspired AI',
-                icon: 'network',
-                summary: 'How artificial neurons process multi-layered complex data.',
-                content: "🧠 **Artificial Neural Networks (ANN)**\n\nNeural networks mimic human brain synapses with layers of nodes:\n1. **Input Layer:** Receives raw data (pixels/sound waves).\n2. **Hidden Layers:** Extracts deep patterns, curves, and features.\n3. **Output Layer:** Produces the final accurate prediction!",
-                trick: "💡 **Deep Learning Trick:** More hidden layers = Deeper pattern recognition!",
-                svgType: 'ai-net'
-            }
-        ];
-
-        // Comprehensive NEP 2020 & NCERT Multi-Subject Curriculum Matrix
-        const NEP_CURRICULUM_DATA = {
-            cbse: [
-                {
-                    id: 'foundational',
-                    name: 'Foundational Stage (Pre-KG to Class 2)',
-                    badge: 'Ages 3-8 • NEP Foundational',
-                    icon: 'smile',
-                    subjects: [
-                        {
-                            id: 'rhymes-kg',
-                            name: 'Nursery Rhymes & Phonics',
-                            icon: 'music',
-                            chapters: [
-                                {
-                                    id: 'r-ch1',
-                                    title: 'Sunshine & Alphabet Sounds',
-                                    topics: [
-                                        {
-                                            id: 'top-r1',
-                                            title: 'The Shining Sun Song',
-                                            summary: 'Sing along and learn how the sun brings warmth to nature!',
-                                            content: "☀️ **The Warm Sunshine Rhyme**\n\nGood morning Sun, smiling so bright,\nWaking up the world with golden light!\nFlowers bloom and songbirds sing,\nJoy and health to all you bring!",
-                                            trick: "💡 **Happy Activity:** Stretch your arms wide like sunshine beams every morning!",
-                                            svgType: 'sun',
-                                            quiz: {
-                                                question: 'Who smiles in the sky and gives warmth to all living things?',
-                                                options: ['The Bright Sun', 'The Ice Cream Cone'],
-                                                answer: 0,
-                                                praise: 'You are absolutely brilliant! The Sun loves your smile!'
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            id: 'manners-kg',
-                            name: 'Good Habits & Manners',
-                            icon: 'heart',
-                            chapters: [
-                                {
-                                    id: 'm-ch1',
-                                    title: 'Caring Words & Kindness',
-                                    topics: [
-                                        {
-                                            id: 'top-m1',
-                                            title: 'Kind Words That Heal',
-                                            summary: 'Making friends feel special with Thank You, Please, and Sorry.',
-                                            content: "💖 **Words of Love and Respect**\n\n• **Please:** Shows that you value others.\n• **Thank You:** Spreads gratitude and smiles.\n• **Sorry:** Shows brave honesty and big-hearted care!",
-                                            trick: "💡 **Kindness Secret:** A gentle smile makes every word even sweeter!",
-                                            svgType: 'manners',
-                                            quiz: {
-                                                question: 'What wonderful word makes someone smile when they help you?',
-                                                options: ['Thank You!', 'Shouting loudly'],
-                                                answer: 0,
-                                                praise: 'Such wonderful golden manners! You have a heart of gold!'
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            id: 'fin-kg',
-                            name: 'Junior Financial Literacy',
-                            icon: 'piggy-bank',
-                            chapters: [
-                                {
-                                    id: 'f-ch1',
-                                    title: 'The Magic Savings Jar',
-                                    topics: [
-                                        {
-                                            id: 'top-fk1',
-                                            title: 'Saving Coins Patiently',
-                                            summary: 'How small daily savings turn into great achievements.',
-                                            content: "🪙 **The Piggy Bank Journey**\n\nEvery single rupee is a tiny seed of capability. When you save instead of wasting, you build the superpower of patience!",
-                                            trick: "💡 **Patience Trick:** Drop one coin into your jar every evening with a grateful thought!",
-                                            svgType: 'money',
-                                            quiz: {
-                                                question: 'What does putting coins in a piggy bank teach us?',
-                                                options: ['Patience and Smart Saving', 'Losing things'],
-                                                answer: 0,
-                                                praise: 'Smart Little Champion! You are growing so wise!'
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    id: 'preparatory',
-                    name: 'Preparatory Stage (Classes 3 to 5)',
-                    badge: 'Ages 8-11 • NEP Preparatory',
-                    icon: 'compass',
-                    subjects: [
-                        {
-                            id: 'math-35',
-                            name: 'Mathematics & Vedic Tricks',
-                            icon: 'calculator',
-                            chapters: [
-                                {
-                                    id: 'm35-ch1',
-                                    title: 'Speed Multiplication Tricks',
-                                    topics: [
-                                        {
-                                            id: 'top-m35',
-                                            title: 'Multiply Any 2-Digit Number by 11',
-                                            summary: 'Instant calculation without needing paper or pen!',
-                                            content: "⚡ **The 3-Second Mental Math Formula:**\n\nTo calculate **35 x 11**:\n1. Separate 3 and 5 -> 3 _ 5\n2. Add them: 3 + 5 = 8\n3. Put 8 in middle: **385**!\n\nYou just solved it mentally!",
-                                            trick: "💡 **Secret:** Split -> Sum -> Slot in!",
-                                            svgType: 'physics',
-                                            quiz: {
-                                                question: 'What is 42 x 11 calculated using the Vedic Split method?',
-                                                options: ['462', '420', '482'],
-                                                answer: 0,
-                                                praise: 'Lightning fast calculation! You are a mathematical rockstar!'
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            id: 'sci-35',
-                            name: 'General Science & Environment',
-                            icon: 'globe-2',
-                            chapters: [
-                                {
-                                    id: 's35-ch1',
-                                    title: 'Our Solar System & Planets',
-                                    topics: [
-                                        {
-                                            id: 'top-s35',
-                                            title: 'Planets & The Wonder of Mars',
-                                            summary: 'Exploring the 8 planetary wonders orbiting our Sun.',
-                                            content: "🌌 **Our Cosmic Family**\n\n8 planets dance around our Sun. Mars looks majestic and red because of iron minerals across its soil, making it our neighboring planetary explorer!",
-                                            trick: "💡 **Mnemonic:** **M**y **V**ery **E**nergetic **M**other **J**ust **S**erved **U**s **N**achos!",
-                                            svgType: 'planets',
-                                            quiz: {
-                                                question: 'Why does Mars glow with an inspiring reddish hue?',
-                                                options: ['Iron-rich Minerals in Soil', 'Red paint from space'],
-                                                answer: 0,
-                                                praise: 'Cosmic Explorer status achieved! Superb astrophysics knowledge!'
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    id: 'middle',
-                    name: 'Middle Stage (Classes 6 to 8)',
-                    badge: 'Ages 11-14 • NEP Middle',
-                    icon: 'atom',
-                    subjects: [
-                        {
-                            id: 'phy-68',
-                            name: 'Physics & Light Reflection',
-                            icon: 'zap',
-                            chapters: [
-                                {
-                                    id: 'p68-ch1',
-                                    title: 'Light & The Laws of Reflection',
-                                    topics: [
-                                        {
-                                            id: 'top-p68',
-                                            title: 'Laws of Reflection Made Simple',
-                                            summary: 'How mirrors redirect rays with exact symmetry.',
-                                            content: "🔦 **The Symmetry of Light:**\n\nWhen light bounces off a shiny plane mirror, the angle of arrival (Angle of Incidence i) is always identical to the departure angle (Angle of Reflection r).\n\nFormula: **Angle i = Angle r**",
-                                            trick: "💡 **Mirror Hack:** Just remember bounce symmetry—what comes in at 30° bounces out at 30°!",
-                                            svgType: 'physics',
-                                            quiz: {
-                                                question: 'If a beam of light strikes a smooth mirror at 45°, what is the reflected angle?',
-                                                options: ['45°', '90°', '0°'],
-                                                answer: 0,
-                                                praise: 'Outstanding scientific precision! You master optics with ease!'
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            id: 'bio-68',
-                            name: 'Biology & Living Cells',
-                            icon: 'activity',
-                            chapters: [
-                                {
-                                    id: 'b68-ch1',
-                                    title: 'Cell Structure & Energy',
-                                    topics: [
-                                        {
-                                            id: 'top-b68',
-                                            title: 'Mitochondria: Powerhouse of Life',
-                                            summary: 'How cells generate ATP energy from nutrients.',
-                                            content: "🔬 **Cell Powerhouse**\n\nMitochondria convert glucose into ATP (Adenosine Triphosphate) energy molecules through cellular respiration, powering every heartbeat and muscle movement!",
-                                            trick: "💡 **Bio Mnemonic:** **M-A-P** = Mitochondria -> ATP -> Power!",
-                                            svgType: 'plant',
-                                            quiz: {
-                                                question: 'Which organelle produces ATP energy inside our living cells?',
-                                                options: ['Mitochondria', 'Cell Wall'],
-                                                answer: 0,
-                                                praise: 'Top-tier Biology genius!'
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            id: 'fin-68',
-                            name: 'Banking & Cyber Protection',
-                            icon: 'shield-alert',
-                            chapters: [
-                                {
-                                    id: 'f68-ch1',
-                                    title: 'Simple Interest & Digital Security',
-                                    topics: [
-                                        {
-                                            id: 'top-f68',
-                                            title: 'Simple Interest & Guarding Your PIN',
-                                            summary: 'How deposits grow and how to stay safe from cyber scams.',
-                                            content: "🏦 **Simple Interest Formula:**\n\n$$SI = \\frac{\\text{Principal} \\times \\text{Rate} \\times \\text{Time}}{100}$$\n\n🛡️ **Golden Safety Rule:** Bank officials NEVER ask for your OTP or password over calls. Keep credentials private and stay cyber-secure!",
-                                            trick: "💡 **Security Rule:** Private PIN = Protected Peace of Mind!",
-                                            svgType: 'money',
-                                            quiz: {
-                                                question: 'What is the safest practice regarding your bank OTP and passwords?',
-                                                options: ['Keep them completely private to yourself', 'Share with callers'],
-                                                answer: 0,
-                                                praise: 'Brilliant digital guardian! You protect your family\'s hard-earned money!'
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    id: 'secondary',
-                    name: 'Secondary Stage (Classes 9 & 10)',
-                    badge: 'Ages 14-16 • Board Prep',
-                    icon: 'award',
-                    subjects: [
-                        {
-                            id: 'phy-910',
-                            name: 'Class 9-10 Physics (NCERT)',
-                            icon: 'activity',
-                            chapters: [
-                                {
-                                    id: 'p910-ch1',
-                                    title: "Electricity & Ohm's Law",
-                                    topics: [
-                                        {
-                                            id: 'top-ohms',
-                                            title: "Ohm's Law with the VIR Triangle",
-                                            summary: 'Relationship between Voltage, Current, and Resistance.',
-                                            content: "⚡ **Ohm's Law Statement:**\n\nPotential difference (V) across a conductor is directly proportional to current (I) flowing through it, provided temperature remains constant.\n\n$$V = I \\times R$$\n\nWhere R is Resistance in Ohms (Ω).",
-                                            trick: "💡 **VIR Magic Triangle:** Put V at top, I and R at bottom. Cover the unknown letter to get its exact formula!",
-                                            svgType: 'physics',
-                                            quiz: {
-                                                question: 'If voltage V = 10V and resistance R = 5 Ohms, what is Current I?',
-                                                options: ['2 Amperes', '50 Amperes', '15 Amperes'],
-                                                answer: 0,
-                                                praise: 'Genius level circuit solving! CBSE Board exams will be a breeze for you!'
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            id: 'fin-910',
-                            name: 'The 50/30/20 Wealth Framework',
-                            icon: 'trending-up',
-                            chapters: [
-                                {
-                                    id: 'f910-ch1',
-                                    title: 'Mindful Budgeting for Life',
-                                    topics: [
-                                        {
-                                            id: 'top-ci',
-                                            title: 'The 50/30/20 Balanced Living Rule',
-                                            summary: 'How to allocate earnings to live stress-free and build wealth.',
-                                            content: "📈 **The 50/30/20 Allocation Rule:**\n\n• **50% Needs:** Rent, groceries, utility bills, books.\n• **30% Wants:** Hobbies, recreation, family treats.\n• **20% Savings & Compound Growth:** Future emergency fund and mutual investments!",
-                                            trick: "💡 **Wealth Habit:** Pay your 20% future savings first, then enjoy the rest stress-free!",
-                                            svgType: 'money',
-                                            quiz: {
-                                                question: 'Under the 50/30/20 rule, what percentage is saved for future freedom?',
-                                                options: ['20%', '80%', '0%'],
-                                                answer: 0,
-                                                praise: 'Future Leader! You possess top-tier financial intelligence!'
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        };
-
-        // Navigation Actions
-        function navigateToHome() {
-            playSound('click');
-            state.viewMode = 'home';
-            state.selectedStage = null;
-            state.selectedRhyme = null;
-            render();
-        }
-
-        function setBoardSegment(boardKey) {
-            playSound('click');
-            state.selectedBoard = boardKey;
-            render();
-        }
-
-        function openRegionalRhymesHub() {
-            playSound('click');
-            state.viewMode = 'regional_rhymes';
-            render();
-        }
-
-        function setRhymeFilter(langCode) {
-            playSound('click');
-            state.selectedRhymeFilter = langCode;
-            render();
-        }
-
-        function launchRhymeTheater(rhymeId) {
-            playSound('click');
-            const found = REGIONAL_RHYMES_DATA.find(r => r.id === rhymeId) || REGIONAL_RHYMES_DATA[0];
-            state.selectedRhyme = found;
-            state.viewMode = 'rhyme_theater';
-            render();
-            setTimeout(() => {
-                singRhyme(found.id);
-            }, 300);
-        }
-
-        function singRhyme(rhymeId) {
-            playSound('success');
-            const found = REGIONAL_RHYMES_DATA.find(r => r.id === rhymeId) || state.selectedRhyme;
-            if (found) {
-                speakText(found.lyrics, found.lang);
-            }
-        }
-
-        function openAiAcademy() {
-            playSound('click');
-            state.viewMode = 'ai_academy';
-            render();
-        }
-
-        function selectStage(stageId) {
-            playSound('click');
-            const stages = NEP_CURRICULUM_DATA.cbse;
-            state.selectedStage = stages.find(s => s.id === stageId) || stages[0];
-            state.selectedSubject = state.selectedStage.subjects[0];
-            state.selectedTopic = null;
-            state.viewMode = 'cbse_stage';
-            render();
-        }
-
-        function selectSubject(subId) {
-            playSound('click');
-            state.selectedSubject = state.selectedStage.subjects.find(s => s.id === subId);
-            state.selectedTopic = null;
-            render();
-        }
-
-        function selectTopic(topicId) {
-            playSound('click');
-            for (let sub of state.selectedStage.subjects) {
-                for (let ch of sub.chapters) {
-                    const t = ch.topics.find(top => top.id === topicId);
-                    if (t) {
-                        state.selectedTopic = t;
-                        state.selectedSubject = sub;
-                        break;
-                    }
-                }
-            }
-            render();
-        }
-
-        function navigateToTopic(top) {
-            playSound('click');
-            state.selectedTopic = null;
-            render();
-        }
-
-        function changeLanguage(langCode) {
-            state.currentLang = langCode;
-            playSound('click');
-            render();
-        }
-
-        function checkQuizAnswer(chosenIdx, correctIdx, praiseMsg) {
-            const feedback = document.getElementById('quizFeedback');
-            feedback.classList.remove('hidden', 'bg-emerald-500/10', 'text-emerald-600', 'bg-amber-500/10', 'text-amber-600');
-
-            if (chosenIdx === correctIdx) {
-                playSound('success');
-                feedback.classList.add('bg-emerald-500/10', 'text-emerald-600', 'dark:text-emerald-400');
-                feedback.innerHTML = `🎉 Wonderful! ${praiseMsg}`;
-                speakText(praiseMsg);
-            } else {
-                playSound('click');
-                feedback.classList.add('bg-amber-500/10', 'text-amber-600', 'dark:text-amber-400');
-                feedback.innerHTML = "🌟 You are so close! Try reviewing the short trick above!";
-                speakText("You are so close! Try reviewing the short trick above!");
-            }
-        }
-
-        function rateTopic(topicId, stars) {
-            playSound('success');
-            state.ratings[topicId] = stars;
-            localStorage.setItem('edubharat_ratings', JSON.stringify(state.ratings));
-            render();
-        }
-
-        function openGrievanceCorner() {
-            playSound('click');
-            document.getElementById('grievanceSuccess').classList.add('hidden');
-            document.getElementById('grievanceModal').classList.remove('hidden');
-        }
-
-        function closeGrievanceCorner() {
-            playSound('click');
-            document.getElementById('grievanceModal').classList.add('hidden');
-        }
-
-        function submitGrievance() {
-            const text = document.getElementById('grievanceText').value.trim();
-            if (!text) return;
-            playSound('success');
-            const ticket = Math.floor(100000 + Math.random() * 900000);
-            document.getElementById('ticketNum').innerText = ticket;
-            document.getElementById('grievanceSuccess').classList.remove('hidden');
-            document.getElementById('grievanceText').value = '';
-        }
-
-        function openSpecialDoubtHub() {
-            playSound('click');
-            document.getElementById('specialDoubtModal').classList.remove('hidden');
-        }
-
-        function closeSpecialDoubtHub() {
-            playSound('click');
-            document.getElementById('specialDoubtModal').classList.add('hidden');
-        }
-
-        function handleDoubtKeyPress(e) {
-            if (e.key === 'Enter') askMitraDoubt();
-        }
-
-        async function askMitraDoubt() {
-            const input = document.getElementById('doubtInput');
-            const chatArea = document.getElementById('doubtChatArea');
-            const question = input.value.trim();
-
-            if (!question) return;
-            playSound('click');
-
-            chatArea.innerHTML += `
-                <div class="p-3 rounded-xl bg-brand-600 text-white ml-auto max-w-[85%] shadow-sm text-xs font-medium">
-                    ${escapeHtml(question)}
-                </div>
-            `;
-            input.value = '';
-            chatArea.scrollTop = chatArea.scrollHeight;
-
-            const loadingId = 'loading-' + Date.now();
-            chatArea.innerHTML += `
-                <div id="${loadingId}" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center gap-2 max-w-[85%] text-xs">
-                    <i data-lucide="loader-2" class="w-4 h-4 animate-spin text-amber-500"></i>
-                    Thinking gently in your selected language...
-                </div>
-            `;
-            lucide.createIcons();
-            chatArea.scrollTop = chatArea.scrollHeight;
-
-            const systemPrompt = `You are Mitra AI Tutor for Indian students (Pre-Nursery to Class 10 NEP 2020 Curriculum). Support CBSE, ICSE, and State Boards in Odia, Assamese, Bhojpuri, Nepali, Hindi, Bengali, Tamil, Telugu, and all languages!`;
-
-            let responseText = "";
-            let retries = [1000, 2000, 4000];
-
-            for (let delay of retries) {
-                try {
-                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: question }] }],
-                            systemInstruction: { parts: [{ text: systemPrompt }] }
-                        })
-                    });
-                    if (res.ok) {
-                        const data = await res.json();
-                        responseText = data.candidates?.[0]?.content?.parts?.[0]?.text || "You are doing great! Let me explain this gently.";
-                        break;
-                    }
-                } catch (err) {}
-                await new Promise(r => setTimeout(r, delay));
-            }
-
-            if (!responseText) {
-                responseText = "🌟 What a thoughtful question! You are doing amazing. Let us explore together!";
-            }
-
-            const loadingEl = document.getElementById(loadingId);
-            if (loadingEl) loadingEl.remove();
-
-            chatArea.innerHTML += `
-                <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 max-w-[88%] space-y-2 border border-slate-200 dark:border-slate-700 text-xs leading-relaxed">
-                    <div class="font-bold text-amber-600 dark:text-amber-400 flex items-center justify-between">
-                        <span class="flex items-center gap-1"><i data-lucide="smile" class="w-3.5 h-3.5"></i> Mitra Answer:</span>
-                        <button onclick="speakText('${escapeHtml(responseText).replace(/\n/g, ' ')}')" class="p-1 text-emerald-500 hover:text-emerald-600"><i data-lucide="volume-2" class="w-4 h-4"></i></button>
-                    </div>
-                    <div class="whitespace-pre-line">${escapeHtml(responseText)}</div>
-                </div>
-            `;
-            lucide.createIcons();
-            chatArea.scrollTop = chatArea.scrollHeight;
-            playSound('success');
-            speakText(responseText);
-        }
-
-        function escapeHtml(str) {
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            playSound('click');
-        }
-
-        // SVG Visual Engine
-        function renderAnimatedSvg(type) {
-            if (type === 'fish') {
-                return `
-                    <svg viewBox="0 0 200 140" class="w-44 h-28 animate-float">
-                        <ellipse cx="90" cy="70" rx="55" ry="32" fill="#FF7043" />
-                        <polygon points="140,70 180,40 180,100" fill="#FF5722" />
-                        <circle cx="65" cy="62" r="7" fill="#FFFFFF" />
-                        <circle cx="63" cy="62" r="3.5" fill="#000000" />
-                        <circle cx="35" cy="40" r="5" fill="#80D8FF" opacity="0.8" class="animate-bounce" />
-                    </svg>
-                `;
-            } else if (type === 'moon') {
-                return `
-                    <svg viewBox="0 0 200 140" class="w-44 h-28 animate-float">
-                        <path d="M110 25 A 45 45 0 1 0 110 115 A 35 35 0 1 1 110 25 Z" fill="#FFD54F" />
-                        <circle cx="60" cy="40" r="2.5" fill="#FFF" class="animate-ping" />
-                        <circle cx="150" cy="30" r="3" fill="#FFF" class="animate-pulse" />
-                    </svg>
-                `;
-            } else if (type === 'dosa') {
-                return `
-                    <svg viewBox="0 0 200 140" class="w-44 h-28 animate-bounce-soft">
-                        <ellipse cx="100" cy="85" rx="75" ry="35" fill="#BCAAA4" />
-                        <ellipse cx="100" cy="80" rx="65" ry="28" fill="#FFB74D" />
-                        <circle cx="55" cy="45" r="12" fill="#81C784" />
-                        <circle cx="145" cy="45" r="12" fill="#E57373" />
-                    </svg>
-                `;
-            } else if (type === 'parrot') {
-                return `
-                    <svg viewBox="0 0 200 140" class="w-44 h-28 animate-float">
-                        <ellipse cx="100" cy="70" rx="40" ry="30" fill="#66BB6A" />
-                        <circle cx="75" cy="55" r="16" fill="#81C784" />
-                        <polygon points="62,55 45,62 62,68" fill="#FF5722" />
-                        <circle cx="75" cy="50" r="3" fill="#000000" />
-                    </svg>
-                `;
-            } else if (type === 'sun') {
-                return `
-                    <svg viewBox="0 0 200 140" class="w-40 h-40 animate-spin-slow">
-                        <circle cx="100" cy="70" r="38" fill="#FF9933" />
-                        <g stroke="#FFD600" stroke-width="4" stroke-linecap="round">
-                            <line x1="100" y1="18" x2="100" y2="35" /><line x1="100" y1="105" x2="100" y2="122" />
-                            <line x1="48" y1="70" x2="65" y2="70" /><line x1="135" y1="70" x2="152" y2="70" />
-                        </g>
-                    </svg>
-                `;
-            } else if (type === 'manners') {
-                return `
-                    <svg viewBox="0 0 200 140" class="w-40 h-40">
-                        <circle cx="100" cy="70" r="45" fill="#6366F1"/>
-                        <path d="M78 70 L92 84 L124 48" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round"/>
-                    </svg>
-                `;
-            } else if (type === 'money') {
-                return `
-                    <svg viewBox="0 0 200 140" class="w-40 h-40">
-                        <rect x="40" y="35" width="120" height="70" rx="14" fill="#138808"/>
-                        <circle cx="100" cy="70" r="20" fill="#FF9933"/>
-                        <text x="100" y="78" font-size="20" font-weight="bold" fill="#FFF" text-anchor="middle">₹</text>
-                    </svg>
-                `;
-            } else if (type === 'planets') {
-                return `
-                    <svg viewBox="0 0 200 140" class="w-40 h-40">
-                        <circle cx="100" cy="70" r="26" fill="#EF4444"/>
-                        <ellipse cx="100" cy="70" rx="60" ry="16" fill="none" stroke="#60A5FA" stroke-width="3" transform="rotate(-20 100 70)"/>
-                    </svg>
-                `;
-            } else {
-                return `
-                    <svg viewBox="0 0 200 140" class="w-40 h-40">
-                        <circle cx="100" cy="70" r="16" fill="#F59E0B"/>
-                        <ellipse cx="100" cy="70" rx="55" ry="20" fill="none" stroke="#6366F1" stroke-width="3"/>
-                    </svg>
-                `;
-            }
-        }
-
-        // View Renderers
-        function render() {
-            const area = document.getElementById('contentArea');
-            const breadcrumb = document.getElementById('breadcrumb');
-
-            let bcHTML = `<span onclick="navigateToHome()" class="hover:text-brand-600 dark:hover:text-brand-400 cursor-pointer flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> Home</span>`;
-            
-            if (state.viewMode === 'regional_rhymes') {
-                bcHTML += ` <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i> <span class="font-bold text-rose-600 dark:text-rose-400 flex items-center gap-1"><i data-lucide="music" class="w-3.5 h-3.5"></i> Indian State Rhymes</span>`;
-            } else if (state.viewMode === 'rhyme_theater' && state.selectedRhyme) {
-                bcHTML += ` <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i> <span onclick="openRegionalRhymesHub()" class="hover:text-rose-600 cursor-pointer">Rhymes</span> <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i> <span class="font-bold text-rose-600">${state.selectedRhyme.title}</span>`;
-            } else if (state.viewMode === 'ai_academy') {
-                bcHTML += ` <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i> <span class="font-bold text-cyan-600 dark:text-cyan-400 flex items-center gap-1"><i data-lucide="cpu" class="w-3.5 h-3.5"></i> AI Academy</span>`;
-            } else if (state.viewMode === 'cbse_stage') {
-                if (state.selectedStage) {
-                    bcHTML += ` <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i> <span onclick="navigateToHome()" class="hover:text-brand-600 cursor-pointer">${state.selectedStage.name}</span>`;
-                }
-                if (state.selectedSubject) {
-                    bcHTML += ` <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i> <span onclick="navigateToTopic(null)" class="hover:text-brand-600 cursor-pointer">${state.selectedSubject.name}</span>`;
-                }
-                if (state.selectedTopic) {
-                    bcHTML += ` <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i> <span class="font-bold text-slate-800 dark:text-slate-100">${state.selectedTopic.title}</span>`;
-                }
-            }
-            breadcrumb.innerHTML = bcHTML;
-
-            if (state.viewMode === 'home') {
-                const stages = NEP_CURRICULUM_DATA.cbse;
-                area.innerHTML = `
-                    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-brand-900 to-indigo-950 text-white p-6 sm:p-9 shadow-xl border border-brand-500/20">
-                        <div class="relative z-10 max-w-2xl space-y-3">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-saffron/20 border border-saffron/40 text-saffron text-xs font-bold">
-                                <i data-lucide="award" class="w-3.5 h-3.5 text-amber-400"></i> NEP 2020 • CBSE • ICSE • All Indian State Boards
-                            </span>
-                            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                                Complete NCERT Curriculum & Indian State Heritage!
-                            </h2>
-                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                                Explore all academic stages from Foundational (Pre-KG to 2) to Secondary (Class 10), state rhymes in 16 languages, and AI Future Skills.
-                            </p>
-                            <div class="pt-2 flex flex-wrap gap-2.5">
-                                <button onclick="openRegionalRhymesHub()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 text-white font-bold text-xs shadow-lg shadow-rose-500/20 transition flex items-center gap-2">
-                                    <i data-lucide="music" class="w-4 h-4"></i> State Nursery Rhymes
-                                </button>
-                                <button onclick="openAiAcademy()" class="px-4 py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-bold text-xs backdrop-blur-md transition flex items-center gap-2">
-                                    <i data-lucide="cpu" class="w-4 h-4"></i> AI Future-Lab
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Multi-Board Switcher Tabs -->
-                    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                        <div class="flex items-center gap-2">
-                            <i data-lucide="layers" class="w-5 h-5 text-brand-600"></i>
-                            <div>
-                                <h3 class="font-bold text-sm text-slate-900 dark:text-white">Choose Your Board / Syllabus</h3>
-                                <p class="text-[11px] text-slate-500">Fully compliant with National Education Policy (NEP 2020)</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-1.5">
-                            <button onclick="setBoardSegment('cbse')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition ${state.selectedBoard === 'cbse' ? 'bg-brand-600 text-white shadow-md' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}">CBSE (NCERT)</button>
-                            <button onclick="setBoardSegment('icse')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition ${state.selectedBoard === 'icse' ? 'bg-brand-600 text-white shadow-md' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}">ICSE / CISCE</button>
-                            <button onclick="setBoardSegment('state')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition ${state.selectedBoard === 'state' ? 'bg-brand-600 text-white shadow-md' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}">State Boards</button>
-                        </div>
-                    </div>
-
-                    <!-- NEP 2020 Stages Grid -->
-                    <div class="space-y-3">
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <i data-lucide="book-open" class="w-5 h-5 text-brand-600"></i> Academic Stages (NEP 5+3+3+4 Structure)
-                        </h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-                            ${stages.map(stage => `
-                                <div onclick="selectStage('${stage.id}')" class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brand-500 rounded-2xl p-5 shadow-sm hover:shadow-xl transition cursor-pointer flex flex-col justify-between space-y-3.5">
-                                    <div class="flex items-start justify-between">
-                                        <div class="p-2.5 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform">
-                                            <i data-lucide="${stage.icon}" class="w-6 h-6"></i>
-                                        </div>
-                                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
-                                            ${stage.subjects.length} Subjects
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm sm:text-base text-slate-900 dark:text-white group-hover:text-brand-600 transition">
-                                            ${stage.name}
-                                        </h4>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">${stage.badge}</p>
-                                    </div>
-                                    <div class="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-brand-600 dark:text-brand-400">
-                                        <span>Explore Subjects</span>
-                                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            } else if (state.viewMode === 'regional_rhymes') {
-                const filter = state.selectedRhymeFilter;
-                const filteredRhymes = filter === 'all' ? REGIONAL_RHYMES_DATA : REGIONAL_RHYMES_DATA.filter(r => r.lang === filter);
-
-                area.innerHTML = `
-                    <div class="bg-gradient-to-r from-rose-950 via-slate-900 to-amber-950 border border-rose-500/30 rounded-2xl p-5 sm:p-6 text-white shadow-xl space-y-3">
-                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-extrabold px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 uppercase tracking-widest">
-                                    All Indian State Languages
-                                </span>
-                                <h2 class="text-xl sm:text-2xl font-black mt-2 bg-gradient-to-r from-white via-rose-200 to-amber-200 bg-clip-text text-transparent">
-                                    Indian State Nursery Rhymes Theater
-                                </h2>
-                                <p class="text-xs text-slate-300 mt-1">Odia, Assamese, Bihari, Nepali, Hindi, Bengali, Tamil, Telugu, Marathi, Gujarati, Punjabi, Kannada, Malayalam, Sanskrit, Urdu & English!</p>
-                            </div>
-                            <button onclick="navigateToHome()" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-white/20 hover:bg-white/10 flex items-center gap-1">
-                                <i data-lucide="arrow-left" class="w-4 h-4"></i> Home
-                            </button>
-                        </div>
-
-                        <!-- Language Filter Tabs -->
-                        <div class="flex gap-2 overflow-x-auto custom-scrollbar pt-2">
-                            <button onclick="setRhymeFilter('all')" class="px-3 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition ${filter === 'all' ? 'bg-rose-500 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">All Languages</button>
-                            ${[
-                                ['or', 'Odia (ଓଡ଼ିଆ)'],
-                                ['as', 'Assamese (অসমীয়া)'],
-                                ['bho', 'Bihari (भोजपुरी)'],
-                                ['ne', 'Nepali (नेपाली)'],
-                                ['hi', 'Hindi (हिंदी)'],
-                                ['bn', 'Bengali (বাংলা)'],
-                                ['ta', 'Tamil (தமிழ்)'],
-                                ['te', 'Telugu (తెలుగు)'],
-                                ['mr', 'Marathi (मराठी)'],
-                                ['gu', 'Gujarati (ગુજરાતી)'],
-                                ['pa', 'Punjabi (ਪੰਜਾਬੀ)'],
-                                ['kn', 'Kannada (ಕನ್ನಡ)'],
-                                ['ml', 'Malayalam (മലയാളം)'],
-                                ['sa', 'Sanskrit (संस्कृतम्)'],
-                                ['ur', 'Urdu (اردو)'],
-                                ['en', 'English']
-                            ].map(([c, n]) => `
-                                <button onclick="setRhymeFilter('${c}')" class="px-3 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition ${filter === c ? 'bg-rose-500 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">${n}</button>
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <!-- Rhymes Display -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        ${filteredRhymes.map(rhyme => `
-                            <div onclick="launchRhymeTheater('${rhyme.id}')" class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-rose-500 rounded-2xl p-4 shadow-sm hover:shadow-xl transition cursor-pointer flex flex-col justify-between space-y-3">
-                                <div class="flex items-start justify-between">
-                                    <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
-                                        ${rhyme.langName}
-                                    </span>
-                                    <div class="p-1.5 rounded-full bg-rose-500 text-white group-hover:scale-110 transition-transform shadow-md">
-                                        <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i>
-                                    </div>
-                                </div>
-
-                                <div class="w-full aspect-video rounded-xl bg-slate-950 flex items-center justify-center p-2 border border-slate-800 overflow-hidden">
-                                    ${renderAnimatedSvg(rhyme.svgAnimation)}
-                                </div>
-
-                                <div>
-                                    <h4 class="font-extrabold text-sm text-slate-900 dark:text-white group-hover:text-rose-600 transition line-clamp-1">
-                                        ${rhyme.title}
-                                    </h4>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">${rhyme.meaning}</p>
-                                </div>
-
-                                <div class="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-rose-600 dark:text-rose-400">
-                                    <span>Play Animated Video</span>
-                                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition"></i>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            } else if (state.viewMode === 'rhyme_theater' && state.selectedRhyme) {
-                const rhyme = state.selectedRhyme;
-                area.innerHTML = `
-                    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex items-center justify-between gap-3">
-                        <div>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-500/10 text-rose-600 dark:text-rose-400 uppercase tracking-wider">
-                                ${rhyme.langName} • Animated HD Video Theater
-                            </span>
-                            <h2 class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white mt-1">${rhyme.title}</h2>
-                        </div>
-                        <button onclick="openRegionalRhymesHub()" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1">
-                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
-                        </button>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                        <div class="lg:col-span-2 bg-slate-950 rounded-2xl p-6 border border-slate-800 shadow-2xl flex flex-col items-center justify-between relative overflow-hidden min-h-[340px]">
-                            <div class="w-full flex items-center justify-between text-slate-400 text-xs z-10">
-                                <span class="flex items-center gap-1.5 text-rose-400 font-bold">
-                                    <i data-lucide="video" class="w-4 h-4 animate-pulse"></i> Animated Stage
-                                </span>
-                                <span class="bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded text-[10px] font-bold">Cartoon Animation</span>
-                            </div>
-
-                            <div class="my-auto scale-110 sm:scale-125 transition-transform duration-500">
-                                ${renderAnimatedSvg(rhyme.svgAnimation)}
-                            </div>
-
-                            <div class="w-full bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-xl p-3 text-center text-rose-300 font-bold text-xs sm:text-sm z-10 shadow-lg">
-                                "${rhyme.lyrics.split('\n')[0]}"
-                            </div>
-
-                            <div class="w-full pt-4 flex items-center justify-center gap-3 z-10">
-                                <button onclick="singRhyme('${rhyme.id}')" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 text-white font-bold text-xs shadow-lg shadow-rose-500/30 flex items-center gap-2 transition hover:scale-105">
-                                    <i data-lucide="volume-2" class="w-4 h-4"></i> Sing Song Aloud
-                                </button>
-                                <button onclick="playSound('success')" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-slate-700 flex items-center gap-1.5 transition">
-                                    <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i> Clapping Chimes
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="lg:col-span-1 space-y-4">
-                            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-3">
-                                <h3 class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-                                    <i data-lucide="file-text" class="w-4 h-4 text-rose-500"></i> Song Lyrics
-                                </h3>
-                                <div class="text-xs font-semibold leading-relaxed text-slate-700 dark:text-slate-200 whitespace-pre-line bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
-                                    ${rhyme.lyrics}
-                                </div>
-                            </div>
-
-                            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-2">
-                                <div class="font-bold text-xs text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
-                                    <i data-lucide="heart" class="w-4 h-4"></i> Learning Value:
-                                </div>
-                                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
-                                    ${rhyme.funLesson}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (state.viewMode === 'cbse_stage') {
-                if (state.selectedStage && !state.selectedTopic) {
-                    area.innerHTML = `
-                        <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-                            <div>
-                                <h2 class="text-xl font-extrabold text-slate-900 dark:text-white">${state.selectedStage.name}</h2>
-                                <p class="text-xs text-slate-500">${state.selectedStage.badge}</p>
-                            </div>
-                            <button onclick="navigateToHome()" class="text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-1">
-                                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Stages
-                            </button>
-                        </div>
-
-                        <div class="flex gap-2 overflow-x-auto custom-scrollbar pb-1">
-                            ${state.selectedStage.subjects.map((sub, idx) => `
-                                <button onclick="selectSubject('${sub.id}')" class="px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5 transition ${
-                                    (state.selectedSubject && state.selectedSubject.id === sub.id) || (!state.selectedSubject && idx === 0)
-                                    ? 'bg-brand-600 text-white shadow-md shadow-brand-500/20'
-                                    : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800'
-                                }">
-                                    <i data-lucide="${sub.icon}" class="w-3.5 h-3.5"></i>
-                                    ${sub.name}
-                                </button>
-                            `).join('')}
-                        </div>
-
-                        <div class="space-y-3.5">
-                            ${(state.selectedSubject ? state.selectedSubject.chapters : state.selectedStage.subjects[0].chapters).map(ch => `
-                                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3">
-                                    <h3 class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-                                        <i data-lucide="bookmark" class="w-4 h-4 text-brand-600"></i> ${ch.title}
-                                    </h3>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                        ${ch.topics.map(t => `
-                                            <div onclick="selectTopic('${t.id}')" class="p-3.5 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:border-brand-500 transition cursor-pointer flex items-center justify-between group">
-                                                <div>
-                                                    <h4 class="font-bold text-xs text-slate-800 dark:text-slate-200 group-hover:text-brand-600 dark:group-hover:text-brand-400">
-                                                        ${t.title}
-                                                    </h4>
-                                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">${t.summary}</p>
-                                                </div>
-                                                <i data-lucide="play-circle" class="w-5 h-5 text-brand-600 opacity-60 group-hover:opacity-100 transition"></i>
-                                            </div>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                    if (!state.selectedSubject) {
-                        state.selectedSubject = state.selectedStage.subjects[0];
-                    }
-                } else if (state.selectedTopic) {
-                    const topic = state.selectedTopic;
-                    const currentRating = state.ratings[topic.id] || 0;
-
-                    area.innerHTML = `
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 uppercase tracking-wider">
-                                    ${state.selectedSubject.name}
-                                </span>
-                                <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white mt-1">${topic.title}</h2>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button onclick="speakText('${topic.title}. ${topic.content.replace(/\n/g, ' ')}')" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-xs font-bold flex items-center gap-1.5 transition">
-                                    <i data-lucide="volume-2" class="w-4 h-4"></i> Voice
-                                </button>
-                                <button onclick="navigateToTopic(null)" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1">
-                                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                            <div class="lg:col-span-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4 flex flex-col justify-between">
-                                <div>
-                                    <h3 class="font-bold text-xs text-slate-900 dark:text-white mb-2 flex items-center gap-2">
-                                        <i data-lucide="eye" class="w-4 h-4 text-brand-600"></i> Visual 3D Concept Model
-                                    </h3>
-                                    <div class="w-full aspect-square rounded-xl bg-slate-950 flex items-center justify-center p-4 border border-slate-800 relative overflow-hidden">
-                                        ${renderAnimatedSvg(topic.svgType)}
-                                    </div>
-                                </div>
-                                <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-xs">
-                                    <div class="font-bold flex items-center gap-1 mb-1">
-                                        <i data-lucide="zap" class="w-4 h-4"></i> Memory Shortcut & Trick:
-                                    </div>
-                                    <p class="leading-relaxed font-medium">${topic.trick}</p>
-                                </div>
-                            </div>
-
-                            <div class="lg:col-span-2 space-y-5">
-                                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-3">
-                                    <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2.5">
-                                        <i data-lucide="file-text" class="w-4 h-4 text-brand-600"></i> Core Concept Notes
-                                    </h3>
-                                    <div class="text-xs leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">${topic.content}</div>
-                                </div>
-
-                                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-3.5">
-                                    <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
-                                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i> Practice with Confidence
-                                    </h3>
-                                    <p class="text-xs font-semibold text-slate-800 dark:text-slate-200">${topic.quiz.question}</p>
-
-                                    <div class="space-y-2">
-                                        ${topic.quiz.options.map((opt, idx) => `
-                                            <button onclick="checkQuizAnswer(${idx}, ${topic.quiz.answer}, '${topic.quiz.praise}')" class="w-full text-left p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-500 font-medium text-xs text-slate-700 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-brand-900/20 transition flex items-center justify-between">
-                                                <span>${opt}</span>
-                                                <i data-lucide="circle" class="w-4 h-4 text-slate-400"></i>
-                                            </button>
-                                        `).join('')}
-                                    </div>
-                                    <div id="quizFeedback" class="hidden p-3 rounded-xl text-xs font-bold"></div>
-                                </div>
-
-                                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm space-y-2.5">
-                                    <div class="flex items-center justify-between">
-                                        <h4 class="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
-                                            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i> Rate this Topic & Feedback
-                                        </h4>
-                                        <span id="ratingStatus" class="text-[11px] font-bold text-emerald-500">${currentRating > 0 ? `Rated ${currentRating} Stars!` : 'Help us improve!'}</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        ${[1, 2, 3, 4, 5].map(star => `
-                                            <button onclick="rateTopic('${topic.id}', ${star})" class="p-1 rounded-lg hover:scale-125 transition-transform">
-                                                <i data-lucide="star" class="w-5 h-5 ${star <= currentRating ? 'text-amber-400 fill-amber-400' : 'text-slate-300 dark:text-slate-700'}"></i>
-                                            </button>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-            } else if (state.viewMode === 'ai_academy') {
-                area.innerHTML = `
-                    <div class="bg-gradient-to-r from-slate-950 via-cyan-950 to-indigo-950 border border-cyan-500/30 rounded-2xl p-5 text-white shadow-xl space-y-3">
-                        <div class="flex items-center justify-between">
-                            <h2 class="text-xl font-black">Artificial Intelligence & Future Tech Academy</h2>
-                            <button onclick="navigateToHome()" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-white/20 hover:bg-white/10 flex items-center gap-1">
-                                <i data-lucide="arrow-left" class="w-4 h-4"></i> Home
-                            </button>
-                        </div>
-                        <p class="text-xs text-slate-300">Prompt Engineering, LLMs, Neural Networks, Computer Vision & Ethics.</p>
-                    </div>
-
-                    <div class="space-y-3">
-                        ${AI_ACADEMY_CURRICULUM.map(mod => `
-                            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-3">
-                                <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-                                    <h4 class="font-bold text-sm text-slate-900 dark:text-white">${mod.title}</h4>
-                                    <button onclick="speakText('${mod.title}. ${mod.content.replace(/\n/g, ' ')}')" class="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-xs font-bold flex items-center gap-1">
-                                        <i data-lucide="volume-2" class="w-3.5 h-3.5"></i> Voice
-                                    </button>
-                                </div>
-                                <div class="text-xs text-slate-700 dark:text-slate-300 whitespace-pre-line">${mod.content}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            }
-
-            lucide.createIcons();
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            render();
-        });
-    </script>
-</body>
-</html>
+      
