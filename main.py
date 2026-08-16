@@ -13,11 +13,10 @@ from kivy.uix.video import Video
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
-from kivy.uix.scrollview import ScrollView
 from kivy.animation import Animation
 from kivy.clock import Clock, mainthread
 
-# Strict Child Safety Blocklist
+# Child safety keyword blocklist
 BLOCKED_KEYWORDS = {
     "porn", "xxx", "sex", "nude", "naked", "erotic", "nsfw", "adult",
     "hentai", "penis", "vagina", "boobs", "breast", "intercourse", "fetish",
@@ -32,41 +31,77 @@ CLASS_CURRICULUM = {
             "question": "What does a hungry tiger eat?",
             "options": ["Fresh Meat (Carnivore)", "Grass & Leaves"],
             "correct": 0,
-            "reward": "Baby Tiger Badge",
+            "reward": "Baby Tiger Explorer Badge",
             "praise": "Super job! You fed the tiger healthy food!"
+        },
+        {
+            "animal": "Elephant",
+            "fact": "Elephants use their long trunk to drink water and pick fruits!",
+            "question": "What is an elephant's favorite food?",
+            "options": ["Fresh Leaves & Fruits", "Fish & Meat"],
+            "correct": 0,
+            "reward": "Elephant Harmony Chime",
+            "praise": "Wonderful! The elephant trumpets happily!"
         }
     ],
     "Class 2": [
         {
             "animal": "Giraffe",
-            "fact": "Giraffes are the tallest mammals with 6-foot long legs!",
+            "fact": "Giraffes are the tallest animals with 6-foot long legs!",
             "question": "How do giraffes reach leaves on high branches?",
             "options": ["Long Flexible Neck", "Climbing Trees"],
             "correct": 0,
-            "reward": "Savanna Explorer Badge",
+            "reward": "Acacia Tree Master Badge",
             "praise": "Great thinking! The giraffe reaches the top leaves!"
+        },
+        {
+            "animal": "Zebra",
+            "fact": "Every zebra has a unique stripe pattern like a human fingerprint!",
+            "question": "Why do zebras live in large groups?",
+            "options": ["Protection from Predators", "To Sing Together"],
+            "correct": 0,
+            "reward": "Savanna Harmony Medal",
+            "praise": "Brilliant! The zebra herd stays safe and united!"
         }
     ],
     "Class 3": [
         {
             "animal": "Cheetah",
             "fact": "Cheetahs can sprint from 0 to 60 mph in just 3 seconds!",
-            "question": "What gives cheetahs steering balance during sprints?",
+            "question": "What helps a cheetah steer when running fast?",
             "options": ["Long Muscular Tail", "Heavy Ears"],
             "correct": 0,
-            "reward": "Speedster Medal",
+            "reward": "Golden Speedster Medal",
             "praise": "Phenomenal! Cheetah sprint mechanics mastered!"
+        },
+        {
+            "animal": "Kangaroo",
+            "fact": "Mother kangaroos carry their baby joeys in a special pouch.",
+            "question": "What group of mammals do kangaroos belong to?",
+            "options": ["Marsupials", "Reptiles"],
+            "correct": 0,
+            "reward": "Outback Explorer Crown",
+            "praise": "Excellent! Marsupial biology unlocked!"
         }
     ],
     "Class 4-5": [
         {
             "animal": "African Elephant",
-            "fact": "Elephants communicate using low-frequency infrasound through the earth.",
-            "question": "What ecological role defines an elephant shaping its habitat?",
+            "fact": "Elephants send low-frequency vibrations through the ground over miles.",
+            "question": "What is a species called that shapes its entire ecosystem?",
             "options": ["Keystone Species", "Isolated Species"],
             "correct": 0,
             "reward": "Ecosystem Architect Trophy",
             "praise": "Outstanding! Keystone ecology principle understood!"
+        },
+        {
+            "animal": "Snow Leopard",
+            "fact": "Snow leopards have wide paws that act as natural snowshoes in the mountains.",
+            "question": "What type of biological adaptation are snowshoe paws?",
+            "options": ["Structural Adaptation", "Behavioral Drift"],
+            "correct": 0,
+            "reward": "Highland Biologist Crown",
+            "praise": "Magnificent! Advanced wildlife science completed!"
         }
     ]
 }
@@ -105,7 +140,7 @@ class SafariKidGame(FloatLayout):
             spacing=10
         )
         title = Label(
-            text="[b]Safari Explorer AI[/b]\nSelect Your Class to Start:",
+            text="[b]WildPals AI: Jungle Quest[/b]\nSelect Your Class:",
             markup=True,
             font_size='20sp',
             halign='center',
@@ -122,7 +157,7 @@ class SafariKidGame(FloatLayout):
         self.class_screen.add_widget(grid)
         self.add_widget(self.class_screen)
 
-        # 3. Main Gameplay & Live Safari Search Container
+        # 3. Main Gameplay & Safe Web Search UI
         self.game_container = BoxLayout(
             orientation='vertical',
             size_hint=(0.9, 0.55),
@@ -140,7 +175,6 @@ class SafariKidGame(FloatLayout):
         )
         self.game_container.add_widget(self.fact_label)
 
-        # Action Buttons
         self.options_layout = BoxLayout(orientation='vertical', spacing=4, size_hint=(1, 0.38))
         self.btn_a = Button(text="", font_size='15sp', background_color=(0.18, 0.65, 0.35, 1))
         self.btn_b = Button(text="", font_size='15sp', background_color=(0.18, 0.65, 0.35, 1))
@@ -150,10 +184,9 @@ class SafariKidGame(FloatLayout):
         self.options_layout.add_widget(self.btn_b)
         self.game_container.add_widget(self.options_layout)
 
-        # Safe Web Search Input Bar
         search_box = BoxLayout(orientation='horizontal', spacing=6, size_hint=(1, 0.22))
         self.query_input = TextInput(
-            hint_text="Ask Safari AI (e.g. Lion, Sun, Mars)...",
+            hint_text="Ask WildPals AI (e.g. Lion, Sun, Mars)...",
             multiline=False,
             font_size='14sp',
             size_hint=(0.7, 1)
@@ -181,7 +214,7 @@ class SafariKidGame(FloatLayout):
         )
         self.celeb_title = Label(text="★ LEVEL COMPLETED! ★", font_size='20sp', bold=True, color=(1, 0.85, 0.1, 1))
         self.celeb_msg = Label(text="", font_size='15sp', halign='center', color=(1, 1, 1, 1))
-        self.celeb_reward = Label(text="", font_size='15sp', color=(0.3, 0.95, 0.6, 1))
+        self.celeb_reward = Label(text="", font_size='16sp', color=(0.3, 0.95, 0.6, 1))
 
         self.celeb_banner.add_widget(self.celeb_title)
         self.celeb_banner.add_widget(self.celeb_msg)
@@ -215,7 +248,7 @@ class SafariKidGame(FloatLayout):
             return
 
         if not self.is_safe_query(query):
-            self.fact_label.text = "[b]Safari AI Safe Guard[/b]\nThis topic is not suitable for children. Let's learn about wild animals and nature!"
+            self.fact_label.text = "[b]Child Safety Guard[/b]\nThis topic is not suitable for children. Let's explore wild animals and nature!"
             self.query_input.text = ""
             return
 
@@ -226,7 +259,7 @@ class SafariKidGame(FloatLayout):
         safe_q = urllib.parse.quote(query)
         url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{safe_q}"
         try:
-            req = urllib.request.Request(url, headers={'User-Agent': 'SafariExplorerKidsApp/1.0'})
+            req = urllib.request.Request(url, headers={'User-Agent': 'WildPalsAIApp/1.0'})
             with urllib.request.urlopen(req, timeout=6) as response:
                 data = json.loads(response.read().decode())
                 extract = data.get('extract', '')
@@ -293,10 +326,9 @@ class SafariKidGame(FloatLayout):
             self.game_container.size_hint = (0.9, 0.55)
             self.game_container.pos_hint = {'center_x': 0.5, 'y': 0.03}
 
-class SafariApp(App):
+class WildPalsApp(App):
     def build(self):
         return SafariKidGame()
 
 if __name__ == '__main__':
-    SafariApp().run()
-        
+    WildPalsApp().run()
