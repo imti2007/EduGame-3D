@@ -3,9 +3,10 @@ title = Safari Explorer AI
 package.name = safariexplorer
 package.domain = org.edugame
 source.dir = .
-source.include_exts = py,png,jpg,json,mp3
+source.include_exts = py,png,jpg,json,mp3,wav,ogg,mp4
 version = 1.0.0
-requirements = python3,kivy
+requirements = python3,kivy==2.3.0
+orientation = sensor
 
 # Android target specs
 android.api = 33
