@@ -7,111 +7,82 @@ jobs:
     container:
       image: kivy/buildozer:latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Synthesize Clean Assets
+      - name: Synthesize Game Assets & Audio
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           mkdir -p assets
           python3 -c "
           import wave, struct, math, zlib
 
-          # 1. Pure Python 512x512 High-Res Icon
-          def make_icon():
-              w, h = 512, 512
+          # 1. Pure Python 256x256 Vector PNG Generator
+          def generate_png(path, r_val, g_val, b_val):
+              w, h = 256, 256
               raw = bytearray()
               for y in range(h):
                   raw.append(0)
                   for x in range(w):
-                      dx, dy = x - 256, y - 240
+                      dx, dy = x - 128, y - 128
                       dist = math.sqrt(dx*dx + dy*dy)
-                      r = int(10 + (y / 512) * 15)
-                      g = int(20 + (y / 512) * 25)
-                      b = int(45 + (y / 512) * 45)
-                      if abs(dist - 130) < 6:
-                          r, g, b = 0, 229, 255
-                      if dist < 65 or (abs(dx) + abs(dy) < 90):
-                          r, g, b = 255, 214, 0
-                      if dist < 20:
-                          r, g, b = 255, 255, 255
-                      raw.extend([r, g, b])
+                      if dist < 80:
+                          raw.extend([r_val, g_val, b_val])
+                      elif abs(dist - 90) < 4:
+                          raw.extend([0, 229, 255])
+                      else:
+                          raw.extend([15, 25, 45])
 
               ihdr = struct.pack('>IIBBBBB', w, h, 8, 2, 0, 0, 0)
               idat = zlib.compress(bytes(raw), 9)
               def chunk(tag, data):
                   return struct.pack('>I', len(data)) + tag + data + struct.pack('>I', zlib.crc32(tag + data) & 0xffffffff)
 
-              with open('assets/icon.png', 'wb') as f:
+              with open(path, 'wb') as f:
                   f.write(b'\x89PNG\r\n\x1a\n')
                   f.write(chunk(b'IHDR', ihdr))
                   f.write(chunk(b'IDAT', idat))
                   f.write(chunk(b'IEND', b''))
 
-          # 2. Pure Python Subject Badge Generator
-          def make_badge(filename, r_col, g_col, b_col):
-              w, h = 320, 240
-              raw = bytearray()
-              for y in range(h):
-                  raw.append(0)
-                  for x in range(w):
-                      dx, dy = x - 160, y - 120
-                      dist = math.sqrt(dx*dx + dy*dy)
-                      r, g, b = 15, 25, 45
-                      if dist < 60:
-                          r, g, b = r_col, g_col, b_col
-                      raw.extend([r, g, b])
+          generate_png('assets/money.png', 255, 200, 30)
+          generate_png('assets/planets.png', 70, 180, 255)
+          generate_png('assets/sun.png', 255, 215, 0)
+          generate_png('assets/manners.png', 255, 140, 40)
+          generate_png('assets/fruit.png', 235, 85, 35)
+          generate_png('assets/plant.png', 50, 210, 85)
+          generate_png('assets/matter.png', 110, 195, 255)
+          generate_png('assets/physics.png', 150, 105, 255)
 
-              ihdr = struct.pack('>IIBBBBB', w, h, 8, 2, 0, 0, 0)
-              idat = zlib.compress(bytes(raw), 9)
-              def chunk(tag, data):
-                  return struct.pack('>I', len(data)) + tag + data + struct.pack('>I', zlib.crc32(tag + data) & 0xffffffff)
-
-              with open(filename, 'wb') as f:
-                  f.write(b'\x89PNG\r\n\x1a\n')
-                  f.write(chunk(b'IHDR', ihdr))
-                  f.write(chunk(b'IDAT', idat))
-                  f.write(chunk(b'IEND', b''))
-
-          make_icon()
-          make_badge('assets/money.png', 255, 190, 20)
-          make_badge('assets/planets.png', 80, 190, 255)
-          make_badge('assets/sun.png', 255, 215, 0)
-          make_badge('assets/manners.png', 255, 150, 50)
-          make_badge('assets/fruit.png', 240, 90, 40)
-          make_badge('assets/plant.png', 60, 220, 90)
-          make_badge('assets/matter.png', 100, 200, 255)
-          make_badge('assets/physics.png', 140, 100, 255)
-
-          # 3. Stereo Marimba Audio
+          # 2. Kalimba Ambient Soundtrack (WAV PCM 16-bit Mono)
           with wave.open('assets/soothing_lullaby.wav', 'w') as f:
-              f.setnchannels(2); f.setsampwidth(2); f.setframerate(22050)
-              melody = [392.00, 440.00, 523.25, 659.25, 783.99, 659.25, 523.25, 440.00]
+              f.setnchannels(1); f.setsampwidth(2); f.setframerate(22050)
+              melody = [392.00, 440.00, 523.25, 659.25, 523.25]
               sr = 22050
               frames = []
-              for idx, note in enumerate(melody):
-                  for i in range(int(sr * 0.65)):
+              for note in melody:
+                  for i in range(int(sr * 0.5)):
                       t = i / sr
-                      env = math.exp(-i / (sr * 0.28))
-                      pan = 0.5 + 0.35 * math.sin(idx)
-                      sig = (math.sin(2 * math.pi * note * t) + 0.35 * math.sin(4 * math.pi * note * t)) * env * 4800
-                      frames.append(struct.pack('<hh', int(sig * pan), int(sig * (1.0 - pan))))
+                      env = math.exp(-i / (sr * 0.25))
+                      sig = math.sin(2 * math.pi * note * t) * env * 4500
+                      frames.append(struct.pack('<h', int(sig)))
               f.writeframes(b''.join(frames))
 
-          # 4. Celebration Chimes
+          # 3. Soft Celebration Fanfare
           with wave.open('assets/celebrate.wav', 'w') as f:
-              f.setnchannels(2); f.setsampwidth(2); f.setframerate(22050)
+              f.setnchannels(1); f.setsampwidth(2); f.setframerate(22050)
               fanfare = [523.25, 659.25, 783.99, 1046.50]
               sr = 22050
               frames = []
               for note in fanfare:
-                  for i in range(int(sr * 0.32)):
+                  for i in range(int(sr * 0.25)):
                       t = i / sr
                       env = math.exp(-i / (sr * 0.10))
-                      sig = (math.sin(2 * math.pi * note * t) + 0.4 * math.sin(4 * math.pi * note * t)) * env * 6000
-                      frames.append(struct.pack('<hh', int(sig * 0.8), int(sig * 1.0)))
+                      sig = math.sin(2 * math.pi * note * t) * env * 5500
+                      frames.append(struct.pack('<h', int(sig)))
               f.writeframes(b''.join(frames))
           "
 
-      - name: Build Android Debug APK
+      - name: Build Android APK
         run: |
           buildozer -v android debug
 
