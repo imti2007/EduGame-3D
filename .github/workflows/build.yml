@@ -4,18 +4,17 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-22.04
+    container:
+      image: kivy/buildozer:latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build with Buildozer Container
-        uses: digi-con/buildozer-action@v1
-        with:
-          workdir: .
-          buildozer_version: master
-          command: buildozer -v android debug
+      - name: Build Android App with Buildozer
+        run: |
+          buildozer android debug
 
       - name: Upload Output Package
         uses: actions/upload-artifact@v4
         with:
-          name: app-release-package
+          name: app-package
           path: bin/*
