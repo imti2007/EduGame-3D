@@ -191,7 +191,7 @@ class SafariKidGame(FloatLayout):
         Window.bind(on_resize=self.on_window_resize)
 
     def init_audio(self):
-        music_path = 'assets/soothing_lullaby.mp3'
+        music_path = 'assets/soothing_lullaby.wav'
         if os.path.exists(music_path):
             self.bg_music = SoundLoader.load(music_path)
             if self.bg_music:
@@ -199,7 +199,7 @@ class SafariKidGame(FloatLayout):
                 self.bg_music.volume = 0.3
                 self.bg_music.play()
 
-        sound_path = 'assets/celebrate.mp3'
+        sound_path = 'assets/celebrate.wav'
         if os.path.exists(sound_path):
             self.celebrate_sound = SoundLoader.load(sound_path)
             if self.celebrate_sound:
