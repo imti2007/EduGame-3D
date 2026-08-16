@@ -9,6 +9,7 @@ requirements = python3,kivy
 orientation = all
 
 # Android target specs
+android.permissions = INTERNET
 android.api = 33
 android.minapi = 21
 android.ndk = 25b
