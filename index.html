@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EduBharat 3D AI - Universal CBSE & AI Future Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#1e1b4b',
+                        },
+                        saffron: '#FF9933',
+                        emerald: '#138808',
+                        warmth: '#F59E0B',
+                        ai: '#00E5FF'
+                    },
+                    animation: {
+                        'spin-slow': 'spin 12s linear infinite',
+                        'pulse-glow': 'pulseGlow 2.5s infinite ease-in-out'
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4', filter: 'blur(20px)' },
+                            '50%': { opacity: '0.8', filter: 'blur(30px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.4);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white transition-colors duration-200">
+
+    <div id="app" class="min-h-full flex flex-col">
+        <!-- Top Navigation Header -->
+        <header class="sticky top-0 z-40 glass border-b border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+                
+                <!-- Logo & Brand -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="navigateToHome()">
+                    <div class="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-saffron via-brand-500 to-emerald p-[2px] shadow-md shadow-brand-500/20">
+                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                            <i data-lucide="sparkles" class="w-5 h-5 text-amber-400 animate-pulse"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="font-black text-base sm:text-lg tracking-tight bg-gradient-to-r from-saffron via-brand-500 to-emerald bg-clip-text text-transparent">
+                            EduBharat <span class="text-xs px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/30 font-bold ml-1">3D AI</span>
+                        </h1>
+                        <p class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">CBSE Pre-KG to Class 10 & AI Hub</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex items-center gap-2">
+                    <button onclick="openAiAcademy()" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 text-xs font-bold transition flex items-center gap-1.5">
+                        <i data-lucide="cpu" class="w-4 h-4 text-cyan-500"></i>
+                        <span class="hidden md:inline">AI Academy</span>
+                    </button>
+
+                    <button onclick="openSpecialDoubtHub()" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-xs font-bold transition flex items-center gap-1.5">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-amber-500"></i>
+                        <span class="hidden md:inline">Mitra Doubts</span>
+                    </button>
+
+                    <button onclick="openGrievanceCorner()" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-xs font-bold transition flex items-center gap-1.5">
+                        <i data-lucide="message-square-heart" class="w-4 h-4 text-emerald-500"></i>
+                        <span class="hidden md:inline">Samadhan</span>
+                    </button>
+
+                    <div class="relative">
+                        <select id="languageSelect" onchange="changeLanguage(this.value)" class="text-xs font-semibold bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 pr-6 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer appearance-none">
+                            <option value="en">English</option>
+                            <option value="hi">हिंदी (Hindi)</option>
+                            <option value="bn">বাংলা (Bengali)</option>
+                            <option value="ta">தமிழ் (Tamil)</option>
+                            <option value="te">తెలుగు (Telugu)</option>
+                            <option value="mr">मराठी (Marathi)</option>
+                            <option value="gu">ગુજરાતી (Gujarati)</option>
+                            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+                            <option value="ml">മലയാളം (Malayalam)</option>
+                            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+                            <option value="ur">اردو (Urdu)</option>
+                        </select>
+                        <i data-lucide="globe" class="w-3 h-3 text-slate-400 absolute right-2 top-2.5 pointer-events-none"></i>
+                    </div>
+
+                    <button onclick="toggleTheme()" class="p-2 rounded-lg text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+            <nav id="breadcrumb" class="flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400 overflow-x-auto py-1">
+                <span onclick="navigateToHome()" class="hover:text-brand-600 dark:hover:text-brand-400 cursor-pointer flex items-center gap-1">
+                    <i data-lucide="home" class="w-3.5 h-3.5"></i> Home
+                </span>
+            </nav>
+            <div id="contentArea" class="space-y-6"></div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50 py-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i>
+                    <span><strong>100% Child-Safe & DPDP Act 2023 Compliant:</strong> Zero Tracking • Local Sandboxed Session • Encrypted AI Tutor</span>
+                </div>
+                <div class="flex gap-4 font-semibold">
+                    <span class="hover:underline cursor-pointer" onclick="openGrievanceCorner()">Samadhan Corner</span>
+                    <span class="hover:underline cursor-pointer" onclick="openSpecialDoubtHub()">Mitra Doubts Studio</span>
+                    <span class="hover:underline cursor-pointer" onclick="openAiAcademy()">AI Academy</span>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Grievance & Query Modal -->
+        <div id="grievanceModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-xl rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+                <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50">
+                    <div class="flex items-center gap-2">
+                        <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                            <i data-lucide="message-square-heart" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-slate-900 dark:text-white">Samadhan Corner (Help, Query & Grievance)</h3>
+                            <p class="text-[11px] text-slate-500">We listen with care and resolve your queries with top priority.</p>
+                        </div>
+                    </div>
+                    <button onclick="closeGrievanceCorner()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div class="p-5 space-y-4 text-xs">
+                    <div>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Select Category:</label>
+                        <select id="grievanceCategory" class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2.5 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 font-semibold">
+                            <option value="academic">Academic Concept Difficulty (Need Simpler Step)</option>
+                            <option value="audio_video">3D Visual / Audio Simulation Suggestion</option>
+                            <option value="appreciation">Appreciation & Encouragement Note</option>
+                            <option value="general">General App Query</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Your Helpful Message:</label>
+                        <textarea id="grievanceText" rows="4" placeholder="Tell us how we can help you learn better. Every student is deeply valued..." class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl p-3 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none font-medium"></textarea>
+                    </div>
+
+                    <div id="grievanceSuccess" class="hidden p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        <span>Thank you! Ticket #EB-<span id="ticketNum"></span> generated. Our Mitra team is on it!</span>
+                    </div>
+
+                    <button onclick="submitGrievance()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-2">
+                        <i data-lucide="send" class="w-4 h-4"></i> Submit to Mitra Support Team
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Doubt Clearing Lounge Modal -->
+        <div id="specialDoubtModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
+                <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50">
+                    <div class="flex items-center gap-2">
+                        <div class="p-2 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                            <i data-lucide="smile" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-slate-900 dark:text-white">Mitra Live Doubt Clearing Studio</h3>
+                            <p class="text-[11px] text-slate-500">Zero pressure • Friendly step-by-step guidance • Every doubt is welcome!</p>
+                        </div>
+                    </div>
+                    <button onclick="closeSpecialDoubtHub()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div id="doubtChatArea" class="flex-1 p-4 overflow-y-auto space-y-4 custom-scrollbar text-xs min-h-[280px]">
+                    <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-slate-800 dark:text-slate-200 max-w-[90%] leading-relaxed">
+                        🌟 <strong>Welcome, my dear friend!</strong> There are no wrong questions in learning. Ask me anything from Math, Science, AI, or Financial Literacy!
+                    </div>
+                </div>
+
+                <div class="p-3 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex gap-2">
+                    <input type="text" id="doubtInput" onkeypress="handleDoubtKeyPress(event)" placeholder="Ask your doubt gently (e.g. Can you explain photosynthesis with a fun trick?)..." class="flex-1 text-xs bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 text-slate-800 dark:text-slate-100">
+                    <button onclick="askMitraDoubt()" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs flex items-center justify-center transition">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script Engine -->
+    <script>
+        const apiKey = "";
+
+        // Web Audio Synthesizer Engine
+        let audioCtx = null;
+        function getAudioContext() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
+        }
+
+        function playSound(type) {
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                if (type === 'click') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(550, now);
+                    osc.frequency.exponentialRampToValueAtTime(300, now + 0.08);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'success') {
+                    [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                        gain.gain.setValueAtTime(0.15, now + idx * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.3);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(now + idx * 0.08);
+                        osc.stop(now + idx * 0.08 + 0.3);
+                    });
+                } else if (type === 'ai') {
+                    [440, 554.37, 659.25, 880].forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+                        gain.gain.setValueAtTime(0.12, now + idx * 0.06);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.25);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(now + idx * 0.06);
+                        osc.stop(now + idx * 0.06 + 0.25);
+                    });
+                }
+            } catch (e) {}
+        }
+
+        // Global State
+        let state = {
+            currentLang: 'en',
+            viewMode: 'home',
+            selectedStage: null,
+            selectedSubject: null,
+            selectedTopic: null,
+            liveAiNews: null,
+            isAiNewsLoading: false,
+            ratings: JSON.parse(localStorage.getItem('edubharat_ratings') || '{}')
+        };
+
+        // Dedicated AI Masterclass Academy Curriculum
+        const AI_ACADEMY_CURRICULUM = [
+            {
+                id: 'ai-mod-1',
+                level: 'Level 1: Fundamentals',
+                title: 'What is AI & Smart Thinking Machines?',
+                badge: 'Beginner / All Ages',
+                icon: 'bot',
+                summary: 'How machines learn patterns from data and assist humankind.',
+                content: `🤖 **Welcome to Artificial Intelligence (AI)**\n\nAI means teaching computers to learn from data, make smart decisions, and solve problems like humans do!\n\n**Difference between Regular Software vs. AI:**\n• *Regular Software:* Follows fixed static rules (e.g., a simple calculator).\n• *AI System:* Learns from experience and pattern recognition (e.g., voice assistants, face unlock)!`,
+                trick: '💡 **Short Trick:** **L.D.P.** = Learn from data -> Detect patterns -> Predict answers!',
+                svgType: 'ai-net',
+                quiz: {
+                    question: 'What helps an AI system continuously improve its answers?',
+                    options: ['Learning from Data & Experience', 'Using more plastic parts'],
+                    answer: 0,
+           
