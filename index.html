@@ -10,8 +10,14 @@
         body { user-select: none; -webkit-user-select: none; }
         .glass { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(16px); }
         .cinema-card { background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.18), transparent 75%), #0f172a; }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.4); border-radius: 4px; }
+        .theater-stage { background: radial-gradient(circle at 50% 30%, #1e1b4b 0%, #090d16 100%); }
+        .karaoke-active { color: #facc15; text-shadow: 0 0 16px rgba(250, 204, 21, 0.8); transform: scale(1.08); transition: all 0.3s ease; }
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+        @keyframes swimFish { 0% { transform: translateX(-35px) translateY(0); } 50% { transform: translateX(35px) translateY(-8px) rotate(-3deg); } 100% { transform: translateX(-35px) translateY(0); } }
+        @keyframes pulseMoon { 0%, 100% { filter: drop-shadow(0 0 12px rgba(253, 224, 71, 0.6)); } 50% { filter: drop-shadow(0 0 28px rgba(253, 224, 71, 0.95)); } }
+        .anim-float { animation: floatSlow 4s ease-in-out infinite; }
+        .anim-fish { animation: swimFish 5s ease-in-out infinite; }
+        .anim-moon { animation: pulseMoon 3s ease-in-out infinite; }
     </style>
 </head>
 <body class="h-full bg-slate-950 text-slate-100 font-sans antialiased select-none">
@@ -39,6 +45,11 @@
 
                 <!-- Top Quick Switches -->
                 <div class="flex items-center gap-1.5">
+                    <button onclick="openRegionalRhymesHub()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold transition flex items-center gap-1">
+                        <span>🎵</span>
+                        <span class="hidden md:inline">State Rhymes</span>
+                    </button>
+
                     <!-- Board Selector Dropdown -->
                     <select id="boardSelectTop" onchange="setBoardSegment(this.value)" class="text-xs font-bold bg-slate-900 border border-slate-700 rounded-xl px-2 py-1.5 text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
                         <option value="cbse">CBSE (NCERT)</option>
@@ -86,7 +97,7 @@
         <!-- Footer -->
         <footer class="mt-auto border-t border-slate-800 bg-slate-950 py-4">
             <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400">
-                <span>🛡️ <strong>100% Free & Child-Safe:</strong> NEP 2020 • CBSE • ICSE • All State Boards</span>
+                <span>🛡️ <strong>100% Free & Child-Safe:</strong> NEP 2020 • High-Fidelity Animated Vectors • Zero Tracking</span>
                 <div class="flex gap-4 font-bold">
                     <span class="hover:text-indigo-400 cursor-pointer" onclick="openRegionalRhymesHub()">🎵 State Rhymes</span>
                     <span class="hover:text-amber-400 cursor-pointer" onclick="openSpecialDoubtHub()">💡 Mitra AI Doubts</span>
@@ -100,7 +111,7 @@
                 <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
                     <div>
                         <h3 class="font-bold text-sm text-white">💡 Mitra AI Live Study Assistant</h3>
-                        <p class="text-[11px] text-slate-400">Ask any CBSE, ICSE, or State Board doubt in your mother tongue!</p>
+                        <p class="text-[11px] text-slate-400">Ask any concept doubt in your mother tongue!</p>
                     </div>
                     <button onclick="closeSpecialDoubtHub()" class="p-1.5 rounded-lg text-slate-400 hover:text-white bg-slate-800">✖</button>
                 </div>
@@ -121,8 +132,6 @@
     <script>
         const apiKey = "";
         let audioCtx = null;
-        let ambientBgm = null;
-        let isMusicPlaying = false;
 
         function unlockAudio() {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -131,48 +140,48 @@
         document.addEventListener('touchstart', unlockAudio, { once: true });
         document.addEventListener('click', unlockAudio, { once: true });
 
-        function toggleAmbientMusic() {
+        // Musical scale melody generator (Sweet flute/xylophone chime tone)
+        function playMusicalMelody(tuneType) {
             unlockAudio();
-            if (isMusicPlaying) {
-                if (ambientBgm) {
-                    ambientBgm.forEach(function(item) {
-                        try {
-                            item.gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
-                            setTimeout(function() { item.osc.stop(); }, 500);
-                        } catch (e) {}
-                    });
-                    ambientBgm = null;
-                }
-                isMusicPlaying = false;
-                updateBgmButtonUI(false);
-                return;
-            }
             try {
-                isMusicPlaying = true;
                 const now = audioCtx.currentTime;
-                const freqs = [216, 270, 324, 432];
-                ambientBgm = [];
-                freqs.forEach(function(f) {
+                const melodies = {
+                    'rhyme': [
+                        { f: 523.25, d: 0.22 },
+                        { f: 587.33, d: 0.22 },
+                        { f: 659.25, d: 0.30 },
+                        { f: 523.25, d: 0.22 },
+                        { f: 659.25, d: 0.28 },
+                        { f: 783.99, d: 0.45 }
+                    ],
+                    'lecture': [
+                        { f: 440.00, d: 0.18 },
+                        { f: 554.37, d: 0.18 },
+                        { f: 659.25, d: 0.35 }
+                    ]
+                };
+
+                const notes = melodies[tuneType] || melodies['rhyme'];
+                let offset = 0;
+
+                notes.forEach(note => {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(f, now);
-                    gain.gain.setValueAtTime(0.012, now);
-                    gain.gain.linearRampToValueAtTime(0.025, now + 3);
+
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(note.f, now + offset);
+
+                    gain.gain.setValueAtTime(0.08, now + offset);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + offset + note.d);
+
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
-                    osc.start(now);
-                    ambientBgm.push({ osc: osc, gain: gain });
-                });
-                updateBgmButtonUI(true);
-            } catch (e) {}
-        }
 
-        function updateBgmButtonUI(playing) {
-            const btn = document.getElementById('bgmToggleBtn');
-            if (btn) {
-                btn.innerHTML = playing ? '🎵 Ambient Sound: Playing' : '🔇 Ambient Sound: Off';
-            }
+                    osc.start(now + offset);
+                    osc.stop(now + offset + note.d);
+                    offset += note.d * 0.85;
+                });
+            } catch (e) {}
         }
 
         function playSound(type) {
@@ -185,14 +194,14 @@
                 if (type === 'click') {
                     osc.frequency.setValueAtTime(550, now);
                     osc.frequency.exponentialRampToValueAtTime(300, now + 0.08);
-                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.setValueAtTime(0.10, now);
                     gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
                     osc.connect(gain); gain.connect(audioCtx.destination);
                     osc.start(now); osc.stop(now + 0.08);
                 } else if (type === 'success') {
                     osc.frequency.setValueAtTime(523.25, now);
                     osc.frequency.exponentialRampToValueAtTime(1046.50, now + 0.25);
-                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.setValueAtTime(0.12, now);
                     gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
                     osc.connect(gain); gain.connect(audioCtx.destination);
                     osc.start(now); osc.stop(now + 0.25);
@@ -200,7 +209,8 @@
             } catch (e) {}
         }
 
-        function speakLecture(text, explicitLang) {
+        // Natural Human Voice Speech Synthesizer with Karaoke Boundary Tracking
+        function speakLecture(text, explicitLang, onWordCallback) {
             if (!('speechSynthesis' in window)) return;
             window.speechSynthesis.cancel();
             const cleanText = text.replace(/[*_#$`]/g, '');
@@ -212,557 +222,132 @@
                 'ml': 'ml-IN', 'pa': 'pa-IN', 'ur': 'ur-PK'
             };
             utterance.lang = langMap[explicitLang || state.currentLang] || 'en-IN';
-            utterance.rate = 0.90;
+            
+            const voices = window.speechSynthesis.getVoices();
+            const preferred = voices.find(v => (v.lang === utterance.lang || v.lang.startsWith(utterance.lang.split('-')[0])) && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Neural') || v.name.includes('India')));
+            if (preferred) utterance.voice = preferred;
+
+            utterance.rate = 0.88;
+            utterance.pitch = 1.02;
+
+            if (onWordCallback) {
+                utterance.onboundary = function(event) {
+                    if (event.name === 'word') {
+                        onWordCallback(event.charIndex);
+                    }
+                };
+            }
+
             window.speechSynthesis.speak(utterance);
         }
 
-        const REGIONAL_RHYMES_DATA = [{"id": "rhyme-or-1", "lang": "or", "langName": "Odia (\u0b13\u0b21\u0b3c\u0b3f\u0b06)", "title": "\u0b2c\u0b3e\u0b06 \u0b2c\u0b3e\u0b06 \u0b30\u0b47 \u0b2c\u0b3e\u0b06\u0b33\u0b3f\u0b06 (Baa Baa Re Baalia)", "meaning": "Traditional Odia Boatman & River Song", "lyrics": "\u0b2c\u0b3e\u0b06 \u0b2c\u0b3e\u0b06 \u0b30\u0b47 \u0b2c\u0b3e\u0b06\u0b33\u0b3f\u0b06,\n\u0b28\u0b08 \u0b15\u0b42\u0b33\u0b47 \u0b2b\u0b41\u0b1f\u0b3f\u0b1b\u0b3f \u0b2e\u0b32\u0b4d\u0b32\u0b40 \u0b15\u0b22\u0b3c\u0b3f\u0b06!\n\u0b2e\u0b3e\u0b09\u0b38\u0b40 \u0b18\u0b30\u0b15\u0b41 \u0b2f\u0b3f\u0b2c\u0b3e \u0b06\u0b2e\u0b47,\n\u0b17\u0b30\u0b2e \u0b17\u0b30\u0b2e \u0b2a\u0b3f\u0b20\u0b3e \u0b16\u0b3e\u0b07\u0b2c\u0b3e \u0b15\u0b3e\u0b2e\u0b47! \u26f5", "svgAnimation": "fish"}, {"id": "rhyme-or-2", "lang": "or", "langName": "Odia (\u0b13\u0b21\u0b3c\u0b3f\u0b06)", "title": "\u0b1a\u0b15\u0b3e \u0b1a\u0b15\u0b3e \u0b2d\u0b09\u0b01\u0b30\u0b40 (Chaka Chaka Bhaunri)", "meaning": "Traditional Odia Children Whirlpool Dance", "lyrics": "\u0b1a\u0b15\u0b3e \u0b1a\u0b15\u0b3e \u0b2d\u0b09\u0b01\u0b30\u0b40, \u0b2e\u0b3e\u0b2e\u0b41\u0b01 \u0b18\u0b30 \u0b1a\u0b09\u0b01\u0b30\u0b40!\n\u0b2e\u0b3e\u0b2e\u0b41\u0b01 \u0b17\u0b32\u0b47 \u0b15\u0b3e\u0b2e\u0b15\u0b41, \u0b2e\u0b3e\u0b07\u0b01 \u0b26\u0b47\u0b32\u0b47 \u0b16\u0b3e\u0b07\u0b2c\u0b3e\u0b15\u0b41! \ud83d\udc83", "svgAnimation": "dance"}, {"id": "rhyme-as-1", "lang": "as", "langName": "Assamese (\u0985\u09b8\u09ae\u09c0\u09af\u09bc\u09be)", "title": "\u099c\u09cb\u09a8\u09ac\u09be\u0987 \u098f \u098f\u099f\u09bf \u09a4\u09f0\u09be \u09a6\u09bf\u09af\u09bc\u09be (Jonbai E Eti Tora Diya)", "meaning": "Dear Moon, Give Me a Twinkling Star", "lyrics": "\u099c\u09cb\u09a8\u09ac\u09be\u0987 \u098f \u098f\u099f\u09bf \u09a4\u09f0\u09be \u09a6\u09bf\u09af\u09bc\u09be,\n\u0995\u09be\u09a3\u09a4 \u09aa\u09bf\u09a8\u09cd\u09a7\u09bf\u09ae \u09ae\u0987 \u09b8\u09cb\u09a3\u09f0 \u09b9\u09c0\u09f0\u09be!\n\u0986\u0987\u09a4\u09be \u0986\u09b9\u09bf\u09b2\u09c7 \u09aa\u09bf\u09a0\u09be \u0996\u09be\u09ae,\n\u09ae\u0987 \u09ae\u09be\u09ae\u09be\u09f0 \u0998\u09f0\u09b2\u09c8 \u09af\u09be\u09ae! \ud83c\udf19", "svgAnimation": "moon"}, {"id": "rhyme-bho-1", "lang": "bho", "langName": "Bihari (\u092d\u094b\u091c\u092a\u0941\u0930\u0940)", "title": "\u091a\u0902\u0926\u093e \u092e\u093e\u092e\u093e \u0906\u0930\u0947 \u0906\u0935\u093e (Chanda Mama Aare Aawa)", "meaning": "Come Moon Uncle with Sweet Kheer", "lyrics": "\u091a\u0902\u0926\u093e \u092e\u093e\u092e\u093e \u0906\u0930\u0947 \u0906\u0935\u093e, \u092a\u093e\u0930\u0947 \u0906\u0935\u093e,\n\u0928\u0926\u093f\u092f\u093e \u0915\u093f\u0928\u093e\u0930\u0947 \u0906\u0935\u093e!\n\u092c\u092c\u0941\u0906 \u0915\u0947 \u0926\u093f\u0939\u093c\u0970 \u092e\u0940\u0920\u0940 \u0916\u0940\u0930,\n\u0938\u0902\u0917\u0947 \u0916\u0947\u0932\u093f\u0939\u0947\u0902 \u0930\u093e\u091c\u093e \u0935\u0940\u0930! \ud83c\udf19", "svgAnimation": "moon"}, {"id": "rhyme-ne-1", "lang": "ne", "langName": "Nepali (\u0928\u0947\u092a\u093e\u0932\u0940)", "title": "\u0918\u093e\u092e \u092a\u093e\u0928\u0940 \u0918\u093e\u092e \u092a\u093e\u0928\u0940 (Gham Pani Gham Pani)", "meaning": "Sunshine and Rain in the Mountains", "lyrics": "\u0918\u093e\u092e \u092a\u093e\u0928\u0940 \u0918\u093e\u092e \u092a\u093e\u0928\u0940, \u0938\u094d\u092f\u093e\u0932\u0915\u094b \u092c\u093f\u0939\u0947,\n\u0921\u093e\u0901\u0921\u093e \u092e\u093e\u0925\u093f \u091a\u0930\u093e \u0928\u093e\u091a\u0947, \u092c\u093e\u0926\u0932 \u0906\u092f\u094b \u0928\u0940\u0932\u0947!\n\u0907\u0928\u094d\u0926\u094d\u0930\u0947\u0923\u0940 \u092a\u0930\u094d\u092f\u094b \u0906\u0915\u093e\u0936\u0948 \u092d\u0930\u0940,\n\u0939\u093e\u092e\u0940 \u0928\u093e\u091a\u094c\u0902 \u091b\u092e\u091b\u092e\u0940 \u0918\u0930\u0940! \ud83c\udf08", "svgAnimation": "moon"}, {"id": "rhyme-hi-1", "lang": "hi", "langName": "Hindi (\u0939\u093f\u0902\u0926\u0940)", "title": "\u092e\u091b\u0932\u0940 \u091c\u0932 \u0915\u0940 \u0930\u093e\u0928\u0940 \u0939\u0948 (Machhli Jal Ki Rani)", "meaning": "Fish is Queen of Waters", "lyrics": "\u092e\u091b\u0932\u0940 \u091c\u0932 \u0915\u0940 \u0930\u093e\u0928\u0940 \u0939\u0948, \u091c\u0940\u0935\u0928 \u0909\u0938\u0915\u093e \u092a\u093e\u0928\u0940 \u0939\u0948!\n\u0939\u093e\u0925 \u0932\u0917\u093e\u0913 \u0924\u094b \u0921\u0930 \u091c\u093e\u090f\u0917\u0940, \u092c\u093e\u0939\u0930 \u0928\u093f\u0915\u093e\u0932\u094b \u0924\u094b \u092e\u0930 \u091c\u093e\u090f\u0917\u0940!\n\u092a\u093e\u0928\u0940 \u092e\u0947\u0902 \u0921\u093e\u0932\u094b \u0924\u094b \u0924\u0948\u0930 \u091c\u093e\u090f\u0917\u0940! \ud83d\udc1f", "svgAnimation": "fish"}, {"id": "rhyme-bn-1", "lang": "bn", "langName": "Bengali (\u09ac\u09be\u0982\u09b2\u09be)", "title": "\u099a\u09be\u0981\u09a6 \u0989\u09a0\u09c7\u099b\u09c7 \u09ab\u09c1\u09b2 \u09ab\u09c1\u099f\u09c7\u099b\u09c7 (Chand Utheche Phul Phuteche)", "meaning": "Moon Risen and Flowers Bloomed", "lyrics": "\u099a\u09be\u0981\u09a6 \u0989\u09a0\u09c7\u099b\u09c7 \u09ab\u09c1\u09b2 \u09ab\u09c1\u099f\u09c7\u099b\u09c7 \u0995\u09a6\u09ae \u09a4\u09b2\u09be\u09af\u09bc \u0995\u09c7?\n\u09b9\u09be\u09a4\u09bf \u09a8\u09be\u099a\u099b\u09c7 \u0998\u09cb\u09a1\u09bc\u09be \u09a8\u09be\u099a\u099b\u09c7 \u09b8\u09cb\u09a8\u09be\u09ae\u09a3\u09bf\u09b0 \u09ac\u09c7! \ud83c\udf19", "svgAnimation": "moon"}, {"id": "rhyme-ta-1", "lang": "ta", "langName": "Tamil (\u0ba4\u0bae\u0bbf\u0bb4\u0bcd)", "title": "\u0ba4\u0bcb\u0b9a\u0bc8 \u0b85\u0bae\u0bcd\u0bae\u0bbe \u0ba4\u0bcb\u0b9a\u0bc8 (Dosai Amma Dosai)", "meaning": "Mother's Crispy Hot Dosas", "lyrics": "\u0ba4\u0bcb\u0b9a\u0bc8 \u0b85\u0bae\u0bcd\u0bae\u0bbe \u0ba4\u0bcb\u0b9a\u0bc8, \u0b9a\u0bc1\u0b9f\u0b9a\u0bcd \u0b9a\u0bc1\u0b9f\u0ba4\u0bcd \u0ba4\u0bcb\u0b9a\u0bc8!\n\u0b85\u0bae\u0bcd\u0bae\u0bbe \u0ba4\u0ba8\u0bcd\u0ba4 \u0ba4\u0bcb\u0b9a\u0bc8, \u0b85\u0baa\u0bcd\u0baa\u0bbe\u0b95\u0bcd\u0b95\u0bc1 \u0ba8\u0bbe\u0ba9\u0bcd\u0b95\u0bc1,\n\u0b85\u0bae\u0bcd\u0bae\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 \u0bae\u0bc2\u0ba9\u0bcd\u0bb1\u0bc1, \u0b85\u0ba3\u0bcd\u0ba3\u0ba9\u0bc1\u0b95\u0bcd\u0b95\u0bc1 \u0b87\u0bb0\u0ba3\u0bcd\u0b9f\u0bc1,\n\u0baa\u0bbe\u0baa\u0bcd\u0baa\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 \u0b92\u0ba9\u0bcd\u0bb1\u0bc1! \ud83e\udd5e", "svgAnimation": "dosa"}, {"id": "rhyme-en-1", "lang": "en", "langName": "English", "title": "Twinkle Twinkle Little Star", "meaning": "Cosmic Wonder Song", "lyrics": "Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky! \u2728", "svgAnimation": "moon"}];
-        const NEP_CURRICULUM_DATA = {"cbse": [{"id": "foundational", "name": "Foundational Stage (Pre-KG to Class 2)", "badge": "Ages 3-8 \u2022 NEP Foundational", "icon": "smile", "subjects": [{"id": "rhymes-kg", "name": "Nursery Rhymes & Phonics", "icon": "music", "chapters": [{"id": "r-ch1", "title": "Sunshine & Alphabet Sounds", "topics": [{"id": "top-r1", "title": "The Shining Sun Song", "summary": "Learn how our closest star brings warmth and life to nature.", "lecture": "The Sun is our planet's friendly glowing star! Every morning, golden sunlight wakes up plants and tells flowers it is time to bloom. Sunlight gives birds energy to sing and helps our bodies create healthy Vitamin D!\n\nWhen we wake up early and stretch under gentle morning rays, our minds feel calm, focused, and full of positive energy.", "trick": "Stretch your arms wide like sunshine beams every morning!", "svgType": "sun", "quiz": {"question": "What wonderful star gives warmth, light, and energy to planet Earth?", "options": ["The Bright Sun", "A Flashlight Bulb"], "answer": 0, "praise": "Brilliant! The Sun gives life to our whole planet!"}}]}]}, {"id": "fin-kg", "name": "Junior Financial Literacy", "icon": "piggy-bank", "chapters": [{"id": "f-ch1", "title": "The Magic Savings Jar", "topics": [{"id": "top-fk1", "title": "Saving Coins Patiently", "summary": "Discover how daily saved coins grow with patience.", "lecture": "Imagine having a small magic seed that grows bigger every day. That is what saving coins is like! When you receive a coin and drop it into your savings jar instead of spending it on instant candy, you are practicing delayed gratification.\n\nOver weeks and months, those coins add up, allowing you to buy your favorite book!", "trick": "Drop one coin into your jar every evening with a grateful thought!", "svgType": "money", "quiz": {"question": "What superpower does saving daily coins in a piggy bank teach us?", "options": ["Patience & Mindful Saving", "Wasting money quickly"], "answer": 0, "praise": "Super decision-making! You are so wise!"}}]}]}]}, {"id": "preparatory", "name": "Preparatory Stage (Classes 3 to 5)", "badge": "Ages 8-11 \u2022 NEP Preparatory", "icon": "compass", "subjects": [{"id": "math-35", "name": "Mathematics & Vedic Tricks", "icon": "calculator", "chapters": [{"id": "m35-ch1", "title": "Speed Multiplication Tricks", "topics": [{"id": "top-m35", "title": "Multiply Any 2-Digit Number by 11", "summary": "Master instant mental calculations without paper or pencil.", "lecture": "Ancient Vedic Math shortcuts let you solve multi-digit multiplication in 2 seconds flat!\n\nThe 3-Step Formula for 43 x 11:\n1. Separate the digits: 4 [ ? ] 3\n2. Add the two digits: 4 + 3 = 7\n3. Place the sum in the middle: 473!\n\nIf the sum is 10 or greater (e.g. 85 x 11: 8 + 5 = 13), keep 3 in the middle and carry 1 to the first digit to get 935!", "trick": "Split -> Sum -> Slot in the middle!", "svgType": "physics", "quiz": {"question": "What is 53 x 11 calculated using the Vedic mental method?", "options": ["583", "530", "593"], "answer": 0, "praise": "Lightning fast calculation! You solved it in seconds!"}}]}]}, {"id": "sci-35", "name": "General Science & Astronomy", "icon": "globe-2", "chapters": [{"id": "s35-ch1", "title": "Our Solar System & Mars", "topics": [{"id": "top-s35", "title": "Planets & The Wonder of Mars", "summary": "Tour the eight planetary wonders orbiting our Sun.", "lecture": "Our solar system is a cosmic dance where eight planets orbit our giant Sun. Inner rocky planets (Mercury, Venus, Earth, Mars) are followed by gas giants (Jupiter, Saturn) and ice giants (Uranus, Neptune).\n\nMars is called the Red Planet because iron-rich oxide minerals cover its surface dust, giving it a rusty crimson color in the sky.", "trick": "My Very Energetic Mother Just Served Us Nachos!", "svgType": "planets", "quiz": {"question": "Why does Mars glow with its distinctive reddish hue?", "options": ["Iron-rich Oxide Minerals in Soil", "Red paint from space"], "answer": 0, "praise": "Astrophysics Explorer status achieved! Superb knowledge!"}}]}]}]}, {"id": "middle", "name": "Middle Stage (Classes 6 to 8)", "badge": "Ages 11-14 \u2022 NEP Middle", "icon": "atom", "subjects": [{"id": "phy-68", "name": "Physics & Everyday Optics", "icon": "zap", "chapters": [{"id": "p68-ch1", "title": "Light & The Laws of Reflection", "topics": [{"id": "top-p68", "title": "Laws of Reflection Made Simple", "summary": "Understand the geometric symmetry behind reflections and mirrors.", "lecture": "When a ray of light strikes a smooth reflective plane mirror, it obeys precise geometric laws:\n\n1. The Angle of Incidence (i) is always equal to the Angle of Reflection (r): Angle i = Angle r.\n\n2. The incident ray, the reflected ray, and the normal line all lie in the exact same plane.", "trick": "What strikes at 30 degrees bounces out at 30 degrees!", "svgType": "physics", "quiz": {"question": "If a beam of light strikes a smooth mirror at 45 degrees, what is the reflected angle?", "options": ["45 degrees", "90 degrees", "0 degrees"], "answer": 0, "praise": "Outstanding scientific precision! You master optics with ease!"}}]}]}, {"id": "fin-68", "name": "Banking & Cyber Protection", "icon": "shield-alert", "chapters": [{"id": "f68-ch1", "title": "Simple Interest & Digital Security", "topics": [{"id": "top-f68", "title": "Simple Interest & Guarding Your PIN", "summary": "Learn how savings grow and how to safeguard against fraud.", "lecture": "When money is deposited into a bank, it earns interest over time.\n\nSimple Interest Formula: SI = (P x R x T) / 100\nWhere P is Principal, R is Rate per year, and T is Time in years.\n\nNever share your OTP, password, or UPI PIN with anyone over phone calls. Genuine banks never ask for your confidential codes!", "trick": "Private PIN = Protected Peace of Mind!", "svgType": "money", "quiz": {"question": "What is the safest practice regarding your banking OTP and PINs?", "options": ["Keep them 100% private to yourself", "Share them over phone calls"], "answer": 0, "praise": "Brilliant digital guardian! You protect your family's hard-earned money!"}}]}]}]}, {"id": "secondary", "name": "Secondary Stage (Classes 9 & 10)", "badge": "Ages 14-16 \u2022 Board Prep", "icon": "award", "subjects": [{"id": "phy-910", "name": "Class 9-10 Physics (NCERT)", "icon": "activity", "chapters": [{"id": "p910-ch1", "title": "Electricity & Ohm's Law", "topics": [{"id": "top-ohms", "title": "Ohm's Law with the VIR Triangle", "summary": "Master Voltage, Current, and Resistance relationships.", "lecture": "Ohm's Law states that at constant temperature, current (I) flowing through a conductor is directly proportional to the potential difference (V) across it:\n\nV = I x R\n\nWhere R is the constant Resistance measured in Ohms.\n\nUse the VIR Triangle: Cover the unknown letter to get its formula! V = I x R, I = V / R, and R = V / I.", "trick": "Put V at the top, I and R at the bottom!", "svgType": "physics", "quiz": {"question": "If voltage V = 12 Volts and resistance R = 4 Ohms, what is Current I?", "options": ["3 Amperes", "48 Amperes", "8 Amperes"], "answer": 0, "praise": "Genius level circuit solving! CBSE Board exams will be a breeze for you!"}}]}]}, {"id": "fin-910", "name": "The 50/30/20 Wealth Framework", "icon": "trending-up", "chapters": [{"id": "f910-ch1", "title": "Mindful Budgeting for Life", "topics": [{"id": "top-ci", "title": "The 50/30/20 Balanced Living Rule", "summary": "Budgeting income for stress-free living and wealth.", "lecture": "The 50/30/20 allocation rule provides a clear financial roadmap:\n\n1. 50% for Needs: Essential groceries, shelter, school books.\n2. 30% for Wants: Recreation, family treats, hobbies.\n3. 20% for Savings: Building emergency funds and compound investments.\n\nSave your 20% first to secure your future freedom!", "trick": "Pay your 20% future savings first, then enjoy the rest stress-free!", "svgType": "money", "quiz": {"question": "Under the 50/30/20 rule, what percentage is dedicated to future savings?", "options": ["20%", "80%", "0%"], "answer": 0, "praise": "Future Leader! You possess top-tier financial intelligence!"}}]}]}]}]};
-
-        let state = {
-            currentLang: 'en',
-            selectedBoard: 'cbse',
-            viewMode: 'home',
-            selectedStage: null,
-            selectedSubject: null,
-            selectedTopic: null,
-            selectedRhyme: null,
-            selectedRhymeFilter: 'all',
-            ratings: JSON.parse(localStorage.getItem('edubharat_ratings') || '{}')
-        };
-
-        function navigateToHome() {
-            playSound('click');
-            state.viewMode = 'home';
-            state.selectedStage = null;
-            state.selectedRhyme = null;
-            render();
-        }
-
-        function setBoardSegment(boardKey) {
-            playSound('click');
-            state.selectedBoard = boardKey;
-            const names = {
-                'cbse': 'CBSE (NCERT)',
-                'icse': 'ICSE / CISCE',
-                'state_or': 'Odisha Board',
-                'state_mh': 'Maharashtra Board',
-                'state_up': 'UP Board',
-                'state_wb': 'West Bengal Board',
-                'state_tn': 'Tamil Nadu Board',
-                'state_ka': 'Karnataka Board'
-            };
-            const pill = document.getElementById('currentBoardPill');
-            if (pill) pill.innerText = names[boardKey] || 'CBSE';
-            const topSelect = document.getElementById('boardSelectTop');
-            if (topSelect) topSelect.value = boardKey;
-            render();
-        }
-
-        function openRegionalRhymesHub() {
-            playSound('click');
-            state.viewMode = 'regional_rhymes';
-            render();
-        }
-
-        function setRhymeFilter(langCode) {
-            playSound('click');
-            state.selectedRhymeFilter = langCode;
-            render();
-        }
-
-        function launchRhymeTheater(rhymeId) {
-            playSound('click');
-            const found = REGIONAL_RHYMES_DATA.find(function(r) { return r.id === rhymeId; }) || REGIONAL_RHYMES_DATA[0];
-            state.selectedRhyme = found;
-            state.viewMode = 'rhyme_theater';
-            render();
-            setTimeout(function() {
-                speakLecture(found.lyrics, found.lang);
-            }, 300);
-        }
-
-        function playCurrentRhymeVoice() {
-            if (state.selectedRhyme) {
-                speakLecture(state.selectedRhyme.lyrics, state.selectedRhyme.lang);
+        const REGIONAL_RHYMES_DATA = [
+            {
+                id: "rhyme-or-1",
+                lang: "or",
+                langName: "Odia (ଓଡ଼ିଆ)",
+                title: "ବାଆ ବାଆ ରେ ବାଆଳିଆ (Baa Baa Re Baalia)",
+                meaning: "Traditional Odia Boatman & River Song",
+                lyrics: "ବାଆ ବାଆ ରେ ବାଆଳିଆ,\nନଈ କୂଳେ ଫୁଟିଛି ମଲ୍ଲୀ କଢ଼ିଆ!\nମାଉସୀ ଘରକୁ ଯିବା ଆମେ,\nଗରମ ଗରମ ପିଠା ଖାଇବା କାମେ! ⛵",
+                svgAnimation: "fish"
+            },
+            {
+                id: "rhyme-as-1",
+                lang: "as",
+                langName: "Assamese (অসমীয়া)",
+                title: "জোনবাই ଏ এটি তৰা দিয়া (Jonbai E Eti Tora Diya)",
+                meaning: "Dear Moon, Give Me a Twinkling Star",
+                lyrics: "জোনবাই এ এটি তৰা দিয়া,\nকাণত পিন্ধিম মই সোণৰ হীৰা!\nআইতা আহিলে পিঠা খাম,\nমই মামাৰ ঘৰলৈ যাম! 🌙",
+                svgAnimation: "moon"
+            },
+            {
+                id: "rhyme-bho-1",
+                lang: "bho",
+                langName: "Bihari (भोजपुरी)",
+                title: "चंदा मामा आरे आवा (Chanda Mama Aare Aawa)",
+                meaning: "Come Moon Uncle with Sweet Kheer",
+                lyrics: "चंदा मामा आरे आवा, पारे आवा,\nनदिया किनारे आवा!\nबबुआ के दिहऽ मीठी खीर,\nसंगे खेलिहें राजा वीर! 🌙",
+                svgAnimation: "moon"
+            },
+            {
+                id: "rhyme-ne-1",
+                lang: "ne",
+                langName: "Nepali (नेपाली)",
+                title: "घाम पानी घाम पानी (Gham Pani Gham Pani)",
+                meaning: "Sunshine and Rain in the Mountains",
+                lyrics: "घाम पानी घाम पानी, स्यालको बिहे,\nडाँडा माथि चरा नाचे, बादल आयो नीले!\nइन्द्रेणी पर्यो आकाशै भरी,\nहामी नाचौं छमछमी घरी! 🌈",
+                svgAnimation: "moon"
+            },
+            {
+                id: "rhyme-hi-1",
+                lang: "hi",
+                langName: "Hindi (हिंदी)",
+                title: "मछली जल की रानी है (Machhli Jal Ki Rani)",
+                meaning: "Fish is Queen of Waters",
+                lyrics: "मछली जल की रानी है, जीवन उसका पानी है!\nहाथ लगाओ तो डर जाएगी, बाहर निकालो तो मर जाएगी!\nपानी में डालो तो तैर जाएगी! 🐟",
+                svgAnimation: "fish"
+            },
+            {
+                id: "rhyme-bn-1",
+                lang: "bn",
+                langName: "Bengali (বাংলা)",
+                title: "চাঁদ উঠেছে ফুল ফুটেছে (Chand Utheche Phul Phuteche)",
+                meaning: "Moon Risen and Flowers Bloomed",
+                lyrics: "চাঁদ উঠেছে ফুল ফুটেছে কদম তলায় কে?\nহাতি নাচছে ঘোড়া নাচছে সোনামণির বে! 🌙",
+                svgAnimation: "moon"
+            },
+            {
+                id: "rhyme-ta-1",
+                lang: "ta",
+                langName: "Tamil (தமிழ்)",
+                title: "தோசை அம்மா தோசை (Dosai Amma Dosai)",
+                meaning: "Mother's Crispy Hot Dosas",
+                lyrics: "தோசை அம்மா தோசை, சுடச் சுடத் தோசை!\nஅம்மா தந்த தோசை, அப்பாக்கு நான்கு,\nஅம்மாவுக்கு மூன்று, அண்ணனுக்கு இரண்டு,\nபாப்பாவுக்கு ஒன்று! 🥞",
+                svgAnimation: "dosa"
+            },
+            {
+                id: "rhyme-en-1",
+                lang: "en",
+                langName: "English",
+                title: "Twinkle Twinkle Little Star",
+                meaning: "Cosmic Wonder Song",
+                lyrics: "Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky! ✨",
+                svgAnimation: "moon"
             }
-        }
+        ];
 
-        function selectStage(stageId) {
-            playSound('click');
-            const stages = NEP_CURRICULUM_DATA.cbse;
-            state.selectedStage = stages.find(function(s) { return s.id === stageId; }) || stages[0];
-            state.selectedSubject = state.selectedStage.subjects[0];
-            state.selectedTopic = null;
-            state.viewMode = 'cbse_stage';
-            render();
-        }
-
-        function selectSubject(subId) {
-            playSound('click');
-            state.selectedSubject = state.selectedStage.subjects.find(function(s) { return s.id === subId; });
-            state.selectedTopic = null;
-            render();
-        }
-
-        function selectTopic(topicId) {
-            playSound('click');
-            for (let i = 0; i < state.selectedStage.subjects.length; i++) {
-                const sub = state.selectedStage.subjects[i];
-                for (let j = 0; j < sub.chapters.length; j++) {
-                    const ch = sub.chapters[j];
-                    const t = ch.topics.find(function(top) { return top.id === topicId; });
-                    if (t) {
-                        state.selectedTopic = t;
-                        state.selectedSubject = sub;
-                        break;
-                    }
-                }
-            }
-            render();
-            setTimeout(function() {
-                if (state.selectedTopic) {
-                    speakLecture(state.selectedTopic.title + '. ' + state.selectedTopic.lecture);
-                }
-            }, 400);
-        }
-
-        function playCurrentTopicVoice() {
-            if (state.selectedTopic) {
-                speakLecture(state.selectedTopic.title + '. ' + state.selectedTopic.lecture);
-            }
-        }
-
-        function navigateToTopic(top) {
-            playSound('click');
-            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-            state.selectedTopic = null;
-            render();
-        }
-
-        function changeLanguage(langCode) {
-            state.currentLang = langCode;
-            const topSelect = document.getElementById('langSelectTop');
-            if (topSelect) topSelect.value = langCode;
-            playSound('click');
-            render();
-        }
-
-        function checkQuizAnswer(chosenIdx, correctIdx, praiseMsg) {
-            const feedback = document.getElementById('quizFeedback');
-            feedback.classList.remove('hidden', 'bg-emerald-500/20', 'text-emerald-300', 'bg-amber-500/20', 'text-amber-300');
-
-            if (chosenIdx === correctIdx) {
-                playSound('success');
-                feedback.classList.add('bg-emerald-500/20', 'text-emerald-300', 'border', 'border-emerald-500/40');
-                feedback.innerHTML = '🎉 Wonderful! ' + praiseMsg;
-                speakLecture(praiseMsg);
-            } else {
-                playSound('click');
-                feedback.classList.add('bg-amber-500/20', 'text-amber-300', 'border', 'border-amber-500/40');
-                feedback.innerHTML = '🌟 You are so close! Try reviewing the short trick above!';
-                speakLecture('You are so close! Try reviewing the short trick above!');
-            }
-        }
-
-        function rateTopic(topicId, stars) {
-            playSound('success');
-            state.ratings[topicId] = stars;
-            localStorage.setItem('edubharat_ratings', JSON.stringify(state.ratings));
-            render();
-        }
-
-        function openSpecialDoubtHub() {
-            playSound('click');
-            document.getElementById('specialDoubtModal').classList.remove('hidden');
-        }
-
-        function closeSpecialDoubtHub() {
-            playSound('click');
-            document.getElementById('specialDoubtModal').classList.add('hidden');
-        }
-
-        function askMitraDoubt() {
-            const input = document.getElementById('doubtInput');
-            const chatArea = document.getElementById('doubtChatArea');
-            const question = input.value.trim();
-            if (!question) return;
-            playSound('click');
-
-            chatArea.innerHTML += '<div class="p-3 rounded-xl bg-indigo-600 text-white ml-auto max-w-[85%] shadow-sm text-xs font-medium">' + escapeHtml(question) + '</div>';
-            input.value = '';
-            chatArea.scrollTop = chatArea.scrollHeight;
-
-            const loadingId = 'loading-' + Date.now();
-            chatArea.innerHTML += '<div id="' + loadingId + '" class="p-3 rounded-xl bg-slate-800 text-slate-400 flex items-center gap-2 max-w-[85%] text-xs">Thinking gently with care...</div>';
-            chatArea.scrollTop = chatArea.scrollHeight;
-
-            const simulatedResponse = "🌟 Excellent question! Every concept becomes easy when you break it into step-by-step logic. Remember to practice daily and test your knowledge in our interactive mastery arena!";
-            setTimeout(function() {
-                const el = document.getElementById(loadingId);
-                if (el) el.remove();
-                chatArea.innerHTML += '<div class="p-3.5 rounded-xl bg-slate-800 text-slate-200 max-w-[88%] space-y-2 border border-slate-700 text-xs leading-relaxed"><div class="font-bold text-amber-400 flex items-center justify-between"><span>💡 Mitra Answer:</span></div><div>' + simulatedResponse + '</div></div>';
-                chatArea.scrollTop = chatArea.scrollHeight;
-                playSound('success');
-                speakLecture(simulatedResponse);
-            }, 1000);
-        }
-
-        function escapeHtml(str) {
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-
-        function renderAnimatedSvg(type) {
-            if (type === 'fish') {
-                return '<svg viewBox="0 0 200 140" class="w-48 h-32 animate-float"><ellipse cx="90" cy="70" rx="55" ry="32" fill="#FF7043" /><polygon points="140,70 180,40 180,100" fill="#FF5722" /><circle cx="65" cy="62" r="7" fill="#FFFFFF" /><circle cx="63" cy="62" r="3.5" fill="#000000" /><circle cx="35" cy="40" r="5" fill="#80D8FF" opacity="0.8" /></svg>';
-            } else if (type === 'moon') {
-                return '<svg viewBox="0 0 200 140" class="w-48 h-32 animate-float"><path d="M110 25 A 45 45 0 1 0 110 115 A 35 35 0 1 1 110 25 Z" fill="#FFD54F" /><circle cx="60" cy="40" r="2.5" fill="#FFF" /><circle cx="150" cy="30" r="3" fill="#FFF" /></svg>';
-            } else if (type === 'dosa') {
-                return '<svg viewBox="0 0 200 140" class="w-48 h-32 animate-float"><ellipse cx="100" cy="85" rx="75" ry="35" fill="#BCAAA4" /><ellipse cx="100" cy="80" rx="65" ry="28" fill="#FFB74D" /><circle cx="55" cy="45" r="12" fill="#81C784" /><circle cx="145" cy="45" r="12" fill="#E57373" /></svg>';
-            } else if (type === 'sun') {
-                return '<svg viewBox="0 0 200 140" class="w-48 h-32 animate-spin-slow"><circle cx="100" cy="70" r="38" fill="#FF9933" /><g stroke="#FFD600" stroke-width="4" stroke-linecap="round"><line x1="100" y1="18" x2="100" y2="35" /><line x1="100" y1="105" x2="100" y2="122" /><line x1="48" y1="70" x2="65" y2="70" /><line x1="135" y1="70" x2="152" y2="70" /></g></svg>';
-            } else if (type === 'money') {
-                return '<svg viewBox="0 0 200 140" class="w-48 h-32"><rect x="40" y="35" width="120" height="70" rx="14" fill="#138808"/><circle cx="100" cy="70" r="20" fill="#FF9933"/><text x="100" y="78" font-size="20" font-weight="bold" fill="#FFF" text-anchor="middle">₹</text></svg>';
-            } else if (type === 'planets') {
-                return '<svg viewBox="0 0 200 140" class="w-48 h-32"><circle cx="100" cy="70" r="26" fill="#EF4444"/><ellipse cx="100" cy="70" rx="60" ry="16" fill="none" stroke="#60A5FA" stroke-width="3" transform="rotate(-20 100 70)"/></svg>';
-            } else {
-                return '<svg viewBox="0 0 200 140" class="w-48 h-32"><circle cx="100" cy="70" r="16" fill="#F59E0B"/><ellipse cx="100" cy="70" rx="55" ry="20" fill="none" stroke="#6366F1" stroke-width="3"/></svg>';
-            }
-        }
-
-        function render() {
-            const area = document.getElementById('contentArea');
-            const breadcrumb = document.getElementById('breadcrumb');
-
-            let bcHTML = '<span onclick="navigateToHome()" class="hover:text-indigo-400 cursor-pointer">🏠 Home</span>';
-            if (state.viewMode === 'regional_rhymes') {
-                bcHTML += ' <span class="text-slate-600">/</span> <span class="font-bold text-rose-400">🎵 State Rhymes</span>';
-            } else if (state.viewMode === 'rhyme_theater' && state.selectedRhyme) {
-                bcHTML += ' <span class="text-slate-600">/</span> <span onclick="openRegionalRhymesHub()" class="hover:text-rose-400 cursor-pointer">Rhymes</span> <span class="text-slate-600">/</span> <span class="font-bold text-rose-400">' + state.selectedRhyme.title + '</span>';
-            } else if (state.viewMode === 'cbse_stage') {
-                if (state.selectedStage) {
-                    bcHTML += ' <span class="text-slate-600">/</span> <span onclick="navigateToHome()" class="hover:text-indigo-400 cursor-pointer">' + state.selectedStage.name + '</span>';
-                }
-                if (state.selectedSubject) {
-                    bcHTML += ' <span class="text-slate-600">/</span> <span onclick="navigateToTopic(null)" class="hover:text-indigo-400 cursor-pointer">' + state.selectedSubject.name + '</span>';
-                }
-                if (state.selectedTopic) {
-                    bcHTML += ' <span class="text-slate-600">/</span> <span class="font-bold text-white">' + state.selectedTopic.title + '</span>';
-                }
-            }
-            breadcrumb.innerHTML = bcHTML;
-
-            if (state.viewMode === 'home') {
-                const stages = NEP_CURRICULUM_DATA.cbse;
-                let stagesCards = '';
-                stages.forEach(function(stage) {
-                    stagesCards += `
-                        <div onclick="selectStage('${stage.id}')" class="group cinema-card border border-slate-800 hover:border-indigo-500 rounded-2xl p-5 shadow-sm hover:shadow-xl transition cursor-pointer flex flex-col justify-between space-y-4">
-                            <div class="flex items-start justify-between">
-                                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg">
-                                    📚
-                                </div>
-                                <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-900 text-slate-400 border border-slate-800">
-                                    ${stage.subjects.length} Subjects
-                                </span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-base text-white group-hover:text-indigo-400 transition">
-                                    ${stage.name}
-                                </h4>
-                                <p class="text-xs text-slate-400 mt-1">${stage.badge}</p>
-                            </div>
-                            <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-xs font-bold text-indigo-400">
-                                <span>Open Syllabus</span>
-                                <span>➔</span>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                area.innerHTML = `
-                    <!-- Hero Banner -->
-                    <div class="relative overflow-hidden rounded-3xl cinema-card p-5 sm:p-8 border border-slate-800 shadow-2xl space-y-3">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold">
-                            🌟 NEP 2020 • CBSE • ICSE • All Indian State Boards
-                        </span>
-                        <h2 class="text-xl sm:text-2xl font-black text-white">
-                            Complete Digital Learning & State Heritage Hub
-                        </h2>
-                        <p class="text-xs text-slate-300 leading-relaxed max-w-2xl">
-                            Select your educational board and explore all NEP stages, interactive concept models, 700+ regional rhymes, and voice-assisted master lectures.
-                        </p>
-                        <div class="pt-2 flex flex-wrap gap-2.5">
-                            <button onclick="openRegionalRhymesHub()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-600 text-white font-bold text-xs shadow-lg shadow-rose-500/20 transition flex items-center gap-2">
-                                🎵 700+ State Nursery Rhymes
-                            </button>
-                            <button id="bgmToggleBtn" onclick="toggleAmbientMusic()" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold text-xs transition">
-                                🔇 Ambient Sound: Off
-                            </button>
-                            <button onclick="openSpecialDoubtHub()" class="px-4 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold text-xs transition">
-                                💡 Ask Mitra AI
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Interactive Board Switcher Buttons -->
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-md space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-white flex items-center gap-1.5">
-                                🏛️ Select Active Board Syllabus:
-                            </span>
-                            <span class="text-[10px] text-slate-400">Instant Switch</span>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <button onclick="setBoardSegment('cbse')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${state.selectedBoard === 'cbse' ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}">CBSE (NCERT)</button>
-                            <button onclick="setBoardSegment('icse')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${state.selectedBoard === 'icse' ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}">ICSE / CISCE</button>
-                            <button onclick="setBoardSegment('state_or')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${state.selectedBoard === 'state_or' ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}">Odisha Board (BSE)</button>
-                            <button onclick="setBoardSegment('state_mh')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${state.selectedBoard === 'state_mh' ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}">Maharashtra State Board</button>
-                            <button onclick="setBoardSegment('state_up')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${state.selectedBoard === 'state_up' ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}">UP Board</button>
-                            <button onclick="setBoardSegment('state_wb')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${state.selectedBoard === 'state_wb' ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}">West Bengal Board</button>
-                        </div>
-                    </div>
-
-                    <!-- Stages Grid -->
-                    <div class="space-y-3">
-                        <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider">
-                            Curricular Stages (NEP 5+3+3+4 Matrix)
-                        </h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                            ${stagesCards}
-                        </div>
-                    </div>
-                `;
-            } else if (state.viewMode === 'regional_rhymes') {
-                const filter = state.selectedRhymeFilter;
-                const filteredRhymes = filter === 'all' ? REGIONAL_RHYMES_DATA : REGIONAL_RHYMES_DATA.filter(function(r) { return r.lang === filter; });
-                let rhymesHTML = '';
-                filteredRhymes.forEach(function(rhyme) {
-                    rhymesHTML += `
-                        <div onclick="launchRhymeTheater('${rhyme.id}')" class="group bg-slate-900 border border-slate-800 hover:border-rose-500 rounded-2xl p-4 shadow-sm hover:shadow-xl transition cursor-pointer flex flex-col justify-between space-y-3">
-                            <div class="flex items-start justify-between">
-                                <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">
-                                    ${rhyme.langName}
-                                </span>
-                                <span class="text-xs bg-rose-500 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold">▶</span>
-                            </div>
-                            <div class="w-full aspect-video rounded-xl bg-slate-950 flex items-center justify-center p-2 border border-slate-800 overflow-hidden">
-                                ${renderAnimatedSvg(rhyme.svgAnimation)}
-                            </div>
-                            <div>
-                                <h4 class="font-extrabold text-sm text-white group-hover:text-rose-400 transition line-clamp-1">
-                                    ${rhyme.title}
-                                </h4>
-                                <p class="text-xs text-slate-400 mt-0.5 line-clamp-1">${rhyme.meaning}</p>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                area.innerHTML = `
-                    <div class="cinema-card border border-rose-500/30 rounded-2xl p-5 text-white shadow-xl space-y-3">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-[10px] font-extrabold px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 uppercase tracking-widest">
-                                    All Indian State Languages
-                                </span>
-                                <h2 class="text-xl font-black mt-2 text-white">
-                                    Animated State Nursery Rhymes Theater
-                                </h2>
-                            </div>
-                            <button onclick="navigateToHome()" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-800">
-                                🏠 Home
-                            </button>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        ${rhymesHTML}
-                    </div>
-                `;
-            } else if (state.viewMode === 'rhyme_theater' && state.selectedRhyme) {
-                const rhyme = state.selectedRhyme;
-                area.innerHTML = `
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-sm flex items-center justify-between gap-3">
-                        <div>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 uppercase tracking-wider">
-                                ${rhyme.langName} • Animated Theater
-                            </span>
-                            <h2 class="text-base sm:text-lg font-extrabold text-white mt-1">${rhyme.title}</h2>
-                        </div>
-                        <button onclick="openRegionalRhymesHub()" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-800">
-                            Back
-                        </button>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                        <div class="lg:col-span-2 bg-slate-950 rounded-2xl p-6 border border-slate-800 shadow-2xl flex flex-col items-center justify-between relative overflow-hidden min-h-[320px]">
-                            <div class="my-auto scale-110 sm:scale-125 transition-transform duration-500">
-                                ${renderAnimatedSvg(rhyme.svgAnimation)}
-                            </div>
-                            <div class="w-full bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-center text-rose-300 font-bold text-xs sm:text-sm shadow-lg">
-                                "${rhyme.lyrics.split('\n')[0]}"
-                            </div>
-                            <div class="w-full pt-4 flex items-center justify-center gap-3">
-                                <button onclick="playCurrentRhymeVoice()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-600 text-white font-bold text-xs shadow-lg flex items-center gap-2">
-                                    🔊 Sing Rhyme Voice
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="lg:col-span-1 space-y-4">
-                            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm space-y-3">
-                                <h3 class="font-bold text-sm text-white border-b border-slate-800 pb-2">
-                                    📜 Full Song Lyrics
-                                </h3>
-                                <div class="text-xs font-semibold leading-relaxed text-slate-200 whitespace-pre-line bg-slate-950 p-3 rounded-xl border border-slate-800">
-                                    ${rhyme.lyrics}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (state.viewMode === 'cbse_stage') {
-                if (state.selectedStage && !state.selectedTopic) {
-                    let subjectTabs = '';
-                    state.selectedStage.subjects.forEach(function(sub, idx) {
-                        const active = (state.selectedSubject && state.selectedSubject.id === sub.id) || (!state.selectedSubject && idx === 0);
-                        subjectTabs += `
-                            <button onclick="selectSubject('${sub.id}')" class="px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition ${active ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800'}">
-                                📖 ${sub.name}
-                            </button>
-                        `;
-                    });
-
-                    let chaptersList = '';
-                    const currSub = state.selectedSubject || state.selectedStage.subjects[0];
-                    currSub.chapters.forEach(function(ch) {
-                        let topicsList = '';
-                        ch.topics.forEach(function(t) {
-                            topicsList += `
-                                <div onclick="selectTopic('${t.id}')" class="p-3.5 rounded-xl border border-slate-800 bg-slate-950/60 hover:border-indigo-500 transition cursor-pointer flex items-center justify-between group">
-                                    <div>
-                                        <h4 class="font-bold text-xs text-slate-200 group-hover:text-indigo-400">
-                                            ${t.title}
-                                        </h4>
-                                        <p class="text-[11px] text-slate-400 mt-0.5 line-clamp-1">${t.summary}</p>
-                                    </div>
-                                    <span class="text-indigo-400 text-sm">▶</span>
-                                </div>
-                            `;
-                        });
-                        chaptersList += `
-                            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3">
-                                <h3 class="font-bold text-sm text-white border-b border-slate-800 pb-2">
-                                    🔖 ${ch.title}
-                                </h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    ${topicsList}
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    area.innerHTML = `
-                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                            <div>
-                                <h2 class="text-xl font-extrabold text-white">${state.selectedStage.name}</h2>
-                                <p class="text-xs text-slate-400">${state.selectedStage.badge}</p>
-                            </div>
-                            <button onclick="navigateToHome()" class="text-xs font-semibold text-slate-400 hover:text-white">
-                                ⬅ Back to Stages
-                            </button>
-                        </div>
-                        <div class="flex gap-2 overflow-x-auto custom-scrollbar pb-1">
-                            ${subjectTabs}
-                        </div>
-                        <div class="space-y-3.5">
-                            ${chaptersList}
-                        </div>
-                    `;
-                    if (!state.selectedSubject) {
-                        state.selectedSubject = state.selectedStage.subjects[0];
-                    }
-                } else if (state.selectedTopic) {
-                    const topic = state.selectedTopic;
-                    let optionsList = '';
-                    topic.quiz.options.forEach(function(opt, idx) {
-                        optionsList += `
-                            <button onclick="checkQuizAnswer(${idx}, ${topic.quiz.answer}, '${topic.quiz.praise}')" class="w-full text-left p-3 rounded-xl border border-slate-800 bg-slate-950/60 hover:border-indigo-500 font-medium text-xs text-slate-300 hover:text-white transition flex items-center justify-between">
-                                <span>${opt}</span>
-                                <span class="text-slate-500 text-xs">⚪</span>
-                            </button>
-                        `;
-                    });
-
-                    area.innerHTML = `
-                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-bold px-2.5 py-0.5 rounded bg-indigo-500/20 text-indigo-400 uppercase tracking-wider">
-                                    ${state.selectedSubject.name} • Master Lecture
-                                </span>
-                                <h2 class="text-lg sm:text-xl font-extrabold text-white mt-1">${topic.title}</h2>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button onclick="playCurrentTopicVoice()" class="px-3.5 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold flex items-center gap-1.5 transition">
-                                    🔊 Play Lecture Voice
-                                </button>
-                                <button onclick="navigateToTopic(null)" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-800">
-                                    ⬅ Back
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            <div class="lg:col-span-1 cinema-card border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between space-y-4">
-                                <div>
-                                    <div class="flex items-center justify-between mb-2">
-                                        <h3 class="font-bold text-xs text-white">
-                                            🎬 Act I: Visual Concept
-                                        </h3>
-                                        <span class="text-[10px] text-emerald-400 font-bold">Interactive 3D</span>
-                                    </div>
-                                    <div class="w-full aspect-square rounded-xl bg-slate-950 flex items-center justify-center p-4 border border-slate-800/80 relative overflow-hidden">
-                                        ${renderAnimatedSvg(topic.svgType)}
-                                    </div>
-                                </div>
-                                <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs space-y-1">
-                                    <div class="font-bold">
-                                        ⚡ Memory Shortcut:
-                                    </div>
-                                    <p class="leading-relaxed font-medium text-slate-200">${topic.trick}</p>
-                                </div>
-                            </div>
-
-                            <div class="lg:col-span-2 space-y-5">
-                                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-sm space-y-3">
-                                    <h3 class="font-bold text-sm text-white border-b border-slate-800 pb-2.5">
-                                        📖 Act II: Comprehensive Master Lecture
-                                    </h3>
-                                    <div class="text-xs leading-relaxed text-slate-200 whitespace-pre-line font-normal space-y-2">
-                                        ${topic.lecture}
-                                    </div>
-                                </div>
-
-                                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm space-y-3.5">
-                                    <h3 class="font-bold text-sm text-white">
-                                        🏆 Act III: Practice Arena
-                                    </h3>
-                                    <p class="text-xs font-semibold text-slate-200">${topic.quiz.question}</p>
-                                    <div class="space-y-2">
-                                        ${optionsList}
-                                    </div>
-                                    <div id="quizFeedback" class="hidden p-3 rounded-xl text-xs font-bold"></div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            render();
-        });
-    </script>
-</body>
-</html>
+        const NEP_CURRICULUM_DATA = {
+            stages: [
+                {
+                    id: "foundational",
+                    name: "Foundational Stage (Pre-KG to Class 2)",
+                    badge: "Ages 3-8 • Foundational Literacy & Numeracy",
+                    icon: "smile",
+                    subjects: [
+                        {
+                            id: "phonics_eng",
+                            name: "English Phonics & Early Reading",
+                            icon: "book-open",
+                            chapters: [
+                                {
+                                    id: "phonics_c1",
+                                    title: "Letter Sounds & Phonic Blends (A-Z)",
+                                    topics: [
+                                        {
+                                            id: "top_ph1",
+                                            title: "Short Vowel Sounds (a, e, i, o, u)",
+                                            summary: "Master short vowel sounds with joyful rhyme words and mouth shapes.",
+                                            lecture: "Welcome to Phonics Adventure! Every English vowel has a friendly short sound. Letter A says /æ/ as in Apple and Cat. Letter E says /e/ as in Elephant and Bed. Letter I says /ɪ/ as in Igloo and Sit. Letter O says /ɒ/ as in Octopus and Hot. Letter U says /ʌ/ as in Umbrella and Cup. When you blend these sounds with consonants, you can read thousands of words effortlessly!",
+                                            trick: "Remember the Vowel Hand: Thumb (A), Index (E), Middle (I), Ring (O), Pinky (U)!",
+                                            svgType: "sun",
+                                            quiz: {
+                                                question: "What short vowel sound is heard in the word 'Cat'?",
+                                                options: ["Short /æ/ as in Apple", "Short /e/ as in Bed"],
+                                                answer: 0,
+                                                praise: "Super phonics master! You have sharp ears!"
+                                            }
+                                        },
+                                        {
+                                            id: "top_ph2",
+                                            title: "Consonant Blends (bl, cl, fl, st)",
+                                            summary: "How consonant
