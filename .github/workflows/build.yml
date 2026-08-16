@@ -10,7 +10,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.10'
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -23,17 +23,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
 
-      - name: Install Python dependencies
+      - name: Install Python build tools
         run: |
           pip install --upgrade pip
-          pip install --upgrade buildozer Cython virtualenv
+          pip install "Cython<3.0.0" buildozer virtualenv
 
       - name: Build AAB with Buildozer
         run: |
-          yes | buildozer -v android release
+          buildozer -v android release
 
       - name: Save Release AAB
         uses: actions/upload-artifact@v4
         with:
           name: app-release-bundle
           path: bin/*.aab
+          
