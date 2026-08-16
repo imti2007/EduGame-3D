@@ -3,29 +3,34 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+    container:
+      image: kivy/buildozer:latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Generate Audio & Video Assets
+      - name: Create Game Assets
         run: |
-          sudo apt-get update && sudo apt-get install -y ffmpeg
           mkdir -p assets
-          ffmpeg -f lavfi -i "sine=frequency=432:duration=10" -q:a 9 -acodec libmp3lame assets/soothing_lullaby.mp3 -y
-          ffmpeg -f lavfi -i "sine=frequency=880:duration=2" -q:a 9 -acodec libmp3lame assets/celebrate.mp3 -y
-          ffmpeg -f lavfi -i "testsrc=duration=10:size=720x1280:rate=30" -pix_fmt yuv420p assets/safari_video.mp4 -y
+          # Generate placeholder audio and video without external tool failures
+          python3 -c "
+          import wave, struct, os
+          with wave.open('assets/soothing_lullaby.wav', 'w') as f:
+              f.setnchannels(1); f.setsampwidth(2); f.setframerate(22050)
+              for i in range(22050 * 5):
+                  f.writeframesraw(struct.pack('<h', int(3000 * (i % 50 > 25))))
+          with wave.open('assets/celebrate.wav', 'w') as f:
+              f.setnchannels(1); f.setsampwidth(2); f.setframerate(22050)
+              for i in range(22050 * 2):
+                  f.writeframesraw(struct.pack('<h', int(6000 * (i % 25 > 12))))
+          "
 
-      - name: Build with Buildozer Action
-        uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
-        with:
-          buildozer_version: stable
-          command: buildozer android debug
+      - name: Build Android Debug APK
+        run: |
+          buildozer -v android debug
 
       - name: Upload Output APK
         uses: actions/upload-artifact@v4
         with:
           name: app-package
           path: bin/*.apk
-          
