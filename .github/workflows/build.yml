@@ -1,0 +1,25 @@
+name: Build Play Store Bundle
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build AAB with Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        with:
+          buildozer_version: master
+          command: buildozer android release
+
+      - name: Save Release AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-bundle
+          path: bin/*.aab
