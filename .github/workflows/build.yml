@@ -9,20 +9,39 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create Game Assets
+      - name: Create Melodic Game Audio & Video Assets
         run: |
           mkdir -p assets
-          # Generate placeholder audio and video without external tool failures
           python3 -c "
-          import wave, struct, os
+          import wave, struct, math
+
+          # 1. Gentle Soothing Lullaby (Calm Pentatonic Chimes)
           with wave.open('assets/soothing_lullaby.wav', 'w') as f:
               f.setnchannels(1); f.setsampwidth(2); f.setframerate(22050)
-              for i in range(22050 * 5):
-                  f.writeframesraw(struct.pack('<h', int(3000 * (i % 50 > 25))))
+              notes = [261.63, 329.63, 392.00, 440.00, 523.25, 392.00]
+              sr = 22050
+              frames = []
+              for note in notes:
+                  for i in range(int(sr * 1.0)):
+                      t = i / sr
+                      env = math.sin(math.pi * (i / (sr * 1.0)))
+                      val = (math.sin(2 * math.pi * note * t) * 0.75 + math.sin(4 * math.pi * note * t) * 0.25) * env * 3500
+                      frames.append(struct.pack('<h', int(val)))
+              f.writeframes(b''.join(frames))
+
+          # 2. Gentle Celebration Harp Fanfare
           with wave.open('assets/celebrate.wav', 'w') as f:
               f.setnchannels(1); f.setsampwidth(2); f.setframerate(22050)
-              for i in range(22050 * 2):
-                  f.writeframesraw(struct.pack('<h', int(6000 * (i % 25 > 12))))
+              chime_notes = [523.25, 659.25, 783.99, 1046.50]
+              sr = 22050
+              frames = []
+              for note in chime_notes:
+                  for i in range(int(sr * 0.35)):
+                      t = i / sr
+                      env = math.exp(-i / (sr * 0.12))
+                      val = (math.sin(2 * math.pi * note * t) + 0.3 * math.sin(4 * math.pi * note * t)) * env * 5500
+                      frames.append(struct.pack('<h', int(val)))
+              f.writeframes(b''.join(frames))
           "
 
       - name: Build Android Debug APK
@@ -34,3 +53,4 @@ jobs:
         with:
           name: app-package
           path: bin/*.apk
+          
