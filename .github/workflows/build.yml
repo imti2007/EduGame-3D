@@ -30,11 +30,10 @@ jobs:
 
       - name: Build AAB with Buildozer
         run: |
-          buildozer android release
+          yes | buildozer -v android release
 
       - name: Save Release AAB
         uses: actions/upload-artifact@v4
         with:
           name: app-release-bundle
           path: bin/*.aab
-          
