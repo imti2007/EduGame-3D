@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Android App
 on: [push]
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
           pip install --upgrade pip
           pip install "Cython<3.0.0" buildozer virtualenv
 
-      - name: Build Android App
+      - name: Build Android APK
         run: |
           buildozer -v android debug
 
@@ -37,3 +37,4 @@ jobs:
         with:
           name: app-package
           path: bin/*.apk
+          
