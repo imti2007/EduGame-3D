@@ -3,351 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EduBharat AI - Universal NEP 2020, CBSE, ICSE & State Boards</title>
+    <title>EduBharat 3D AI - Universal CBSE & State Boards Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { -webkit-tap-highlight-color: transparent; }
-        body { user-select: none; -webkit-user-select: none; }
+        .cinema-card { background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.2), transparent 75%), #0f172a; }
         .glass { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(16px); }
-        .cinema-card { background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.18), transparent 75%), #0f172a; }
-        .theater-stage { background: radial-gradient(circle at 50% 30%, #1e1b4b 0%, #090d16 100%); }
-        .karaoke-active { color: #facc15; text-shadow: 0 0 16px rgba(250, 204, 21, 0.8); transform: scale(1.08); transition: all 0.3s ease; }
-        @keyframes floatSlow { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
-        @keyframes swimFish { 0% { transform: translateX(-35px) translateY(0); } 50% { transform: translateX(35px) translateY(-8px) rotate(-3deg); } 100% { transform: translateX(-35px) translateY(0); } }
-        @keyframes pulseMoon { 0%, 100% { filter: drop-shadow(0 0 12px rgba(253, 224, 71, 0.6)); } 50% { filter: drop-shadow(0 0 28px rgba(253, 224, 71, 0.95)); } }
         .anim-float { animation: floatSlow 4s ease-in-out infinite; }
-        .anim-fish { animation: swimFish 5s ease-in-out infinite; }
-        .anim-moon { animation: pulseMoon 3s ease-in-out infinite; }
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
     </style>
 </head>
-<body class="h-full bg-slate-950 text-slate-100 font-sans antialiased select-none">
+<body class="h-full bg-slate-950 text-slate-100 font-sans antialiased">
 
     <div id="app" class="min-h-full flex flex-col">
-        <!-- Main Top Bar -->
+        <!-- Top Navigation Header -->
         <header class="sticky top-0 z-40 glass border-b border-slate-800 shadow-xl">
-            <div class="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2">
-                
-                <!-- Logo -->
-                <div class="flex items-center gap-2 cursor-pointer" onclick="navigateToHome()">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 via-indigo-500 to-emerald-500 p-[2px] shadow-md">
-                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-amber-400 font-black text-sm">
+            <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5 cursor-pointer" onclick="showView('home')">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-indigo-500 to-emerald-500 p-[2px]">
+                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center font-black text-amber-400 text-sm">
                             EB
                         </div>
                     </div>
                     <div>
                         <div class="flex items-center gap-1.5">
                             <span class="font-black text-base tracking-tight bg-gradient-to-r from-amber-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">EduBharat</span>
-                            <span id="currentBoardPill" class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-600/30 text-indigo-300 font-bold border border-indigo-500/40">CBSE</span>
+                            <span id="activeBoardBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-600/30 text-indigo-300 font-bold border border-indigo-500/40">CBSE</span>
                         </div>
                         <p class="text-[9px] text-slate-400 font-semibold">Pre-KG to Class 10 • All State Boards</p>
                     </div>
                 </div>
 
-                <!-- Top Quick Switches -->
                 <div class="flex items-center gap-1.5">
-                    <button onclick="openRegionalRhymesHub()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold transition flex items-center gap-1">
-                        <span>🎵</span>
-                        <span class="hidden md:inline">State Rhymes</span>
+                    <button onclick="showView('rhymes')" class="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold transition flex items-center gap-1">
+                        🎵 <span class="hidden sm:inline">State Rhymes</span>
                     </button>
-
-                    <!-- Board Selector Dropdown -->
-                    <select id="boardSelectTop" onchange="setBoardSegment(this.value)" class="text-xs font-bold bg-slate-900 border border-slate-700 rounded-xl px-2 py-1.5 text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
-                        <option value="cbse">CBSE (NCERT)</option>
-                        <option value="icse">ICSE / CISCE</option>
-                        <option value="state_or">Odisha Board</option>
-                        <option value="state_mh">Maharashtra Board</option>
-                        <option value="state_up">UP Board</option>
-                        <option value="state_wb">West Bengal Board</option>
-                        <option value="state_tn">Tamil Nadu Board</option>
-                        <option value="state_ka">Karnataka Board</option>
-                    </select>
-
-                    <!-- Language Selector -->
-                    <select id="langSelectTop" onchange="changeLanguage(this.value)" class="text-xs font-bold bg-slate-900 border border-slate-700 rounded-xl px-2 py-1.5 text-amber-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
-                        <option value="en">English</option>
-                        <option value="hi">हिंदी (Hindi)</option>
-                        <option value="bn">বাংলা (Bengali)</option>
-                        <option value="or">ଓଡ଼ିଆ (Odia)</option>
-                        <option value="as">অসমীয়া (Assamese)</option>
-                        <option value="bho">भोजपुरी (Bihari)</option>
-                        <option value="ne">नेपाली (Nepali)</option>
-                        <option value="ta">தமிழ் (Tamil)</option>
-                        <option value="te">తెలుగు (Telugu)</option>
-                        <option value="mr">मराठी (Marathi)</option>
-                        <option value="gu">ગુજરાતી (Gujarati)</option>
-                        <option value="kn">ಕನ್ನಡ (Kannada)</option>
-                        <option value="ml">മലയാളം (Malayalam)</option>
-                        <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
-                        <option value="ur">اردو (Urdu)</option>
-                    </select>
+                    <button onclick="openModal('doubtModal')" class="px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold transition flex items-center gap-1">
+                        💡 <span class="hidden sm:inline">Mitra AI</span>
+                    </button>
                 </div>
             </div>
         </header>
 
         <!-- Main Workspace -->
-        <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4 space-y-4">
-            <!-- Breadcrumbs -->
-            <nav id="breadcrumb" class="flex items-center gap-2 text-xs font-semibold text-slate-400 overflow-x-auto py-1">
-                <span onclick="navigateToHome()" class="hover:text-indigo-400 cursor-pointer">🏠 Home</span>
-            </nav>
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-5 space-y-6">
 
-            <div id="contentArea" class="space-y-4"></div>
-        </main>
+            <!-- VIEW 1: STATIC HOME SCREEN (Guaranteed to Load) -->
+            <div id="view-home" class="space-y-6">
+                <!-- Hero Banner -->
+                <div class="relative overflow-hidden rounded-3xl cinema-card p-6 sm:p-8 border border-slate-800 shadow-2xl space-y-3">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold">
+                        🌟 NEP 2020 • Complete NCERT Syllabus • All Indian State Boards
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white">
+                        Universal Digital Learning & Concept Theater
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
+                        Select your school board and explore structured lessons across Science, Mathematics, English Phonics, Financial Literacy, and 16-State Regional Nursery Rhymes.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-2.5">
+                        <button onclick="showView('rhymes')" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-600 text-white font-bold text-xs shadow-lg transition">
+                            🎵 16-State Nursery Rhymes Theater
+                        </button>
+                        <button onclick="openModal('doubtModal')" class="px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-amber-300 font-bold text-xs hover:bg-slate-800 transition">
+                            💡 Ask Mitra AI Tutor
+                        </button>
+                    </div>
+                </div>
 
-        <!-- Footer -->
-        <footer class="mt-auto border-t border-slate-800 bg-slate-950 py-4">
-            <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400">
-                <span>🛡️ <strong>100% Free & Child-Safe:</strong> NEP 2020 • High-Fidelity Animated Vectors • Zero Tracking</span>
-                <div class="flex gap-4 font-bold">
-                    <span class="hover:text-indigo-400 cursor-pointer" onclick="openRegionalRhymesHub()">🎵 State Rhymes</span>
-                    <span class="hover:text-amber-400 cursor-pointer" onclick="openSpecialDoubtHub()">💡 Mitra AI Doubts</span>
+                <!-- Interactive Board Selector -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-md space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-white">🏛️ Select Educational Board:</span>
+                        <span class="text-[10px] text-slate-400">Click to switch syllabus</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="switchBoard('CBSE (NCERT)')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-md">CBSE (NCERT)</button>
+                        <button onclick="switchBoard('ICSE / CISCE')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">ICSE / CISCE</button>
+                        <button onclick="switchBoard('Odisha Board (BSE)')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Odisha Board</button>
+                        <button onclick="switchBoard('Maharashtra State Board')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Maharashtra Board</button>
+                        <button onclick="switchBoard('UP Board')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">UP Board</button>
+                        <button onclick="switchBoard('West Bengal Board')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">West Bengal Board</button>
+                        <button onclick="switchBoard('Tamil Nadu Board')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Tamil Nadu Board</button>
+                    </div>
+                </div>
+
+                <!-- Curricular Stages Grid -->
+                <div class="space-y-3">
+                    <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider">
+                        Curricular Stages (NEP 5+3+3+4 Structure)
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        
+                        <!-- Stage 1: Foundational -->
+                        <div onclick="openStage('foundational')" class="group cinema-card border border-slate-800 hover:border-indigo-500 rounded-2xl p-5 shadow-sm hover:shadow-xl transition cursor-pointer flex flex-col justify-between space-y-4">
+                            <div class="flex items-start justify-between">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg">
+                                    🧸
+                                </div>
+                                <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-900 text-slate-400 border border-slate-800">
+                                    3 Subjects
+                                </span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base text-white group-hover:text-indigo-400 transition">
+                                    Foundational Stage
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1">Pre-KG, LKG, UKG & Classes 1-2 (Ages 3-8)</p>
+                            </div>
+                            <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-xs font-bold text-indigo-400">
+                                <span>Open Subjects</span>
+                                <span>➔</span>
+                            </div>
+                        </div>
+
+                        <!-- Stage 2: Preparatory -->
+                        <div onclick="openStage('preparatory')" class="group cinema-card border border-slate-800 hover:border-indigo-500 rounded-2xl p-5 shadow-sm hover:shadow-xl transition cursor-pointer flex flex-col justify-between space-y-4">
+                            <div class="flex items-start justify-between">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg">
+                                    🌱
+                                </div>
+                                <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-900 text-slate-400 border border-slate-800">
+                                    3 Subjects
+                                </span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base text-white group-hover:text-indigo-400 transition">
+                                    Preparatory Stage
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1">Classes 3 to 5 (Ages 8-11)</p>
+                            </div>
+                            <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-xs font-bold text-indigo-400">
+                                <span>Open Subjects</span>
+                                <span>➔</span>
+                            </div>
+                        </div>
+
+                        <!-- Stage 3: Middle -->
+                        <div onclick="openStage('middle')" class="group cinema-card border border-slate-800 hover:border-indigo-500 rounded-2xl p-5 shadow-sm hover:shadow-xl transition cursor-pointer flex flex-col justify-between space-y-4">
+                            <div class="flex items-start justify-between">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg">
+                                    🔬
+                                </div>
+                                <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-900 text-slate-400 border border-slate-800">
+                                    3 Subjects
+                                </span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base text-white group-hover:text-indigo-400 transition">
+                                    Middle Stage
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1">Classes 6 to 8 (Ages 11-14)</p>
+                            </div>
+                            <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-xs font-bold text-indigo-400">
+                                <span>Open Subjects</span>
+                                <span>➔</span>
+                            </div>
+                        </div>
+
+                        <!-- Stage 4: Secondary -->
+                        <div onclick="openStage('secondary')" class="group cinema-card border border-slate-800 hover:border-indigo-500 rounded-2xl p-5 shadow-sm hover:shadow-xl transition cursor-pointer flex flex-col justify-between space-y-4">
+                            <div class="flex items-start justify-between">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg">
+                                    🏆
+                                </div>
+                                <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-900 text-slate-400 border border-slate-800">
+                                    2 Subjects
+                                </span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base text-white group-hover:text-indigo-400 transition">
+                                    Secondary Stage
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1">Classes 9 & 10 (Board Exam Prep)</p>
+                            </div>
+                            <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-xs font-bold text-indigo-400">
+                                <span>Open Subjects</span>
+                                <span>➔</span>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </footer>
 
-        <!-- Mitra AI Modal -->
-        <div id="specialDoubtModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-            <div class="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
-                <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
+            <!-- VIEW 2: STAGE & SUBJECTS EXPLORER (Populated on click) -->
+            <div id="view-stage" class="hidden space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                     <div>
-                        <h3 class="font-bold text-sm text-white">💡 Mitra AI Live Study Assistant</h3>
-                        <p class="text-[11px] text-slate-400">Ask any concept doubt in your mother tongue!</p>
+                        <h2 id="stageTitle" class="text-xl font-extrabold text-white">Stage Subjects</h2>
+                        <p id="stageSubtitle" class="text-xs text-slate-400">Select a subject to start learning</p>
                     </div>
-                    <button onclick="closeSpecialDoubtHub()" class="p-1.5 rounded-lg text-slate-400 hover:text-white bg-slate-800">✖</button>
+                    <button onclick="showView('home')" class="text-xs font-semibold text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-slate-800">
+                        ⬅ Back to Home
+                    </button>
                 </div>
-                <div id="doubtChatArea" class="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar text-xs min-h-[260px]">
-                    <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-slate-200">
-                        🌟 <strong>Namaste!</strong> Ask me any doubt about Physics, Chemistry, Math, History, Financial Literacy, or Nursery Rhymes!
+
+                <div id="subjectTabsContainer" class="flex gap-2 overflow-x-auto pb-1"></div>
+                <div id="chaptersListContainer" class="space-y-4"></div>
+            </div>
+
+            <!-- VIEW 3: CINEMATIC LECTURE & PRACTICE ARENA -->
+            <div id="view-topic" class="hidden space-y-5">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div>
+                        <span id="topicSubjectBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded bg-indigo-500/20 text-indigo-400 uppercase tracking-wider">Subject</span>
+                        <h2 id="topicTitle" class="text-lg sm:text-xl font-extrabold text-white mt-1">Topic Title</h2>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="speakCurrentLecture()" class="px-3.5 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold flex items-center gap-1.5">
+                            🔊 Listen to Voice
+                        </button>
+                        <button onclick="showView('stage')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-800">
+                            ⬅ Back
+                        </button>
                     </div>
                 </div>
-                <div class="p-3 border-t border-slate-800 bg-slate-950 flex gap-2">
-                    <input type="text" id="doubtInput" onkeypress="if(event.key==='Enter')askMitraDoubt()" placeholder="Ask your question here..." class="flex-1 text-xs bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <button onclick="askMitraDoubt()" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs">Ask</button>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-1 cinema-card border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-bold text-xs text-white">🎬 Visual Concept Stage</h3>
+                                <span class="text-[10px] text-emerald-400 font-bold">Interactive</span>
+                            </div>
+                            <div id="topicSvgStage" class="w-full aspect-square rounded-xl bg-slate-950 flex items-center justify-center p-4 border border-slate-800"></div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs space-y-1">
+                            <div class="font-bold">⚡ Memory Trick:</div>
+                            <p id="topicTrick" class="leading-relaxed text-slate-200"></p>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 space-y-5">
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3">
+                            <h3 class="font-bold text-sm text-white border-b border-slate-800 pb-2.5">
+                                📖 Comprehensive Master Lecture
+                            </h3>
+                            <div id="topicLectureText" class="text-xs leading-relaxed text-slate-200 whitespace-pre-line"></div>
+                        </div>
+
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3.5">
+                            <h3 class="font-bold text-sm text-white">🏆 Practice Mastery Arena</h3>
+                            <p id="quizQuestion" class="text-xs font-semibold text-slate-200"></p>
+                            <div id="quizOptionsContainer" class="space-y-2"></div>
+                            <div id="quizFeedback" class="hidden p-3 rounded-xl text-xs font-bold"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Application Script Engine -->
-    <script>
-        const apiKey = "";
-        let audioCtx = null;
+            <!-- VIEW 4: REGIONAL RHYMES THEATER -->
+            <div id="view-rhymes" class="hidden space-y-4">
+                <div class="cinema-card border border-rose-500/30 rounded-2xl p-5 text-white shadow-xl flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] font-extrabold px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 uppercase tracking-widest">
+                            Cultural State Heritage
+                        </span>
+                        <h2 class="text-xl font-black mt-2 text-white">16-State Nursery Rhymes Theater</h2>
+                    </div>
+                    <button onclick="showView('home')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-800">
+                        🏠 Home
+                    </button>
+                </div>
+                <div id="rhymesGridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
 
-        function unlockAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-        }
-        document.addEventListener('touchstart', unlockAudio, { once: true });
-        document.addEventListener('click', unlockAudio, { once: true });
-
-        // Musical scale melody generator (Sweet flute/xylophone chime tone)
-        function playMusicalMelody(tuneType) {
-            unlockAudio();
-            try {
-                const now = audioCtx.currentTime;
-                const melodies = {
-                    'rhyme': [
-                        { f: 523.25, d: 0.22 },
-                        { f: 587.33, d: 0.22 },
-                        { f: 659.25, d: 0.30 },
-                        { f: 523.25, d: 0.22 },
-                        { f: 659.25, d: 0.28 },
-                        { f: 783.99, d: 0.45 }
-                    ],
-                    'lecture': [
-                        { f: 440.00, d: 0.18 },
-                        { f: 554.37, d: 0.18 },
-                        { f: 659.25, d: 0.35 }
-                    ]
-                };
-
-                const notes = melodies[tuneType] || melodies['rhyme'];
-                let offset = 0;
-
-                notes.forEach(note => {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(note.f, now + offset);
-
-                    gain.gain.setValueAtTime(0.08, now + offset);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + offset + note.d);
-
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-
-                    osc.start(now + offset);
-                    osc.stop(now + offset + note.d);
-                    offset += note.d * 0.85;
-                });
-            } catch (e) {}
-        }
-
-        function playSound(type) {
-            unlockAudio();
-            try {
-                const now = audioCtx.currentTime;
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                if (type === 'click') {
-                    osc.frequency.setValueAtTime(550, now);
-                    osc.frequency.exponentialRampToValueAtTime(300, now + 0.08);
-                    gain.gain.setValueAtTime(0.10, now);
-                    gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
-                    osc.connect(gain); gain.connect(audioCtx.destination);
-                    osc.start(now); osc.stop(now + 0.08);
-                } else if (type === 'success') {
-                    osc.frequency.setValueAtTime(523.25, now);
-                    osc.frequency.exponentialRampToValueAtTime(1046.50, now + 0.25);
-                    gain.gain.setValueAtTime(0.12, now);
-                    gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
-                    osc.connect(gain); gain.connect(audioCtx.destination);
-                    osc.start(now); osc.stop(now + 0.25);
-                }
-            } catch (e) {}
-        }
-
-        // Natural Human Voice Speech Synthesizer with Karaoke Boundary Tracking
-        function speakLecture(text, explicitLang, onWordCallback) {
-            if (!('speechSynthesis' in window)) return;
-            window.speechSynthesis.cancel();
-            const cleanText = text.replace(/[*_#$`]/g, '');
-            const utterance = new SpeechSynthesisUtterance(cleanText);
-            const langMap = {
-                'en': 'en-IN', 'hi': 'hi-IN', 'bn': 'bn-IN', 'or': 'hi-IN',
-                'as': 'bn-IN', 'bho': 'hi-IN', 'ne': 'ne-NP', 'ta': 'ta-IN',
-                'te': 'te-IN', 'mr': 'mr-IN', 'gu': 'gu-IN', 'kn': 'kn-IN',
-                'ml': 'ml-IN', 'pa': 'pa-IN', 'ur': 'ur-PK'
-            };
-            utterance.lang = langMap[explicitLang || state.currentLang] || 'en-IN';
-            
-            const voices = window.speechSynthesis.getVoices();
-            const preferred = voices.find(v => (v.lang === utterance.lang || v.lang.startsWith(utterance.lang.split('-')[0])) && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Neural') || v.name.includes('India')));
-            if (preferred) utterance.voice = preferred;
-
-            utterance.rate = 0.88;
-            utterance.pitch = 1.02;
-
-            if (onWordCallback) {
-                utterance.onboundary = function(event) {
-                    if (event.name === 'word') {
-                        onWordCallback(event.charIndex);
-                    }
-                };
-            }
-
-            window.speechSynthesis.speak(utterance);
-        }
-
-        const REGIONAL_RHYMES_DATA = [
-            {
-                id: "rhyme-or-1",
-                lang: "or",
-                langName: "Odia (ଓଡ଼ିଆ)",
-                title: "ବାଆ ବାଆ ରେ ବାଆଳିଆ (Baa Baa Re Baalia)",
-                meaning: "Traditional Odia Boatman & River Song",
-                lyrics: "ବାଆ ବାଆ ରେ ବାଆଳିଆ,\nନଈ କୂଳେ ଫୁଟିଛି ମଲ୍ଲୀ କଢ଼ିଆ!\nମାଉସୀ ଘରକୁ ଯିବା ଆମେ,\nଗରମ ଗରମ ପିଠା ଖାଇବା କାମେ! ⛵",
-                svgAnimation: "fish"
-            },
-            {
-                id: "rhyme-as-1",
-                lang: "as",
-                langName: "Assamese (অসমীয়া)",
-                title: "জোনবাই ଏ এটি তৰা দিয়া (Jonbai E Eti Tora Diya)",
-                meaning: "Dear Moon, Give Me a Twinkling Star",
-                lyrics: "জোনবাই এ এটি তৰা দিয়া,\nকাণত পিন্ধিম মই সোণৰ হীৰা!\nআইতা আহিলে পিঠা খাম,\nমই মামাৰ ঘৰলৈ যাম! 🌙",
-                svgAnimation: "moon"
-            },
-            {
-                id: "rhyme-bho-1",
-                lang: "bho",
-                langName: "Bihari (भोजपुरी)",
-                title: "चंदा मामा आरे आवा (Chanda Mama Aare Aawa)",
-                meaning: "Come Moon Uncle with Sweet Kheer",
-                lyrics: "चंदा मामा आरे आवा, पारे आवा,\nनदिया किनारे आवा!\nबबुआ के दिहऽ मीठी खीर,\nसंगे खेलिहें राजा वीर! 🌙",
-                svgAnimation: "moon"
-            },
-            {
-                id: "rhyme-ne-1",
-                lang: "ne",
-                langName: "Nepali (नेपाली)",
-                title: "घाम पानी घाम पानी (Gham Pani Gham Pani)",
-                meaning: "Sunshine and Rain in the Mountains",
-                lyrics: "घाम पानी घाम पानी, स्यालको बिहे,\nडाँडा माथि चरा नाचे, बादल आयो नीले!\nइन्द्रेणी पर्यो आकाशै भरी,\nहामी नाचौं छमछमी घरी! 🌈",
-                svgAnimation: "moon"
-            },
-            {
-                id: "rhyme-hi-1",
-                lang: "hi",
-                langName: "Hindi (हिंदी)",
-                title: "मछली जल की रानी है (Machhli Jal Ki Rani)",
-                meaning: "Fish is Queen of Waters",
-                lyrics: "मछली जल की रानी है, जीवन उसका पानी है!\nहाथ लगाओ तो डर जाएगी, बाहर निकालो तो मर जाएगी!\nपानी में डालो तो तैर जाएगी! 🐟",
-                svgAnimation: "fish"
-            },
-            {
-                id: "rhyme-bn-1",
-                lang: "bn",
-                langName: "Bengali (বাংলা)",
-                title: "চাঁদ উঠেছে ফুল ফুটেছে (Chand Utheche Phul Phuteche)",
-                meaning: "Moon Risen and Flowers Bloomed",
-                lyrics: "চাঁদ উঠেছে ফুল ফুটেছে কদম তলায় কে?\nহাতি নাচছে ঘোড়া নাচছে সোনামণির বে! 🌙",
-                svgAnimation: "moon"
-            },
-            {
-                id: "rhyme-ta-1",
-                lang: "ta",
-                langName: "Tamil (தமிழ்)",
-                title: "தோசை அம்மா தோசை (Dosai Amma Dosai)",
-                meaning: "Mother's Crispy Hot Dosas",
-                lyrics: "தோசை அம்மா தோசை, சுடச் சுடத் தோசை!\nஅம்மா தந்த தோசை, அப்பாக்கு நான்கு,\nஅம்மாவுக்கு மூன்று, அண்ணனுக்கு இரண்டு,\nபாப்பாவுக்கு ஒன்று! 🥞",
-                svgAnimation: "dosa"
-            },
-            {
-                id: "rhyme-en-1",
-                lang: "en",
-                langName: "English",
-                title: "Twinkle Twinkle Little Star",
-                meaning: "Cosmic Wonder Song",
-                lyrics: "Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky! ✨",
-                svgAnimation: "moon"
-            }
-        ];
-
-        const NEP_CURRICULUM_DATA = {
-            stages: [
-                {
-                    id: "foundational",
-                    name: "Foundational Stage (Pre-KG to Class 2)",
-                    badge: "Ages 3-8 • Foundational Literacy & Numeracy",
-                    icon: "smile",
-                    subjects: [
-                        {
-                            id: "phonics_eng",
-                            name: "English Phonics & Early Reading",
-                            icon: "book-open",
-                            chapters: [
-                                {
-                                    id: "phonics_c1",
-                                    title: "Letter Sounds & Phonic Blends (A-Z)",
-                                    topics: [
-                                        {
-                                            id: "top_ph1",
-                                            title: "Short Vowel Sounds (a, e, i, o, u)",
-                                            summary: "Master short vowel sounds with joyful rhyme words and mouth shapes.",
-                                            lecture: "Welcome to Phonics Adventure! Every English vowel has a friendly short sound. Letter A says /æ/ as in Apple and Cat. Letter E says /e/ as in Elephant and Bed. Letter I says /ɪ/ as in Igloo and Sit. Letter O says /ɒ/ as in Octopus and Hot. Letter U says /ʌ/ as in Umbrella and Cup. When you blend these sounds with consonants, you can read thousands of words effortlessly!",
-                                            trick: "Remember the Vowel Hand: Thumb (A), Index (E), Middle (I), Ring (O), Pinky (U)!",
-                                            svgType: "sun",
-                                            quiz: {
-                                                question: "What short vowel sound is heard in the word 'Cat'?",
-                                                options: ["Short /æ/ as in Apple", "Short /e/ as in Bed"],
-                                                answer: 0,
-                                                praise: "Super phonics master! You have sharp ears!"
-                                            }
-                                        },
-                                        {
-                                            id: "top_ph2",
-                                            title: "Consonant Blends (bl, cl, fl, st)",
-                                            summary: "How consonant
+            <!-- VIEW 5: RHYME VIDEO THEATER STAGE -->
+            <div id="view-rhyme-player" class="hidden space-y-4">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
+                    <div>
+                        <span id="playerRhymeLang" class="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 uppercase tracking-wider">Language</span>
+                        <h2 id="playerRhymeTitle" class="text-base sm:text-lg font-extrabold text-white mt-1">Title</h2>
+                    </div>
+                    <button onclick="showView('rhymes')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-800">
+                        ⬅ All Rhymes
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                    <div class="lg:col-span-2 bg-slate-950 rounded-2xl p-6 border border-slate-800 shadow-2xl flex flex-col item
