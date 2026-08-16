@@ -7,12 +7,13 @@ source.include_exts = py,png,jpg,json,mp3
 version = 1.0.0
 requirements = python3,kivy
 
-# Android target specs (Updated for modern Android)
-android.api = 34
-android.minapi = 24
+# Android target specs
+android.api = 33
+android.minapi = 21
+android.ndk = 25b
+android.ndk_api = 21
 android.accept_sdk_license = True
 android.archs = arm64-v8a
-android.release_artifact = aab
 
 [buildozer]
 log_level = 2
