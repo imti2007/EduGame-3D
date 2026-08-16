@@ -1,12 +1,13 @@
 [app]
-title = Safari Explorer AI
-package.name = safariexplorer
+title = WildPals AI
+package.name = wildpalsai
 package.domain = org.edugame
 source.dir = .
 source.include_exts = py,png,jpg,json,mp3,wav,ogg,mp4
 version = 1.0.0
 requirements = python3,kivy
 orientation = all
+icon.filename = %(source.dir)s/assets/icon.png
 
 # Android target specs
 android.permissions = INTERNET
