@@ -5,7 +5,7 @@ package.domain = org.edugame
 source.dir = .
 source.include_exts = py,png,jpg,json,mp3,wav,ogg,mp4
 version = 1.0.0
-requirements = python3,kivy==2.3.0
+requirements = python3,kivy
 orientation = all
 
 # Android target specs
