@@ -6,17 +6,17 @@ import urllib.parse
 from kivy.app import App
 from kivy.core.audio import SoundLoader
 from kivy.core.window import Window
+from kivy.graphics import Color, Rectangle, RoundedRectangle
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.video import Video
+from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.animation import Animation
 from kivy.clock import Clock, mainthread
 
-# Child safety keyword blocklist
 BLOCKED_KEYWORDS = {
     "porn", "xxx", "sex", "nude", "naked", "erotic", "nsfw", "adult",
     "hentai", "penis", "vagina", "boobs", "breast", "intercourse", "fetish",
@@ -27,37 +27,41 @@ CLASS_CURRICULUM = {
     "Class 1": [
         {
             "animal": "Tiger",
-            "fact": "Tigers have orange and black stripes to camouflage in tall grass!",
+            "image": "assets/tiger.png",
+            "fact": "Tigers have bright orange & black stripes to camouflage in tall grass!",
             "question": "What does a hungry tiger eat?",
             "options": ["Fresh Meat (Carnivore)", "Grass & Leaves"],
             "correct": 0,
-            "reward": "Baby Tiger Explorer Badge",
+            "reward": "Baby Tiger Badge",
             "praise": "Super job! You fed the tiger healthy food!"
         },
         {
             "animal": "Elephant",
-            "fact": "Elephants use their long trunk to drink water and pick fruits!",
+            "image": "assets/elephant.png",
+            "fact": "Elephants use their long trunk like a hand to pick fresh fruits!",
             "question": "What is an elephant's favorite food?",
-            "options": ["Fresh Leaves & Fruits", "Fish & Meat"],
+            "options": ["Fresh Leaves & Fruit", "Fish & Meat"],
             "correct": 0,
-            "reward": "Elephant Harmony Chime",
+            "reward": "Savanna Trumpet Melody",
             "praise": "Wonderful! The elephant trumpets happily!"
         }
     ],
     "Class 2": [
         {
             "animal": "Giraffe",
-            "fact": "Giraffes are the tallest animals with 6-foot long legs!",
-            "question": "How do giraffes reach leaves on high branches?",
+            "image": "assets/giraffe.png",
+            "fact": "Giraffes are the tallest animals on Earth with long 6-foot legs!",
+            "question": "How do giraffes reach leaves on tall trees?",
             "options": ["Long Flexible Neck", "Climbing Trees"],
             "correct": 0,
-            "reward": "Acacia Tree Master Badge",
-            "praise": "Great thinking! The giraffe reaches the top leaves!"
+            "reward": "Acacia Master Badge",
+            "praise": "Great thinking! The giraffe reaches the highest leaves!"
         },
         {
             "animal": "Zebra",
-            "fact": "Every zebra has a unique stripe pattern like a human fingerprint!",
-            "question": "Why do zebras live in large groups?",
+            "image": "assets/zebra.png",
+            "fact": "Every zebra has a completely unique stripe pattern like a fingerprint!",
+            "question": "Why do zebras stick together in large herds?",
             "options": ["Protection from Predators", "To Sing Together"],
             "correct": 0,
             "reward": "Savanna Harmony Medal",
@@ -67,8 +71,9 @@ CLASS_CURRICULUM = {
     "Class 3": [
         {
             "animal": "Cheetah",
+            "image": "assets/cheetah.png",
             "fact": "Cheetahs can sprint from 0 to 60 mph in just 3 seconds!",
-            "question": "What helps a cheetah steer when running fast?",
+            "question": "What helps a cheetah balance when sprinting?",
             "options": ["Long Muscular Tail", "Heavy Ears"],
             "correct": 0,
             "reward": "Golden Speedster Medal",
@@ -76,7 +81,8 @@ CLASS_CURRICULUM = {
         },
         {
             "animal": "Kangaroo",
-            "fact": "Mother kangaroos carry their baby joeys in a special pouch.",
+            "image": "assets/kangaroo.png",
+            "fact": "Mother kangaroos carry their baby joeys in a special front pouch.",
             "question": "What group of mammals do kangaroos belong to?",
             "options": ["Marsupials", "Reptiles"],
             "correct": 0,
@@ -87,6 +93,7 @@ CLASS_CURRICULUM = {
     "Class 4-5": [
         {
             "animal": "African Elephant",
+            "image": "assets/elephant.png",
             "fact": "Elephants send low-frequency vibrations through the ground over miles.",
             "question": "What is a species called that shapes its entire ecosystem?",
             "options": ["Keystone Species", "Isolated Species"],
@@ -96,7 +103,8 @@ CLASS_CURRICULUM = {
         },
         {
             "animal": "Snow Leopard",
-            "fact": "Snow leopards have wide paws that act as natural snowshoes in the mountains.",
+            "image": "assets/snow_leopard.png",
+            "fact": "Snow leopards have wide paws that act as natural snowshoes in mountains.",
             "question": "What type of biological adaptation are snowshoe paws?",
             "options": ["Structural Adaptation", "Behavioral Drift"],
             "correct": 0,
@@ -114,88 +122,126 @@ class SafariKidGame(FloatLayout):
         self.current_levels = []
         self.level_index = 0
 
+        # Background Canvas
+        with self.canvas.before:
+            Color(0.07, 0.18, 0.12, 1)
+            self.bg_rect = Rectangle(size=Window.size, pos=self.pos)
+        self.bind(size=self._update_rect, pos=self._update_rect)
+
         self.bg_music = None
         self.celebrate_sound = None
         self.init_audio()
 
-        # 1. Background Video Layer
-        video_path = 'assets/safari_video.mp4'
-        if os.path.exists(video_path):
-            self.video = Video(
-                source=video_path,
-                state='play',
-                options={'eos': 'loop'},
-                allow_stretch=True,
-                keep_ratio=True,
-                size_hint=(1, 1),
-                pos_hint={'center_x': 0.5, 'center_y': 0.5}
-            )
-            self.add_widget(self.video)
-
-        # 2. Class Selection Screen
+        # 1. Class Selection Screen
         self.class_screen = BoxLayout(
             orientation='vertical',
-            size_hint=(0.85, 0.7),
+            size_hint=(0.88, 0.75),
             pos_hint={'center_x': 0.5, 'center_y': 0.5},
-            spacing=10
+            spacing=14
         )
+
         title = Label(
-            text="[b]WildPals AI: Jungle Quest[/b]\nSelect Your Class:",
+            text="[b]WildPals AI: Jungle Quest[/b]\nSelect Your Class to Start:",
             markup=True,
-            font_size='20sp',
+            font_size='22sp',
             halign='center',
-            color=(1, 0.9, 0.2, 1)
+            color=(1, 0.88, 0.25, 1)
         )
         self.class_screen.add_widget(title)
 
-        grid = GridLayout(cols=2, spacing=8, size_hint=(1, 0.6))
+        grid = GridLayout(cols=2, spacing=12, size_hint=(1, 0.6))
         for grade in ["Class 1", "Class 2", "Class 3", "Class 4-5"]:
-            btn = Button(text=grade, font_size='18sp', background_color=(0.2, 0.6, 0.9, 1))
+            btn = Button(
+                text=grade,
+                font_size='18sp',
+                bold=True,
+                background_normal='',
+                background_color=(0.18, 0.56, 0.88, 1)
+            )
             btn.bind(on_release=lambda instance, g=grade: self.start_for_class(g))
             grid.add_widget(btn)
 
         self.class_screen.add_widget(grid)
         self.add_widget(self.class_screen)
 
-        # 3. Main Gameplay & Safe Web Search UI
+        # 2. Main Gameplay Container
         self.game_container = BoxLayout(
             orientation='vertical',
-            size_hint=(0.9, 0.55),
-            pos_hint={'center_x': 0.5, 'y': 0.03},
+            size_hint=(0.92, 0.94),
+            pos_hint={'center_x': 0.5, 'top': 0.98},
             spacing=6,
             opacity=0
         )
 
+        self.title_label = Label(
+            text="",
+            markup=True,
+            font_size='18sp',
+            bold=True,
+            size_hint_y=0.08,
+            color=(1, 0.88, 0.25, 1)
+        )
+        self.game_container.add_widget(self.title_label)
+
+        # Animal Image Display Card
+        self.animal_image = Image(
+            source="",
+            allow_stretch=True,
+            keep_ratio=True,
+            size_hint_y=0.28
+        )
+        self.game_container.add_widget(self.animal_image)
+
+        # Educational Fact & Question Label
         self.fact_label = Label(
             text="",
             markup=True,
-            font_size='15sp',
+            font_size='14sp',
             halign='center',
+            valign='middle',
+            size_hint_y=0.22,
             color=(1, 1, 1, 1)
         )
+        self.fact_label.bind(width=lambda *x: self.fact_label.setter('text_size')(self.fact_label, (self.fact_label.width - 16, None)))
         self.game_container.add_widget(self.fact_label)
 
-        self.options_layout = BoxLayout(orientation='vertical', spacing=4, size_hint=(1, 0.38))
-        self.btn_a = Button(text="", font_size='15sp', background_color=(0.18, 0.65, 0.35, 1))
-        self.btn_b = Button(text="", font_size='15sp', background_color=(0.18, 0.65, 0.35, 1))
+        # Option Buttons
+        self.options_layout = BoxLayout(orientation='vertical', spacing=6, size_hint_y=0.26)
+        self.btn_a = Button(
+            text="",
+            font_size='15sp',
+            bold=True,
+            background_normal='',
+            background_color=(0.18, 0.65, 0.35, 1)
+        )
+        self.btn_b = Button(
+            text="",
+            font_size='15sp',
+            bold=True,
+            background_normal='',
+            background_color=(0.18, 0.65, 0.35, 1)
+        )
         self.btn_a.bind(on_release=lambda x: self.check_answer(0))
         self.btn_b.bind(on_release=lambda x: self.check_answer(1))
         self.options_layout.add_widget(self.btn_a)
         self.options_layout.add_widget(self.btn_b)
         self.game_container.add_widget(self.options_layout)
 
-        search_box = BoxLayout(orientation='horizontal', spacing=6, size_hint=(1, 0.22))
+        # Safe Web Search Bar
+        search_box = BoxLayout(orientation='horizontal', spacing=6, size_hint_y=0.10)
         self.query_input = TextInput(
             hint_text="Ask WildPals AI (e.g. Lion, Sun, Mars)...",
             multiline=False,
-            font_size='14sp',
+            font_size='13sp',
             size_hint=(0.7, 1)
         )
         search_btn = Button(
             text="Explore Web",
-            font_size='14sp',
+            font_size='13sp',
+            bold=True,
             size_hint=(0.3, 1),
-            background_color=(0.9, 0.45, 0.15, 1)
+            background_normal='',
+            background_color=(0.92, 0.45, 0.15, 1)
         )
         search_btn.bind(on_release=self.fetch_web_knowledge)
         search_box.add_widget(self.query_input)
@@ -204,24 +250,53 @@ class SafariKidGame(FloatLayout):
 
         self.add_widget(self.game_container)
 
-        # 4. Celebration Modal Banner
+        # 3. Celebration Modal Popup
         self.celeb_banner = BoxLayout(
             orientation='vertical',
-            size_hint=(0.85, 0.35),
-            pos_hint={'center_x': 0.5, 'center_y': 0.6},
-            opacity=0,
-            spacing=4
+            size_hint=(0.88, 0.42),
+            pos_hint={'center_x': 0.5, 'center_y': 0.52},
+            padding=16,
+            spacing=8,
+            opacity=0
         )
-        self.celeb_title = Label(text="★ LEVEL COMPLETED! ★", font_size='20sp', bold=True, color=(1, 0.85, 0.1, 1))
-        self.celeb_msg = Label(text="", font_size='15sp', halign='center', color=(1, 1, 1, 1))
-        self.celeb_reward = Label(text="", font_size='16sp', color=(0.3, 0.95, 0.6, 1))
+        with self.celeb_banner.canvas.before:
+            Color(0.10, 0.15, 0.22, 0.96)
+            self.celeb_bg = Rectangle(size=self.celeb_banner.size, pos=self.celeb_banner.pos)
+        self.celeb_banner.bind(size=self._update_celeb_bg, pos=self._update_celeb_bg)
+
+        self.celeb_title = Label(
+            text="GREAT WORK!",
+            font_size='22sp',
+            bold=True,
+            color=(1, 0.85, 0.1, 1)
+        )
+        self.celeb_msg = Label(
+            text="",
+            font_size='15sp',
+            halign='center',
+            color=(1, 1, 1, 1)
+        )
+        self.celeb_msg.bind(width=lambda *x: self.celeb_msg.setter('text_size')(self.celeb_msg, (self.celeb_msg.width - 20, None)))
+        
+        self.celeb_reward = Label(
+            text="",
+            font_size='15sp',
+            bold=True,
+            color=(0.3, 0.95, 0.6, 1)
+        )
 
         self.celeb_banner.add_widget(self.celeb_title)
         self.celeb_banner.add_widget(self.celeb_msg)
         self.celeb_banner.add_widget(self.celeb_reward)
         self.add_widget(self.celeb_banner)
 
-        Window.bind(on_resize=self.on_window_resize)
+    def _update_rect(self, instance, value):
+        self.bg_rect.pos = instance.pos
+        self.bg_rect.size = instance.size
+
+    def _update_celeb_bg(self, instance, value):
+        self.celeb_bg.pos = instance.pos
+        self.celeb_bg.size = instance.size
 
     def init_audio(self):
         music_path = 'assets/soothing_lullaby.wav'
@@ -229,7 +304,7 @@ class SafariKidGame(FloatLayout):
             self.bg_music = SoundLoader.load(music_path)
             if self.bg_music:
                 self.bg_music.loop = True
-                self.bg_music.volume = 0.3
+                self.bg_music.volume = 0.25
                 self.bg_music.play()
 
         sound_path = 'assets/celebrate.wav'
@@ -248,11 +323,13 @@ class SafariKidGame(FloatLayout):
             return
 
         if not self.is_safe_query(query):
-            self.fact_label.text = "[b]Child Safety Guard[/b]\nThis topic is not suitable for children. Let's explore wild animals and nature!"
+            self.title_label.text = "Child Safety Guard"
+            self.fact_label.text = "This search topic is not suitable for kids. Let's explore wildlife!"
             self.query_input.text = ""
             return
 
-        self.fact_label.text = f"Exploring web knowledge for [b]{query}[/b]..."
+        self.title_label.text = f"Exploring: {query.title()}"
+        self.fact_label.text = "Fetching safe nature facts from the web..."
         threading.Thread(target=self._async_fetch, args=(query,), daemon=True).start()
 
     def _async_fetch(self, query):
@@ -264,16 +341,17 @@ class SafariKidGame(FloatLayout):
                 data = json.loads(response.read().decode())
                 extract = data.get('extract', '')
                 if extract:
-                    summary = extract[:220] + "..." if len(extract) > 220 else extract
+                    summary = extract[:200] + "..." if len(extract) > 200 else extract
                     self.update_web_fact(query, summary)
                 else:
-                    self.update_web_fact(query, "Explore more wildlife facts by completing your safari mission!")
+                    self.update_web_fact(query, "A wonderful part of our planet's wildlife ecosystem!")
         except Exception:
-            self.update_web_fact(query, f"Fascinating fact: {query} plays an important role in nature!")
+            self.update_web_fact(query, f"{query.title()} is a fascinating part of nature to explore!")
 
     @mainthread
     def update_web_fact(self, topic, summary):
-        self.fact_label.text = f"[b]{topic.title()}[/b]\n{summary}"
+        self.title_label.text = f"Nature Fact: {topic.title()}"
+        self.fact_label.text = summary
         self.query_input.text = ""
         if self.celebrate_sound:
             self.celebrate_sound.play()
@@ -290,7 +368,10 @@ class SafariKidGame(FloatLayout):
 
     def load_question(self):
         lvl = self.current_levels[self.level_index]
-        self.fact_label.text = f"[b]{lvl['animal']} ({self.selected_class})[/b]\n{lvl['fact']}\n\n[b]{lvl['question']}[/b]"
+        self.title_label.text = f"{lvl['animal']} ({self.selected_class})"
+        self.animal_image.source = lvl["image"]
+        self.animal_image.reload()
+        self.fact_label.text = f"{lvl['fact']}\n\n[b]{lvl['question']}[/b]"
         self.btn_a.text = lvl["options"][0]
         self.btn_b.text = lvl["options"][1]
         self.btn_a.disabled = False
@@ -308,23 +389,15 @@ class SafariKidGame(FloatLayout):
             self.celeb_msg.text = lvl["praise"]
             self.celeb_reward.text = f"Unlocked: {lvl['reward']}"
 
-            Animation(opacity=1, duration=0.4).start(self.celeb_banner)
-            Clock.schedule_once(self.next_level, 3.0)
+            Animation(opacity=1, duration=0.3).start(self.celeb_banner)
+            Clock.schedule_once(self.next_level, 3.2)
         else:
-            self.fact_label.text = f"[b]{lvl['animal']}[/b]\nAlmost! Try again!\n\n[b]{lvl['question']}[/b]"
+            self.fact_label.text = f"{lvl['fact']}\n\n[color=ff6666]Not quite! Try again:[/color]\n[b]{lvl['question']}[/b]"
 
     def next_level(self, dt):
-        Animation(opacity=0, duration=0.3).start(self.celeb_banner)
+        Animation(opacity=0, duration=0.25).start(self.celeb_banner)
         self.level_index = (self.level_index + 1) % len(self.current_levels)
         self.load_question()
-
-    def on_window_resize(self, instance, width, height):
-        if width > height:
-            self.game_container.size_hint = (0.7, 0.52)
-            self.game_container.pos_hint = {'center_x': 0.5, 'y': 0.02}
-        else:
-            self.game_container.size_hint = (0.9, 0.55)
-            self.game_container.pos_hint = {'center_x': 0.5, 'y': 0.03}
 
 class WildPalsApp(App):
     def build(self):
