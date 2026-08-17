@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EduBharat 3D AI - Universal CBSE & State Boards Hub</title>
+    <title>EduBharat AI - Universal NEP 2020, CBSE, ICSE & State Boards</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { -webkit-tap-highlight-color: transparent; }
-        .cinema-card { background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.2), transparent 75%), #0f172a; }
+        body { user-select: none; -webkit-user-select: none; }
         .glass { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(16px); }
+        .cinema-card { background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.2), transparent 75%), #0f172a; }
         .anim-float { animation: floatSlow 4s ease-in-out infinite; }
         @keyframes floatSlow { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
     </style>
 </head>
-<body class="h-full bg-slate-950 text-slate-100 font-sans antialiased">
+<body class="h-full bg-slate-950 text-slate-100 font-sans antialiased select-none">
 
     <div id="app" class="min-h-full flex flex-col">
         <!-- Top Navigation Header -->
@@ -34,7 +35,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center gap-2">
                     <button onclick="showView('rhymes')" class="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold transition flex items-center gap-1">
                         🎵 <span class="hidden sm:inline">State Rhymes</span>
                     </button>
@@ -48,7 +49,7 @@
         <!-- Main Workspace -->
         <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-5 space-y-6">
 
-            <!-- VIEW 1: STATIC HOME SCREEN (Guaranteed to Load) -->
+            <!-- VIEW 1: HOME SCREEN (Static HTML Elements) -->
             <div id="view-home" class="space-y-6">
                 <!-- Hero Banner -->
                 <div class="relative overflow-hidden rounded-3xl cinema-card p-6 sm:p-8 border border-slate-800 shadow-2xl space-y-3">
@@ -78,13 +79,13 @@
                         <span class="text-[10px] text-slate-400">Click to switch syllabus</span>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <button onclick="switchBoard('CBSE (NCERT)')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-md">CBSE (NCERT)</button>
-                        <button onclick="switchBoard('ICSE / CISCE')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">ICSE / CISCE</button>
-                        <button onclick="switchBoard('Odisha Board (BSE)')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Odisha Board</button>
-                        <button onclick="switchBoard('Maharashtra State Board')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Maharashtra Board</button>
-                        <button onclick="switchBoard('UP Board')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">UP Board</button>
-                        <button onclick="switchBoard('West Bengal Board')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">West Bengal Board</button>
-                        <button onclick="switchBoard('Tamil Nadu Board')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Tamil Nadu Board</button>
+                        <button onclick="switchBoard('CBSE (NCERT)')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-md">CBSE (NCERT)</button>
+                        <button onclick="switchBoard('ICSE / CISCE')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">ICSE / CISCE</button>
+                        <button onclick="switchBoard('Odisha Board (BSE)')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Odisha Board</button>
+                        <button onclick="switchBoard('Maharashtra Board')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Maharashtra Board</button>
+                        <button onclick="switchBoard('UP Board')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">UP Board</button>
+                        <button onclick="switchBoard('West Bengal Board')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">West Bengal Board</button>
+                        <button onclick="switchBoard('Tamil Nadu Board')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Tamil Nadu Board</button>
                     </div>
                 </div>
 
@@ -187,7 +188,7 @@
                 </div>
             </div>
 
-            <!-- VIEW 2: STAGE & SUBJECTS EXPLORER (Populated on click) -->
+            <!-- VIEW 2: STAGE & SUBJECTS EXPLORER -->
             <div id="view-stage" class="hidden space-y-4">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                     <div>
@@ -203,7 +204,7 @@
                 <div id="chaptersListContainer" class="space-y-4"></div>
             </div>
 
-            <!-- VIEW 3: CINEMATIC LECTURE & PRACTICE ARENA -->
+            <!-- VIEW 3: MASTER LECTURE & PRACTICE ARENA -->
             <div id="view-topic" class="hidden space-y-5">
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div>
@@ -240,7 +241,7 @@
                             <h3 class="font-bold text-sm text-white border-b border-slate-800 pb-2.5">
                                 📖 Comprehensive Master Lecture
                             </h3>
-                            <div id="topicLectureText" class="text-xs leading-relaxed text-slate-200 whitespace-pre-line"></div>
+                            <div id="topicLectureText" class="text-xs leading-relaxed text-slate-200 whitespace-pre-line font-normal"></div>
                         </div>
 
                         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3.5">
@@ -269,7 +270,7 @@
                 <div id="rhymesGridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </div>
 
-            <!-- VIEW 5: RHYME VIDEO THEATER STAGE -->
+            <!-- VIEW 5: RHYME PLAYER -->
             <div id="view-rhyme-player" class="hidden space-y-4">
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
                     <div>
@@ -281,4 +282,4 @@
                     </button>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                    <div class="lg:col-span-2 bg-slate-950 rounded-2xl p-6 border border-slate-800 shadow-2xl flex flex-col item
+                    <div class="lg:col-span-2 bg-slate-950 rounded-2
